@@ -1,0 +1,7 @@
+﻿TagName: Test
+Template: $UserDefined
+Attributes:
+- Name: MyAttribute
+  Value: 123
+Scripts: []
+Graphics: []

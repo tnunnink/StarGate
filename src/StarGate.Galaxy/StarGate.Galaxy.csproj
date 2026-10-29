@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <Nullable>enable</Nullable>
+        <Title>StarGate.Galaxy</Title>
+        <Description>Galaxy adapter library providing communication to GR via GRAccess</Description>
+        <Version>0.1.0</Version>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="ArchestrA.GRAccess">
+            <HintPath>$(SystemDrive)\Program Files (x86)\Common Files\ArchestrA\ArchestrA.GRAccess.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ArchestrA.Visualization.GraphicAccess">
+            <HintPath>$(SystemDrive)\Program Files (x86)\ArchestrA\Framework\Bin\ArchestrA.Visualization.GraphicAccess.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ArchestrA.Visualization.GraphicLibrary">
+            <HintPath>$(SystemDrive)\Program Files (x86)\ArchestrA\SEditorsCommon\ArchestrA.Visualization.GraphicLibrary.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\StarGate.Core\StarGate.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Serialization\" />
+    </ItemGroup>
+
+</Project>

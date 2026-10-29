@@ -1,0 +1,36 @@
+﻿namespace StarGate.Core.Graphics;
+
+public enum ElementKind
+{
+    Line,
+    Polyline,
+    Rectangle,
+    Ellipse,
+    Polygon,
+    Curve,
+    ClosedCurve,
+    Text,
+    TextBox,
+    Button,
+    Image,
+    Pie,
+    Arc,
+    Chord,
+    Group,
+    Path,
+    EmbeddedSymbol,
+    Status,
+    CheckBox,
+    EditBox,
+    DateTimePicker,
+    Calendar,
+    ComboBox,
+    ListBox,
+    RadioButton,
+    TrendPen,
+    EmbeddedClientControl,
+    HtmlWidget,
+    Connector,
+    ConnectionPoint,
+    TrendPens
+}

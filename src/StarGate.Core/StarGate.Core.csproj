@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>default</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+        <PackageReference Include="System.Text.Json" Version="10.0.13" />
+        <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+        <PackageReference Include="YamlDotNet" Version="18.1.0" />
+    </ItemGroup>
+
+</Project>

@@ -5,6 +5,7 @@
 
 # IDEs
 .idea/
+.notes/
 *.DotSettings.user
 
 # Build outputs & caches
