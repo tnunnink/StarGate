@@ -36,6 +36,9 @@
         <None Update="Graphics\Elements\RectangleElementTests.Serialization_ShouldBeVerified.verified.txt">
             <DependentUpon>RectangleElementTests.cs</DependentUpon>
         </None>
+        <None Update="Serialization\GalaxySerializerTests.Serialize_BasicConfig_ShouldBeVerified.verified.txt">
+          <DependentUpon>GalaxySerializerTests.cs</DependentUpon>
+        </None>
     </ItemGroup>
 
 </Project>
