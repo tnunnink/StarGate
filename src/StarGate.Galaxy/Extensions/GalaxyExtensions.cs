@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Objects;
 
 namespace StarGate.Galaxy.Extensions;
 
@@ -11,9 +10,10 @@ public static class GalaxyExtensions
     {
         /// <summary>
         /// Ensures that an object with the specified definition is created within the galaxy. If the object already exists
-        /// and matches the expected template and base configuration, it is returned. Otherwise, attempts to create a new object.
+        /// and matches the expected template and base configuration, it is returned. Otherwise, attempts to create a new
+        /// object.
         /// </summary>
-        /// <param name="definition">
+        /// <param name="config">
         /// The definition of the object to be ensured, including the tag name and related template information.
         /// </param>
         /// <param name="wasCreated">
@@ -21,29 +21,30 @@ public static class GalaxyExtensions
         /// This will be <c>false</c> if the object already existed and matched the expected criteria.
         /// </param>
         /// <returns>
-        /// A <see cref="GalaxyResult{IgObject}"/> representing the result of the operation, including the object if found
-        /// or successfully created. If the operation fails, the result will contain an error indicating the cause of the failure.
+        /// A <see cref="GalaxyResult{IgObject}" /> representing the result of the operation, including the object if found
+        /// or successfully created. If the operation fails, the result will contain an error indicating the cause of the
+        /// failure.
         /// </returns>
-        public GalaxyResult<IgObject> EnsureObjectCreated(ObjectDefinition definition, out bool wasCreated)
+        public GalaxyResult<IgObject> EnsureObjectCreated(GalaxyObject config, out bool wasCreated)
         {
             wasCreated = false;
 
-            if (galaxy.TryGetObject(definition.TagName, out var existing))
+            if (galaxy.TryGetObject(config.TagName, out var existing))
             {
-                if (existing.DerivedFrom != definition.Template)
+                if (existing.DerivedFrom != config.Template)
                     return GalaxyResult.Fail(existing, ErrorCode.ObjectNotFound, "Failed");
 
                 return GalaxyResult.Ok(existing);
             }
 
-            if (!galaxy.TryGetObject(definition.Template, out var template))
+            if (!galaxy.TryGetObject(config.Template, out var template))
                 return GalaxyResult.Fail<IgObject>(
                     null!,
                     ErrorCode.ObjectNotFound,
-                    $"Template object {definition.Template} does not exist."
+                    $"Template object {config.Template} does not exist."
                 );
 
-            var created = template.CreateObject(definition.TagName);
+            var created = template.CreateObject(config.TagName);
             wasCreated = created.Success;
             return created;
         }
@@ -53,7 +54,7 @@ public static class GalaxyExtensions
         /// </summary>
         /// <param name="tagName">The name of the tag representing the object to be retrieved.</param>
         /// <param name="result">
-        /// When this method returns, contains an <see cref="IgObject"/> representing
+        /// When this method returns, contains an <see cref="IgObject" /> representing
         /// the object retrieved if the operation is successful; otherwise, it contains
         /// <c>null</c> if the object could not be found.
         /// </param>

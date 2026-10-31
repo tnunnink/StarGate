@@ -45,6 +45,12 @@
         <None Update="Resources\TestObjects.aaPKG">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="GalaxyRepositoryTests.GetObjects_KnownInstance_ShouldHaveExpectedFormat.verified.txt">
+          <DependentUpon>GalaxyRepositoryTests.cs</DependentUpon>
+        </None>
+        <None Update="GalaxyRepositoryTests.GetObjects_KnownTemplate_ShouldBeVerified.verified.txt">
+          <DependentUpon>GalaxyRepositoryTests.cs</DependentUpon>
+        </None>
     </ItemGroup>
 
 </Project>

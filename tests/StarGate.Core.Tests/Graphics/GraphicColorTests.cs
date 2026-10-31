@@ -1,7 +1,6 @@
 using FluentAssertions;
-using StarGate.Core.Graphics.Styling;
 
-namespace StarGate.Core.Tests.Graphics;
+namespace StarGate.Core;
 
 [TestFixture]
 public class GraphicColorTests
@@ -52,7 +51,8 @@ public class GraphicColorTests
     [TestCase("#000000", (byte)0, (byte)0, (byte)0, (byte)255)]
     [TestCase("#FFFFFF", (byte)255, (byte)255, (byte)255, (byte)255)]
     [TestCase("#ff8000", (byte)255, (byte)128, (byte)0, (byte)255)]
-    public void Parse_WithValid6DigitHex_ReturnsExpectedColor(string input, byte expectedR, byte expectedG, byte expectedB, byte expectedA)
+    public void Parse_WithValid6DigitHex_ReturnsExpectedColor(string input, byte expectedR, byte expectedG,
+        byte expectedB, byte expectedA)
     {
         var color = GraphicColor.Parse(input);
 
@@ -67,7 +67,8 @@ public class GraphicColorTests
     [TestCase("#00000000", (byte)0, (byte)0, (byte)0, (byte)0)]
     [TestCase("#FFFFFFFF", (byte)255, (byte)255, (byte)255, (byte)255)]
     [TestCase("#ff800080", (byte)255, (byte)128, (byte)0, (byte)128)]
-    public void Parse_WithValid8DigitHex_ReturnsExpectedColor(string input, byte expectedR, byte expectedG, byte expectedB, byte expectedA)
+    public void Parse_WithValid8DigitHex_ReturnsExpectedColor(string input, byte expectedR, byte expectedG,
+        byte expectedB, byte expectedA)
     {
         var color = GraphicColor.Parse(input);
 
@@ -80,7 +81,8 @@ public class GraphicColorTests
     [TestCase("255 128 0", (byte)255, (byte)128, (byte)0, (byte)255)]
     [TestCase("  255   128   0  ", (byte)255, (byte)128, (byte)0, (byte)255)]
     [TestCase("0 0 0", (byte)0, (byte)0, (byte)0, (byte)255)]
-    public void Parse_WithSpaceDelimitedRgb_ReturnsExpectedColor(string input, byte expectedR, byte expectedG, byte expectedB, byte expectedA)
+    public void Parse_WithSpaceDelimitedRgb_ReturnsExpectedColor(string input, byte expectedR, byte expectedG,
+        byte expectedB, byte expectedA)
     {
         var color = GraphicColor.Parse(input);
 
@@ -93,7 +95,8 @@ public class GraphicColorTests
     [TestCase("255 128 0 128", (byte)255, (byte)128, (byte)0, (byte)128)]
     [TestCase("  255   128   0   64  ", (byte)255, (byte)128, (byte)0, (byte)64)]
     [TestCase("0 0 0 0", (byte)0, (byte)0, (byte)0, (byte)0)]
-    public void Parse_WithSpaceDelimitedRgba_ReturnsExpectedColor(string input, byte expectedR, byte expectedG, byte expectedB, byte expectedA)
+    public void Parse_WithSpaceDelimitedRgba_ReturnsExpectedColor(string input, byte expectedR, byte expectedG,
+        byte expectedB, byte expectedA)
     {
         var color = GraphicColor.Parse(input);
 
@@ -130,7 +133,8 @@ public class GraphicColorTests
     [TestCase("255 128 0", true, (byte)255, (byte)128, (byte)0, (byte)255)]
     [TestCase("255 128 0 64", true, (byte)255, (byte)128, (byte)0, (byte)64)]
     [TestCase("255 128 0 invalidAlpha", true, (byte)255, (byte)128, (byte)0, (byte)255)]
-    public void TryParse_WithValidInput_ReturnsTrueAndSetsColor(string input, bool expectedSuccess, byte expectedR, byte expectedG, byte expectedB, byte expectedA)
+    public void TryParse_WithValidInput_ReturnsTrueAndSetsColor(string input, bool expectedSuccess, byte expectedR,
+        byte expectedG, byte expectedB, byte expectedA)
     {
         var success = GraphicColor.TryParse(input, out var color);
 

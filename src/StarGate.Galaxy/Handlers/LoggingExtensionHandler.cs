@@ -1,13 +1,12 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
 namespace StarGate.Galaxy.Handlers;
 
 /// <summary>
-/// Handles the extraction and application of <see cref="LoggingExtension"/> instances to
+/// Handles the extraction and application of <see cref="LoggingExtension" /> instances to
 /// and from Galaxy objects. Provides methods to configure logging behavior for attribute changes
 /// within the Galaxy environment.
 /// </summary>
@@ -33,7 +32,7 @@ public class LoggingExtensionHandler : IConfigurationHandler<LoggingExtension>
     {
         if (context is null || string.IsNullOrWhiteSpace(context) || source is null)
             return GalaxyResult.Ok();
-        
+
         // Ensure the host attribute exists and supports this extension type.
         if (!target.ValidateExtension(source, context, out var invalid))
             return invalid;

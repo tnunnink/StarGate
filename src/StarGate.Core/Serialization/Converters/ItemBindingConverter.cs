@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarGate.Core.Graphics.Controls;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarGate.Core.Serialization.Converters;
+namespace StarGate.Core;
 
 /// <summary>
-/// Provides custom YAML serialization and deserialization for <see cref="ItemBinding"/> types,
+/// Provides custom YAML serialization and deserialization for <see cref="ItemBinding" /> types,
 /// supporting compact flow sequences for static items, scalar keywords for enums, and mappings for array references.
 /// </summary>
 public class ItemBindingConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type) => typeof(ItemBinding).IsAssignableFrom(type);
+    public bool Accepts(Type type)
+    {
+        return typeof(ItemBinding).IsAssignableFrom(type);
+    }
 
     public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         // 1. Scalar keyword (e.g. "enum")
         if (parser.TryConsume<Scalar>(out var scalar))
         {
-            if (string.Equals(scalar.Value, "enum", StringComparison.OrdinalIgnoreCase))
-            {
-                return new EnumItemBinding();
-            }
+            if (string.Equals(scalar.Value, "enum", StringComparison.OrdinalIgnoreCase)) return new EnumItemBinding();
 
             // Fallback: single scalar treated as single item
             return new StaticItemBinding([new ControlItem { Value = scalar.Value, Caption = scalar.Value }]);
@@ -37,7 +36,6 @@ public class ItemBindingConverter : IYamlTypeConverter
             var controlItems = new List<ControlItem>();
 
             foreach (var item in items)
-            {
                 switch (item)
                 {
                     case string text:
@@ -49,7 +47,6 @@ public class ItemBindingConverter : IYamlTypeConverter
                         controlItems.Add(new ControlItem { Value = val, Caption = cap });
                         break;
                 }
-            }
 
             return new StaticItemBinding(controlItems);
         }
@@ -60,9 +57,7 @@ public class ItemBindingConverter : IYamlTypeConverter
             var dict = (Dictionary<string, string>)rootDeserializer(typeof(Dictionary<string, string>))!;
 
             if (dict.TryGetValue("array", out var arrayRef) || dict.TryGetValue("Array", out arrayRef))
-            {
                 return new ArrayItemBinding(arrayRef);
-            }
         }
 
         return null;
@@ -77,7 +72,7 @@ public class ItemBindingConverter : IYamlTypeConverter
                 break;
 
             case ArrayItemBinding arrayBinding:
-                emitter.Emit(new MappingStart(null, null, isImplicit: true, MappingStyle.Flow));
+                emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
                 emitter.Emit(new Scalar("array"));
                 emitter.Emit(new Scalar(arrayBinding.Reference));
                 emitter.Emit(new MappingEnd());
@@ -89,28 +84,28 @@ public class ItemBindingConverter : IYamlTypeConverter
                 // If all items have identical Value and Caption, format as flow sequence: [A, B, C]
                 if (items.All(i => i.Value == i.Caption))
                 {
-                    emitter.Emit(new SequenceStart(null, null, isImplicit: true, SequenceStyle.Flow));
-                    foreach (var item in items)
-                    {
-                        emitter.Emit(new Scalar(item.Caption));
-                    }
+                    emitter.Emit(new SequenceStart(null, null, true, SequenceStyle.Flow));
+                    foreach (var item in items) emitter.Emit(new Scalar(item.Caption));
+
                     emitter.Emit(new SequenceEnd());
                 }
                 else
                 {
                     // Full mapping sequence when value differs from caption:
-                    emitter.Emit(new SequenceStart(null, null, isImplicit: true, SequenceStyle.Block));
+                    emitter.Emit(new SequenceStart(null, null, true, SequenceStyle.Block));
                     foreach (var item in items)
                     {
-                        emitter.Emit(new MappingStart(null, null, isImplicit: true, MappingStyle.Flow));
+                        emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
                         emitter.Emit(new Scalar("value"));
                         emitter.Emit(new Scalar(item.Value));
                         emitter.Emit(new Scalar("caption"));
                         emitter.Emit(new Scalar(item.Caption));
                         emitter.Emit(new MappingEnd());
                     }
+
                     emitter.Emit(new SequenceEnd());
                 }
+
                 break;
         }
     }

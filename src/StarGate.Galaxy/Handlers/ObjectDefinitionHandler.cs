@@ -1,21 +1,20 @@
 ﻿using System.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
 namespace StarGate.Galaxy.Handlers;
 
-public class ObjectDefinitionHandler : IConfigurationHandler<ObjectDefinition>
+public class ObjectDefinitionHandler : IConfigurationHandler<GalaxyObject>
 {
     private readonly ObjectAttributeHandler _attributeHandler = new();
-    private readonly ScriptExtensionHandler _scriptHandler = new();
     private readonly GraphicExtensionHandler _graphicHandler = new();
+    private readonly ScriptExtensionHandler _scriptHandler = new();
 
-    public ObjectDefinition Extract(IgObject target, string? context = null)
+    public GalaxyObject Extract(IgObject target, string? context = null)
     {
-        return new ObjectDefinition
+        return new GalaxyObject
         {
             TagName = target.Tagname,
             BasedOn = target.basedOn,
@@ -38,10 +37,10 @@ public class ObjectDefinitionHandler : IConfigurationHandler<ObjectDefinition>
     }
 
     /// <inheritdoc />
-    public GalaxyResult Apply(IgObject target, ObjectDefinition? source, string? context = null)
+    public GalaxyResult Apply(IgObject target, GalaxyObject? source, string? context = null)
     {
         if (source is null) return GalaxyResult.Ok();
-        
+
         // todo we want to also handle reassigning the object
 
         var result = target

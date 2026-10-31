@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ArchestrA.GRAccess;
-using StarGate.Core.Objects;
+using StarGate.Core;
 
 namespace StarGate.Galaxy.Extensions;
 
@@ -17,12 +17,14 @@ public static class ValueExtensions
         /// Retrieves the value stored in the IMxValue instance, returning either a scalar value or an array of values
         /// depending on the dimensionality of the IMxValue instance.
         /// </summary>
-        /// <returns>A .NET object representing the value of the IMxValue instance. If the instance represents an array,
+        /// <returns>
+        /// A .NET object representing the value of the IMxValue instance. If the instance represents an array,
         /// returns an object array containing the individual elements. Returns null if the instance is uninitialized,
-        /// unassigned, or contains no data.</returns>
+        /// unassigned, or contains no data.
+        /// </returns>
         public object? GetValue()
         {
-            if (!mxValue.IsArray()) 
+            if (!mxValue.IsArray())
                 return mxValue.GetObject();
 
             var results = new List<object?>();
@@ -74,7 +76,10 @@ public static class ValueExtensions
         /// Retrieves the underlying value from the IMxValue instance based on its data type,
         /// converting it to an appropriate .NET object representation.
         /// </summary>
-        /// <returns>An object representing the value of the IMxValue instance. Returns null if the value is uninitialized, unassigned, or represents "No Data".</returns>
+        /// <returns>
+        /// An object representing the value of the IMxValue instance. Returns null if the value is uninitialized,
+        /// unassigned, or represents "No Data".
+        /// </returns>
         private object? GetObject()
         {
             object? value = mxValue.GetDataType() switch
@@ -228,8 +233,10 @@ public static class ValueExtensions
         /// <summary>
         /// Retrieves the binary representation of the custom structure stored in the IMxValue instance.
         /// </summary>
-        /// <returns>A byte array containing the binary data of the custom structure. If the IMxValue instance
-        /// does not contain valid custom structure data, an empty byte array is returned.</returns>
+        /// <returns>
+        /// A byte array containing the binary data of the custom structure. If the IMxValue instance
+        /// does not contain valid custom structure data, an empty byte array is returned.
+        /// </returns>
         private byte[] GetBinary()
         {
             byte[] data = [];
@@ -241,8 +248,10 @@ public static class ValueExtensions
         /// Converts a given DateTime value into a VBFILETIME structure and returns the result.
         /// </summary>
         /// <param name="dateTime">The DateTime value to be converted into VBFILETIME format.</param>
-        /// <returns>A VBFILETIME structure containing the HighDateTime and LowDateTime components
-        /// that represent the given DateTime value in the FILETIME format.</returns>
+        /// <returns>
+        /// A VBFILETIME structure containing the HighDateTime and LowDateTime components
+        /// that represent the given DateTime value in the FILETIME format.
+        /// </returns>
         private static VBFILETIME PutDateTime(DateTime dateTime)
         {
             var fileTime = dateTime.ToFileTime();
@@ -259,8 +268,11 @@ public static class ValueExtensions
         /// the high and low parts of the TimeSpan's tick value.
         /// </summary>
         /// <param name="timeSpan">The TimeSpan to be converted into a VB_LARGE_INTEGER structure.</param>
-        /// <returns>A VB_LARGE_INTEGER structure representing the specified TimeSpan. The high and
-        /// low parts correspond to the most significant and least significant 32 bits of the TimeSpan's tick value, respectively.</returns>
+        /// <returns>
+        /// A VB_LARGE_INTEGER structure representing the specified TimeSpan. The high and
+        /// low parts correspond to the most significant and least significant 32 bits of the TimeSpan's tick value,
+        /// respectively.
+        /// </returns>
         private static VB_LARGE_INTEGER PutTimeSpan(TimeSpan timeSpan)
         {
             var ticks = timeSpan.Ticks;

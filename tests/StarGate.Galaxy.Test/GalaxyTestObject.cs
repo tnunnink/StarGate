@@ -13,20 +13,6 @@ namespace StarGate.Galaxy.Test;
 public class GalaxyTestObject : IDisposable
 {
     /// <summary>
-    /// Represents the IgObject instance created from a specified base template within the ArchestrA Galaxy system.
-    /// This property provides access to the instantiated object, allowing operations like configuration and interaction
-    /// with the temporary object created for testing or short-lived purposes.
-    /// </summary>
-    public IgObject Instance { get; }
-
-    /// <summary>
-    /// Gets the unique name assigned to the temporary instance within the ArchestrA Galaxy system.
-    /// This name is automatically generated in the format "Temp_{GUID}" to ensure uniqueness, and is
-    /// used as an identifier for operations such as querying, creation, or deletion of the instance.
-    /// </summary>
-    public string TagName { get; }
-
-    /// <summary>
     /// Represents a temporary object that interacts with the ArchestrA Galaxy system.
     /// It is primarily used for creating and managing temporary instances of templates
     /// for testing and other short-lived operations.
@@ -44,14 +30,25 @@ public class GalaxyTestObject : IDisposable
         Instance = query[TagName];
     }
 
+    /// <summary>
+    /// Represents the IgObject instance created from a specified base template within the ArchestrA Galaxy system.
+    /// This property provides access to the instantiated object, allowing operations like configuration and interaction
+    /// with the temporary object created for testing or short-lived purposes.
+    /// </summary>
+    public IgObject Instance { get; }
+
+    /// <summary>
+    /// Gets the unique name assigned to the temporary instance within the ArchestrA Galaxy system.
+    /// This name is automatically generated in the format "Temp_{GUID}" to ensure uniqueness, and is
+    /// used as an identifier for operations such as querying, creation, or deletion of the instance.
+    /// </summary>
+    public string TagName { get; }
+
     public void Dispose()
     {
         try
         {
-            if (Instance.CheckoutStatus == ECheckoutStatus.notCheckedOut)
-            {
-                Instance.UndoCheckOut();
-            }
+            if (Instance.CheckoutStatus == ECheckoutStatus.notCheckedOut) Instance.UndoCheckOut();
 
             ((IInstance)Instance).DeleteInstance();
         }

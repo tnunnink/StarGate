@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using ArchestrA.GRAccess;
-using ArchestrA.Visualization.GraphicAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Galaxy.Extensions;
@@ -326,9 +326,7 @@ public class GrAccessProofTests : GalaxyTestFixture
         // ==========================================
         obj.CheckOut();
         foreach (var name in attributes)
-        {
             obj.AddUDA(name, MxDataType.MxInteger, MxAttributeCategory.MxCategoryWriteable_USC_Lockable);
-        }
 
         obj.Save();
         obj.CheckIn("Baseline setup of performance UDAs");
@@ -338,10 +336,10 @@ public class GrAccessProofTests : GalaxyTestFixture
         // ==========================================
         // 2. Measure Strategy A: Delete & Re-add All
         // ==========================================
-        var swRecreate = System.Diagnostics.Stopwatch.StartNew();
+        var swRecreate = Stopwatch.StartNew();
 
         obj.CheckOut();
-        var swRecreateOperations = System.Diagnostics.Stopwatch.StartNew();
+        var swRecreateOperations = Stopwatch.StartNew();
 
         foreach (var name in attributes)
         {
@@ -355,14 +353,14 @@ public class GrAccessProofTests : GalaxyTestFixture
 
         swRecreateOperations.Stop();
 
-        var swRecreateSave = System.Diagnostics.Stopwatch.StartNew();
+        var swRecreateSave = Stopwatch.StartNew();
         obj.Save();
         swRecreateSave.Stop();
 
         obj.CheckIn("Save after recreate");
         swRecreate.Stop();
 
-        Console.WriteLine($"[Strategy A: Recreate]");
+        Console.WriteLine("[Strategy A: Recreate]");
         Console.WriteLine($"  Delete & Add & Set loop : {swRecreateOperations.ElapsedMilliseconds} ms");
         Console.WriteLine($"  Save()                  : {swRecreateSave.ElapsedMilliseconds} ms");
         Console.WriteLine($"  Total Checkout-to-Checkin: {swRecreate.ElapsedMilliseconds} ms");
@@ -370,10 +368,10 @@ public class GrAccessProofTests : GalaxyTestFixture
         // ==========================================
         // 3. Measure Strategy B: In-Place Update Only
         // ==========================================
-        var swInPlace = System.Diagnostics.Stopwatch.StartNew();
+        var swInPlace = Stopwatch.StartNew();
 
         obj.CheckOut();
-        var swInPlaceOperations = System.Diagnostics.Stopwatch.StartNew();
+        var swInPlaceOperations = Stopwatch.StartNew();
 
         foreach (var name in attributes)
         {
@@ -384,14 +382,14 @@ public class GrAccessProofTests : GalaxyTestFixture
 
         swInPlaceOperations.Stop();
 
-        var swInPlaceSave = System.Diagnostics.Stopwatch.StartNew();
+        var swInPlaceSave = Stopwatch.StartNew();
         obj.Save();
         swInPlaceSave.Stop();
 
         obj.CheckIn("Save after in-place update");
         swInPlace.Stop();
 
-        Console.WriteLine($"[Strategy B: In-Place Update]");
+        Console.WriteLine("[Strategy B: In-Place Update]");
         Console.WriteLine($"  SetValue loop           : {swInPlaceOperations.ElapsedMilliseconds} ms");
         Console.WriteLine($"  Save()                  : {swInPlaceSave.ElapsedMilliseconds} ms");
         Console.WriteLine($"  Total Checkout-to-Checkin: {swInPlace.ElapsedMilliseconds} ms");
@@ -400,10 +398,7 @@ public class GrAccessProofTests : GalaxyTestFixture
         // Cleanup: Remove benchmark UDAs
         // ==========================================
         obj.CheckOut();
-        foreach (var name in attributes)
-        {
-            obj.DeleteUDA(name);
-        }
+        foreach (var name in attributes) obj.DeleteUDA(name);
 
         obj.Save();
         obj.CheckIn("Cleaned up performance test UDAs");

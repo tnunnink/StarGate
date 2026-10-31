@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -20,7 +19,7 @@ public class IOExtensionHandler : IConfigurationHandler<IOExtension>
     /// <inheritdoc />
     public IOExtension? Extract(IgObject target, string? context = null)
     {
-        if (context is null || string.IsNullOrWhiteSpace(context)) 
+        if (context is null || string.IsNullOrWhiteSpace(context))
             return null;
 
         if (!target.HasExtension(typeof(IOExtension), context))
@@ -61,7 +60,7 @@ public class IOExtensionHandler : IConfigurationHandler<IOExtension>
     {
         if (context is null || string.IsNullOrEmpty(context) || source is null)
             return GalaxyResult.Ok();
-        
+
         // Ensure the host attribute exists and supports this extension type.
         if (!target.ValidateExtension(source, context, out var invalid))
             return invalid;

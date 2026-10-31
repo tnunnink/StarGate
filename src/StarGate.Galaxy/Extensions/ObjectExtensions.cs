@@ -6,27 +6,24 @@ using System.Reflection;
 using System.Xml.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Abstractions;
-using StarGate.Core.Attributes;
-using StarGate.Core.Objects;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
 namespace StarGate.Galaxy.Extensions;
 
 /// <summary>
-/// Provides extension methods for interacting with <see cref="IgObject"/> instances.
+/// Provides extension methods for interacting with <see cref="IgObject" /> instances.
 /// </summary>
 public static class ObjectExtensions
 {
-    /// <param name="obj">The <see cref="IgObject"/> to search for the attribute.</param>
+    /// <param name="obj">The <see cref="IgObject" /> to search for the attribute.</param>
     extension(IgObject obj)
     {
         /// <summary>
         /// Gets a value indicating whether the object is a template.
         /// </summary>
         /// <returns>
-        /// <c>true</c> if the object is of type <see cref="ITemplate"/>; otherwise, <c>false</c>.
+        /// <c>true</c> if the object is of type <see cref="ITemplate" />; otherwise, <c>false</c>.
         /// </returns>
         public bool IsTemplate => obj is ITemplate;
 
@@ -34,15 +31,16 @@ public static class ObjectExtensions
         /// Gets a value indicating whether the object is an instance.
         /// </summary>
         /// <returns>
-        /// <c>true</c> if the object is of type <see cref="IInstance"/>; otherwise, <c>false</c>.
+        /// <c>true</c> if the object is of type <see cref="IInstance" />; otherwise, <c>false</c>.
         /// </returns>
         public bool IsInstance => obj is IInstance;
 
         /// <summary>
-        /// Executes the specified action on the provided <see cref="IgObject"/> and returns the resulting <see cref="GalaxyResult"/>.
+        /// Executes the specified action on the provided <see cref="IgObject" /> and returns the resulting
+        /// <see cref="GalaxyResult" />.
         /// </summary>
-        /// <param name="action">The action to perform on the <see cref="IgObject"/>.</param>
-        /// <returns>A <see cref="GalaxyResult"/> representing the success or failure of the operation.</returns>
+        /// <param name="action">The action to perform on the <see cref="IgObject" />.</param>
+        /// <returns>A <see cref="GalaxyResult" /> representing the success or failure of the operation.</returns>
         public GalaxyResult Execute(Action<IgObject> action)
         {
             action.Invoke(obj);
@@ -50,10 +48,13 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Saves the current state of the <see cref="IgObject"/> and checks it in with the specified comment.
+        /// Saves the current state of the <see cref="IgObject" /> and checks it in with the specified comment.
         /// </summary>
         /// <param name="comment">The comment to associate with the check-in operation.</param>
-        /// <returns>A <see cref="GalaxyResult{T}"/> indicating whether both the save and check-in operations were successful, along with any errors encountered.</returns>
+        /// <returns>
+        /// A <see cref="GalaxyResult{T}" /> indicating whether both the save and check-in operations were successful,
+        /// along with any errors encountered.
+        /// </returns>
         public GalaxyResult Commit(string comment)
         {
             // This chains each all and will short-circuit if save fails.
@@ -61,11 +62,11 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Reverts any unsaved changes to the specified <see cref="IgObject"/> by unloading the object and
+        /// Reverts any unsaved changes to the specified <see cref="IgObject" /> by unloading the object and
         /// undoing its checkout status.
         /// </summary>
         /// <returns>
-        /// A <see cref="GalaxyResult"/> indicating whether the revert operations were successful,
+        /// A <see cref="GalaxyResult" /> indicating whether the revert operations were successful,
         /// along with any errors encountered.
         /// </returns>
         public GalaxyResult Rollback()
@@ -75,12 +76,13 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Deletes the <see cref="IgObject"/> based on its type and returns a <see cref="GalaxyResult"/> indicating the outcome of the operation.
+        /// Deletes the <see cref="IgObject" /> based on its type and returns a <see cref="GalaxyResult" /> indicating the
+        /// outcome of the operation.
         /// If the object is a template, it deletes the template, cascading the deletion to undeployed descendants if running.
         /// If the object is an instance, it deletes the instance, undeploying it if deployed.
-        /// For unsupported types, the operation succeeds with an <see cref="GalaxyResult.Ok"/> result.
+        /// For unsupported types, the operation succeeds with an <see cref="GalaxyResult.Ok" /> result.
         /// </summary>
-        /// <returns>A <see cref="GalaxyResult"/> representing the success or failure of the delete operation.</returns>
+        /// <returns>A <see cref="GalaxyResult" /> representing the success or failure of the delete operation.</returns>
         public GalaxyResult Delete()
         {
             switch (obj)
@@ -97,7 +99,6 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="tagName"></param>
         /// <returns></returns>
@@ -119,25 +120,13 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Converts the specified <see cref="IgObject"/> into an instance of <see cref="ObjectInfo"/>.
-        /// </summary>
-        /// <returns>A new <see cref="ObjectInfo"/> containing details about the <see cref="IgObject"/>.</returns>
-        public ObjectInfo ToInfo()
-        {
-            return new ObjectInfo
-            {
-                TagName = obj.Tagname,
-                BasedOn = obj.basedOn,
-                Template = obj.DerivedFrom,
-                Category = obj.category.ToString().Replace("idxCategory", string.Empty),
-            };
-        }
-
-        /// <summary>
-        /// Attempts to retrieve an attribute with the specified name from the given <see cref="IgObject"/>.
+        /// Attempts to retrieve an attribute with the specified name from the given <see cref="IgObject" />.
         /// </summary>
         /// <param name="name">The name of the attribute to retrieve.</param>
-        /// <param name="attribute">When this method returns, contains the <see cref="IAttribute"/> if found, or <c>null</c> if not found.</param>
+        /// <param name="attribute">
+        /// When this method returns, contains the <see cref="IAttribute" /> if found, or <c>null</c> if
+        /// not found.
+        /// </param>
         /// <returns><c>true</c> if the attribute is found; otherwise, <c>false</c>.</returns>
         public bool TryGetAttribute(string? name, out IAttribute attribute)
         {
@@ -153,7 +142,7 @@ public static class ObjectExtensions
         /// <param name="selector">An expression that selects the specific attribute to retrieve the configuration for.</param>
         /// <param name="path">The attribute path used as part of the attribute's fully qualified name.</param>
         /// <returns>
-        /// An <see cref="AttributeConfig"/> containing the value, lock status, and security classification
+        /// An <see cref="AttributeConfig" /> containing the value, lock status, and security classification
         /// of the attribute, or <c>null</c> if the attribute does not exist or is locked in the parent.
         /// </returns>
         public AttributeConfig? GetConfig<TExtension>(
@@ -187,7 +176,8 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Configures the specified extension by applying a configuration to the attribute identified by the selector expression.
+        /// Configures the specified extension by applying a configuration to the attribute identified by the selector
+        /// expression.
         /// </summary>
         /// <typeparam name="TExtension">The type of the extension being configured.</typeparam>
         /// <param name="extension">The extension object containing the properties to configure.</param>
@@ -221,7 +211,7 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Retrieves the names of user-defined attributes (UDAs) from the given <see cref="IgObject"/>.
+        /// Retrieves the names of user-defined attributes (UDAs) from the given <see cref="IgObject" />.
         /// </summary>
         /// <returns>A collection of strings containing the names of UDAs that are not inherited from another tag.</returns>
         /// <remarks>
@@ -240,7 +230,7 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Retrieves a list of extensions associated with the specified <see cref="IgObject"/>.
+        /// Retrieves a list of extensions associated with the specified <see cref="IgObject" />.
         /// </summary>
         /// <returns>An enumerable collection of extension names that are not inherited from a tag.</returns>
         public IEnumerable<string> ListExtensions(string primitive)
@@ -260,13 +250,13 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="IgObject"/> has an extension of the given type and primitive name.
+        /// Determines whether the specified <see cref="IgObject" /> has an extension of the given type and primitive name.
         /// </summary>
-        /// <param name="type">The <see cref="Type"/> of the extension to check for.</param>
+        /// <param name="type">The <see cref="Type" /> of the extension to check for.</param>
         /// <param name="primitive">The name of the primitive associated with the extension.</param>
         /// <returns><c>true</c> if the extension exists; otherwise, <c>false</c>.</returns>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the specified type does not define any <see cref="GalaxyExtensionAttribute"/>.
+        /// Thrown if the specified type does not define any <see cref="GalaxyExtensionAttribute" />.
         /// </exception>
         public bool HasExtension(Type type, string primitive)
         {
@@ -291,12 +281,16 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Validates whether the specified attribute extension is supported for the given attribute name and returns the validation result.
+        /// Validates whether the specified attribute extension is supported for the given attribute name and returns the
+        /// validation result.
         /// </summary>
-        /// <typeparam name="TExtension">The type of the attribute extension, which must implement <see cref="IAttributeExtension"/>.</typeparam>
+        /// <typeparam name="TExtension">
+        /// The type of the attribute extension, which must implement
+        /// <see cref="IAttributeExtension" />.
+        /// </typeparam>
         /// <param name="extension">The instance of the attribute extension to validate.</param>
         /// <param name="name">The name of the attribute to validate the extension against.</param>
-        /// <param name="result">A <see cref="GalaxyResult"/> that represents the success or failure of the validation.</param>
+        /// <param name="result">A <see cref="GalaxyResult" /> that represents the success or failure of the validation.</param>
         /// <returns><c>true</c> if the extension is valid for the given attribute; otherwise, <c>false</c>.</returns>
         public bool ValidateExtension<TExtension>(TExtension extension, string name, out GalaxyResult result)
             where TExtension : IAttributeExtension
@@ -322,10 +316,16 @@ public static class ObjectExtensions
         /// <summary>
         /// Adds a specified extension, identified by its type, to an IgObject using the provided primitive name.
         /// </summary>
-        /// <typeparam name="TExtension">The type of the extension to be added, which must be decorated with a <see cref="GalaxyExtensionAttribute"/>.</typeparam>
+        /// <typeparam name="TExtension">
+        /// The type of the extension to be added, which must be decorated with a
+        /// <see cref="GalaxyExtensionAttribute" />.
+        /// </typeparam>
         /// <param name="primitive">The name of the primitive associated with the extension.</param>
-        /// <returns>A <see cref="GalaxyResult"/> representing the outcome of the operation.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the specified extension type is not decorated with a <see cref="GalaxyExtensionAttribute"/>.</exception>
+        /// <returns>A <see cref="GalaxyResult" /> representing the outcome of the operation.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the specified extension type is not decorated with a
+        /// <see cref="GalaxyExtensionAttribute" />.
+        /// </exception>
         public GalaxyResult<IgObject> AddExtension<TExtension>(string primitive) where TExtension : IAttributeExtension
         {
             var extension = typeof(TExtension).GetCustomAttributes<GalaxyExtensionAttribute>().FirstOrDefault();
@@ -342,10 +342,14 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Replaces an existing attribute on the specified <see cref="IgObject"/> or adds a new attribute if it does not exist.
+        /// Replaces an existing attribute on the specified <see cref="IgObject" /> or adds a new attribute if it does not
+        /// exist.
         /// </summary>
-        /// <param name="attribute">The <see cref="ObjectAttribute"/> to replace or add to the <see cref="IgObject"/>.</param>
-        /// <returns>A <see cref="GalaxyResult"/> indicating the success or failure of the operation. Returns failure if the attribute does not have a data type.</returns>
+        /// <param name="attribute">The <see cref="ObjectAttribute" /> to replace or add to the <see cref="IgObject" />.</param>
+        /// <returns>
+        /// A <see cref="GalaxyResult" /> indicating the success or failure of the operation. Returns failure if the
+        /// attribute does not have a data type.
+        /// </returns>
         public GalaxyResult ReplaceAttribute(ObjectAttribute attribute)
         {
             if (!attribute.DataType.HasValue)
@@ -372,10 +376,13 @@ public static class ObjectExtensions
         }
 
         /// <summary>
-        /// Enables the specified attribute on the <see cref="IgObject"/> if it exists and is of a boolean data type.
+        /// Enables the specified attribute on the <see cref="IgObject" /> if it exists and is of a boolean data type.
         /// </summary>
         /// <param name="attributeName">The name of the attribute to enable.</param>
-        /// <returns>A <see cref="GalaxyResult"/> indicating the success or failure of the operation, including error details if applicable.</returns>
+        /// <returns>
+        /// A <see cref="GalaxyResult" /> indicating the success or failure of the operation, including error details if
+        /// applicable.
+        /// </returns>
         public GalaxyResult EnableAttribute(string attributeName)
         {
             if (!obj.TryGetAttribute(attributeName, out var attribute))
@@ -395,10 +402,10 @@ public static class ObjectExtensions
     }
 
     /// <summary>
-    /// Compares the value of a specified attribute in the given <see cref="XElement"/> with a provided value.
+    /// Compares the value of a specified attribute in the given <see cref="XElement" /> with a provided value.
     /// </summary>
-    /// <param name="element">The <see cref="XElement"/> to inspect.</param>
-    /// <param name="name">The name of the attribute to check within the <see cref="XElement"/>.</param>
+    /// <param name="element">The <see cref="XElement" /> to inspect.</param>
+    /// <param name="name">The name of the attribute to check within the <see cref="XElement" />.</param>
     /// <param name="value">The value to compare with the attribute's value.</param>
     /// <returns><c>true</c> if the attribute exists and its value matches the specified value; otherwise, <c>false</c>.</returns>
     private static bool HasValue(XElement element, string name, string value)

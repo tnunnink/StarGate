@@ -70,7 +70,7 @@ public class ValueExtensionTests : GalaxyTestFixture
         value.As<byte[]>().Should().NotBeEmpty();
         value.As<byte[]>().ToList().ForEach(b => Console.Write($"{b}"));
     }
-    
+
     /*[Test]
     [TestCase("Graphic_001._VisualElementDefinition")]
     public void WriteGraphicBinaryToXmlUSingArchestrAVisualization(string attribute)
@@ -83,7 +83,7 @@ public class ValueExtensionTests : GalaxyTestFixture
         container.Load(value.As<byte[]>());
         GenerateXml(container);
     }
-    
+
     public static XDocument GenerateXml(aaSymbolGraphicContainer container)
     {
         var doc = new XmlDocument();
@@ -94,7 +94,7 @@ public class ValueExtensionTests : GalaxyTestFixture
         attribute.Value = aaGraphicVersion.LatestVersion.ToString();
         node.Attributes?.SetNamedItem(attribute);
         doc.AppendChild(node);
-            
+
         container.Save(doc, node, aaXMLFormat.All);
 
         using var reader = new XmlNodeReader(doc);

@@ -10,31 +10,32 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="10.1.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="7.2.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
-        <PackageReference Include="NUnit" Version="5.0.0" />
-        <PackageReference Include="NUnit.Analyzers" Version="4.15.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
-        <PackageReference Include="Verify.NUnit" Version="31.28.0" />
         <PackageReference Include="FluentAssertions" Version="7.2.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0"/>
+        <PackageReference Include="NUnit" Version="5.0.0"/>
+        <PackageReference Include="NUnit.Analyzers" Version="4.15.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="NUnit3TestAdapter" Version="6.3.1"/>
+        <PackageReference Include="Verify.NUnit" Version="31.28.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="NUnit.Framework" />
+        <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\StarGate.Core\StarGate.Core.csproj" />
+        <ProjectReference Include="..\..\src\StarGate.Core\StarGate.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
+        <None Update="Graphics\Elements\RectangleElementTests.Serialization_ShouldBeVerified.verified.txt">
+            <DependentUpon>RectangleElementTests.cs</DependentUpon>
+        </None>
     </ItemGroup>
 
 </Project>

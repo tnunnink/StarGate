@@ -1,7 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Extensions;
 
 namespace StarGate.Galaxy.Test.Extensions;
@@ -13,7 +12,7 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     public void EnsureObjectCreated_ExistingMatchingInstance_ShouldReturnExistingWithoutCreating()
     {
         var existing = GetInstance(TestInstance);
-        var definition = new ObjectDefinition
+        var definition = new GalaxyObject
         {
             TagName = TestInstance,
             Template = existing.DerivedFrom,
@@ -30,10 +29,10 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     [Test]
     public void EnsureObjectCreated_ExistingObjectWithDifferentTemplate_ShouldFail()
     {
-        var definition = new ObjectDefinition
+        var definition = new GalaxyObject
         {
             TagName = TestInstance,
-            Template = "$SomeOtherTemplate",
+            Template = "$SomeOtherTemplate"
         };
 
         var result = Galaxy.EnsureObjectCreated(definition, out var created);
@@ -46,7 +45,7 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     [Test]
     public void EnsureObjectCreated_TemplateDoesNotExist_ShouldFailWithObjectNotFound()
     {
-        var definition = new ObjectDefinition
+        var definition = new GalaxyObject
         {
             TagName = "TempEnsureMissingTemplate",
             Template = "$DoesNotExist"
@@ -64,7 +63,7 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     public void EnsureObjectCreated_NewInstanceFromExistingTemplate_ShouldCreateObject()
     {
         const string tagName = "TempEnsureCreatedInstance";
-        var definition = new ObjectDefinition { TagName = tagName, Template = TestTemplate };
+        var definition = new GalaxyObject { TagName = tagName, Template = TestTemplate };
 
         var result = Galaxy.EnsureObjectCreated(definition, out var created);
 
@@ -85,7 +84,7 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     public void EnsureObjectCreated_NewTemplateFromExistingTemplate_ShouldCreateTemplate()
     {
         const string tagName = "$TempEnsureCreatedTemplate";
-        var definition = new ObjectDefinition { TagName = tagName, Template = TestTemplate };
+        var definition = new GalaxyObject { TagName = tagName, Template = TestTemplate };
 
         var result = Galaxy.EnsureObjectCreated(definition, out var created);
 
@@ -105,7 +104,7 @@ public class GalaxyExtensionTests : GalaxyTestFixture
     public void EnsureObjectCreated_CalledTwice_ShouldOnlyCreateOnce()
     {
         const string tagName = "TempEnsureTwice";
-        var definition = new ObjectDefinition { TagName = tagName, Template = TestTemplate };
+        var definition = new GalaxyObject { TagName = tagName, Template = TestTemplate };
 
         try
         {

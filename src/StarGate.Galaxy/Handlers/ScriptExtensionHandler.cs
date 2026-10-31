@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -15,7 +14,7 @@ public class ScriptExtensionHandler : IConfigurationHandler<ScriptExtension>
 
         if (!target.HasExtension(typeof(ScriptExtension), context))
             return null;
-        
+
         return null;
     }
 

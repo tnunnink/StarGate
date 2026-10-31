@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections;
-using StarGate.Core.Objects;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarGate.Core.Serialization.Converters;
+namespace StarGate.Core;
 
 public class AttributeConfigConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type) => type == typeof(AttributeConfig);
+    public bool Accepts(Type type)
+    {
+        return type == typeof(AttributeConfig);
+    }
 
     public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         // Shorthand: scalar value directly
-        if (parser.TryConsume<Scalar>(out var scalar))
-        {
-            return new AttributeConfig { Value = scalar.Value };
-        }
+        if (parser.TryConsume<Scalar>(out var scalar)) return new AttributeConfig { Value = scalar.Value };
 
         // Full mapping representation
         parser.Consume<MappingStart>();

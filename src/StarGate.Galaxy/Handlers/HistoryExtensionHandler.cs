@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -8,7 +7,7 @@ namespace StarGate.Galaxy.Handlers;
 
 /// <summary>
 /// Handles the extraction and application of the HistoryExtension configuration
-/// on Galaxy objects. Implements the <see cref="IConfigurationHandler{T}"/> interface
+/// on Galaxy objects. Implements the <see cref="IConfigurationHandler{T}" /> interface
 /// to enable management of HistoryExtension data for assigned objects.
 /// </summary>
 /// <remarks>

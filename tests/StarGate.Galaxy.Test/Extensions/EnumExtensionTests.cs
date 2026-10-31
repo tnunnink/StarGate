@@ -3,7 +3,6 @@ using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Extensions;
 
 namespace StarGate.Galaxy.Test.Extensions;

@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarGate.Core.Graphics.Controls;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarGate.Core.Serialization.Converters;
+namespace StarGate.Core;
 
 /// <summary>
-/// Provides custom YAML serialization and deserialization for <see cref="ValueBinding"/>,
+/// Provides custom YAML serialization and deserialization for <see cref="ValueBinding" />,
 /// emitting immediate tag bindings as plain scalar strings and deferred trigger bindings
 /// as compact flow mappings: { reference: "...", trigger: "..." }.
 /// </summary>
 public class ValueBindingConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type) => type == typeof(ValueBinding);
+    public bool Accepts(Type type)
+    {
+        return type == typeof(ValueBinding);
+    }
 
     public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
@@ -53,7 +55,7 @@ public class ValueBindingConverter : IYamlTypeConverter
         }
 
         // When a trigger is present, emit flow mapping: { ref: "...", trigger: "..." }
-        emitter.Emit(new MappingStart(null, null, isImplicit: true, MappingStyle.Flow));
+        emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
 
         emitter.Emit(new Scalar("ref"));
         emitter.Emit(new Scalar(binding.Reference));

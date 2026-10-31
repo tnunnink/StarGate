@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -28,7 +27,7 @@ public class QualityAlarmExtensionHandler : IConfigurationHandler<QualityAlarmEx
     {
         if (context is null || string.IsNullOrEmpty(context) || source is null)
             return GalaxyResult.Ok();
-        
+
         // Ensure the host attribute exists and supports this extension type.
         if (!target.ValidateExtension(source, context, out var invalid))
             return invalid;

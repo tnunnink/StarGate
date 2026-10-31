@@ -1,6 +1,4 @@
-﻿using StarGate.Core.Objects;
-
-namespace StarGate.Core.Abstractions;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Represents an interface for implementing attribute-based extensions.

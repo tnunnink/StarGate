@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -8,9 +7,9 @@ namespace StarGate.Galaxy.Handlers;
 
 /// <summary>
 /// Handles the extraction and application of configuration data for
-/// the <see cref="StateAlarmExtension"/> type in Galaxy objects.
-/// Implements the <see cref="IConfigurationHandler{T}"/> interface specifically
-/// for the <see cref="StateAlarmExtension"/> type.
+/// the <see cref="StateAlarmExtension" /> type in Galaxy objects.
+/// Implements the <see cref="IConfigurationHandler{T}" /> interface specifically
+/// for the <see cref="StateAlarmExtension" /> type.
 /// </summary>
 public class StateAlarmExtensionHandler : IConfigurationHandler<StateAlarmExtension>
 {
@@ -39,7 +38,7 @@ public class StateAlarmExtensionHandler : IConfigurationHandler<StateAlarmExtens
     {
         if (context is null || string.IsNullOrEmpty(context) || source is null)
             return GalaxyResult.Ok();
-        
+
         // Ensure the host attribute exists and supports this extension type.
         if (!target.ValidateExtension(source, context, out var invalid))
             return invalid;

@@ -1,7 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
-using StarGate.Core.Extensions;
-using StarGate.Core.Objects;
+using StarGate.Core;
 using StarGate.Galaxy.Extensions;
 using StarGate.Galaxy.Handlers;
 

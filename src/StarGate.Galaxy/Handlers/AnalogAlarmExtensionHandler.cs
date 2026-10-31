@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -24,7 +23,7 @@ public class AnalogAlarmExtensionHandler : IConfigurationHandler<AnalogAlarmExte
         {
             Limit = target.GetConfig<AnalogAlarmExtension>(x => x.Limit, context),
             Priority = target.GetConfig<AnalogAlarmExtension>(x => x.Priority, context),
-            Message = target.GetConfig<AnalogAlarmExtension>(x => x.Message, context),
+            Message = target.GetConfig<AnalogAlarmExtension>(x => x.Message, context)
         };
     }
 

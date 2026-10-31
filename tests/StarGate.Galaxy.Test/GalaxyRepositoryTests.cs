@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using StarGate.Core.Serialization;
+using StarGate.Core;
 using VerifyNUnit;
 
 namespace StarGate.Galaxy.Test;
@@ -82,7 +82,7 @@ public class GalaxyRepositoryTests : GalaxyTestFixture
         var yaml = serializer.Serialize(result.Value);
         return Verifier.Verify(yaml);
     }
-    
+
     [Test]
     public Task GetObjects_KnownTemplate_ShouldBeVerified()
     {

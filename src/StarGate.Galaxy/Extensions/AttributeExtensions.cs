@@ -1,16 +1,15 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Objects;
 
 namespace StarGate.Galaxy.Extensions;
 
 /// <summary>
-/// Provides extension methods for <see cref="IAttribute"/> objects to evaluate and manipulate
+/// Provides extension methods for <see cref="IAttribute" /> objects to evaluate and manipulate
 /// attributes within the system.
 /// </summary>
 public static class AttributeExtensions
 {
-    /// <param name="attribute">The <see cref="IAttribute"/> to convert to a configuration object.</param>
+    /// <param name="attribute">The <see cref="IAttribute" /> to convert to a configuration object.</param>
     extension(IAttribute attribute)
     {
         /// <summary>
@@ -24,17 +23,21 @@ public static class AttributeExtensions
         public bool InheritsLock => attribute.Locked == MxPropertyLockedEnum.MxLockedInParent;
 
         /// <summary>
-        /// Retrieves the value of the specified <see cref="IAttribute"/> by accessing its underlying <see cref="IMxValue"/> instance.
+        /// Retrieves the value of the specified <see cref="IAttribute" /> by accessing its underlying <see cref="IMxValue" />
+        /// instance.
         /// </summary>
-        /// <returns>The value of the attribute as a .NET object. If the attribute's value is an array, returns an object array containing the array elements.
-        /// Returns null if the attribute's value is uninitialized, unassigned, or empty.</returns>
+        /// <returns>
+        /// The value of the attribute as a .NET object. If the attribute's value is an array, returns an object array
+        /// containing the array elements.
+        /// Returns null if the attribute's value is uninitialized, unassigned, or empty.
+        /// </returns>
         public object? GetValue()
         {
             return attribute.value.GetValue();
         }
 
         /// <summary>
-        /// Retrieves the length of the specified <see cref="IAttribute"/> instance if it is an array.
+        /// Retrieves the length of the specified <see cref="IAttribute" /> instance if it is an array.
         /// </summary>
         /// <returns>
         /// The length of the array as a nullable short.
@@ -46,11 +49,13 @@ public static class AttributeExtensions
         }
 
         /// <summary>
-        /// Determines the writeability of the specified <see cref="IAttribute"/> based on its <see cref="MxAttributeCategory"/>.
+        /// Determines the writeability of the specified <see cref="IAttribute" /> based on its
+        /// <see cref="MxAttributeCategory" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="Writeability"/> value representing the writeability category of the attribute,
-        /// or null if the attribute belongs to the <see cref="MxAttributeCategory.MxCategoryWriteable_USC_Lockable"/> category.
+        /// A <see cref="Writeability" /> value representing the writeability category of the attribute,
+        /// or null if the attribute belongs to the <see cref="MxAttributeCategory.MxCategoryWriteable_USC_Lockable" />
+        /// category.
         /// </returns>
         public Writeability? GetWriteability()
         {
@@ -60,9 +65,9 @@ public static class AttributeExtensions
         }
 
         /// <summary>
-        /// Sets the value of the specified <see cref="IAttribute"/> instance using the provided value.
+        /// Sets the value of the specified <see cref="IAttribute" /> instance using the provided value.
         /// </summary>
-        /// <param name="value">The value to set, which can be of any type compatible with the <see cref="IMxValue"/> instance.</param>
+        /// <param name="value">The value to set, which can be of any type compatible with the <see cref="IMxValue" /> instance.</param>
         public GalaxyResult SetValue(object? value)
         {
             if (value is null) return GalaxyResult.Ok();
@@ -75,9 +80,10 @@ public static class AttributeExtensions
         }
 
         /// <summary>
-        /// Sets the locked state of the specified <see cref="IAttribute"/> instance.
+        /// Sets the locked state of the specified <see cref="IAttribute" /> instance.
         /// </summary>
-        /// <param name="locked">A nullable boolean indicating whether the attribute should be locked.
+        /// <param name="locked">
+        /// A nullable boolean indicating whether the attribute should be locked.
         /// If true, the attribute is locked; if false, it is unlocked. If null, no changes are made to the locked state.
         /// </param>
         public GalaxyResult SetLocked(bool? locked)
@@ -92,10 +98,10 @@ public static class AttributeExtensions
         }
 
         /// <summary>
-        /// Sets the security classification for the specified <see cref="IAttribute"/> based on the provided security level.
+        /// Sets the security classification for the specified <see cref="IAttribute" /> based on the provided security level.
         /// </summary>
         /// <param name="security">
-        /// The <see cref="Security"/> level to assign to the attribute.
+        /// The <see cref="Security" /> level to assign to the attribute.
         /// If null, the security classification will remain unchanged.
         /// </param>
         public GalaxyResult SetSecurity(Security? security)
@@ -110,9 +116,12 @@ public static class AttributeExtensions
         }
 
         /// <summary>
-        /// Determines whether a specified <see cref="IAttribute"/> is configurable within the system.
+        /// Determines whether a specified <see cref="IAttribute" /> is configurable within the system.
         /// </summary>
-        /// <returns><c>true</c> if the specified attribute is configurable based on its category and naming conventions; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the specified attribute is configurable based on its category and naming conventions;
+        /// otherwise, <c>false</c>.
+        /// </returns>
         public bool IsConfigurable()
         {
             // We will not map back any internal system attributes that start with an underscore.

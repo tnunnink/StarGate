@@ -1,8 +1,8 @@
 using System.Linq;
+using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Extensions;
 using StarGate.Galaxy.Handlers;
 
@@ -97,7 +97,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     public void Apply_NewAttributes_ShouldCheckOutAddAttributesAndCheckIn()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new ObjectDefinition
+        var source = new GalaxyObject
         {
             TagName = temp.TagName,
             Template = "$UserDefined",
@@ -121,7 +121,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
         var result = new ObjectDefinitionHandler().Apply(temp.Instance, source, "test apply");
 
         result.Success.Should().BeTrue();
-        temp.Instance.CheckoutStatus.Should().Be(ArchestrA.GRAccess.ECheckoutStatus.notCheckedOut);
+        temp.Instance.CheckoutStatus.Should().Be(ECheckoutStatus.notCheckedOut);
         temp.Instance.Attributes["First"].GetValue().Should().Be(1);
         temp.Instance.Attributes["Second"].GetValue().Should().Be("two");
     }
@@ -130,19 +130,19 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     public void Apply_NoAttributes_ShouldCheckOutAndCheckIn()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new ObjectDefinition { TagName = temp.TagName, Template = "$UserDefined" };
+        var source = new GalaxyObject { TagName = temp.TagName, Template = "$UserDefined" };
 
         var result = new ObjectDefinitionHandler().Apply(temp.Instance, source);
 
         result.Success.Should().BeTrue();
-        temp.Instance.CheckoutStatus.Should().Be(ArchestrA.GRAccess.ECheckoutStatus.notCheckedOut);
+        temp.Instance.CheckoutStatus.Should().Be(ECheckoutStatus.notCheckedOut);
     }
 
     [Test]
     public void Apply_InvalidAttribute_ShouldFailAndRollback()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new ObjectDefinition
+        var source = new GalaxyObject
         {
             TagName = temp.TagName,
             Template = "$UserDefined",
@@ -153,7 +153,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
 
         result.Success.Should().BeFalse();
         result.Errors.Should().Contain(e => e.Code == ErrorCode.MissingDataType);
-        temp.Instance.CheckoutStatus.Should().Be(ArchestrA.GRAccess.ECheckoutStatus.notCheckedOut);
+        temp.Instance.CheckoutStatus.Should().Be(ECheckoutStatus.notCheckedOut);
     }
 
     [Test]

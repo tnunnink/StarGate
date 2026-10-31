@@ -1,7 +1,4 @@
-﻿using StarGate.Core.Objects;
-using StarGate.Core.Serialization;
-
-namespace StarGate.Core.Tests.Serialization;
+﻿namespace StarGate.Core;
 
 [TestFixture]
 public class GalaxySerializerTests
@@ -10,7 +7,7 @@ public class GalaxySerializerTests
     public Task Serialize_BasicConfig_ShouldBeVerified()
     {
         var serializer = new GalaxySerializer();
-        var data = new ObjectDefinition
+        var data = new GalaxyObject
         {
             TagName = "Test",
             Template = "$UserDefined",

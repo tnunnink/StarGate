@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -27,7 +26,7 @@ public class RocAlarmExtensionHandler : IConfigurationHandler<RocAlarmExtension>
             Up = AnalogAlarmHandler.Extract(target, $"{context}.Dev.Major"),
             Down = AnalogAlarmHandler.Extract(target, $"{context}.Dev.Minor"),
             Period = target.GetConfig<RocAlarmExtension>(x => x.Period, context),
-            Units = target.GetConfig<RocAlarmExtension>(x => x.Units, context),
+            Units = target.GetConfig<RocAlarmExtension>(x => x.Units, context)
         };
     }
 

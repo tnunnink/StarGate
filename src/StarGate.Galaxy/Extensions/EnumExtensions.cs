@@ -1,18 +1,21 @@
 ﻿using System;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Objects;
 
 namespace StarGate.Galaxy.Extensions;
 
 public static class EnumExtensions
 {
     /// <summary>
-    /// Converts a given <see cref="EGRCommandResult"/> value to its corresponding <see cref="ErrorCode"/> representation.
+    /// Converts a given <see cref="EGRCommandResult" /> value to its corresponding <see cref="ErrorCode" />
+    /// representation.
     /// </summary>
-    /// <param name="result">The <see cref="EGRCommandResult"/> value to be converted.</param>
-    /// <returns>An <see cref="ErrorCode"/> that represents the equivalent type for the specified <paramref name="result"/> value.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the <paramref name="result"/> value is not recognized.</exception>
+    /// <param name="result">The <see cref="EGRCommandResult" /> value to be converted.</param>
+    /// <returns>
+    /// An <see cref="ErrorCode" /> that represents the equivalent type for the specified <paramref name="result" />
+    /// value.
+    /// </returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the <paramref name="result" /> value is not recognized.</exception>
     public static ErrorCode ToCoreType(this EGRCommandResult result)
     {
         return result switch
@@ -52,10 +55,13 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Maps a given <see cref="DataType"/> value to its corresponding <see cref="MxDataType"/> type.
+    /// Maps a given <see cref="DataType" /> value to its corresponding <see cref="MxDataType" /> type.
     /// </summary>
-    /// <param name="dataType">The <see cref="DataType"/> value to be mapped.</param>
-    /// <returns>An <see cref="MxDataType"/> that represents the equivalent type for the specified <paramref name="dataType"/> value.</returns>
+    /// <param name="dataType">The <see cref="DataType" /> value to be mapped.</param>
+    /// <returns>
+    /// An <see cref="MxDataType" /> that represents the equivalent type for the specified
+    /// <paramref name="dataType" /> value.
+    /// </returns>
     public static MxDataType ToMxType(this DataType dataType)
     {
         return dataType switch
@@ -74,10 +80,13 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Maps the specified <see cref="MxDataType"/> value to its corresponding <see cref="DataType"/> type.
+    /// Maps the specified <see cref="MxDataType" /> value to its corresponding <see cref="DataType" /> type.
     /// </summary>
-    /// <param name="dataType">The <see cref="MxDataType"/> value to be converted.</param>
-    /// <returns>A <see cref="DataType"/> that represents the equivalent type for the specified <paramref name="dataType"/> value.</returns>
+    /// <param name="dataType">The <see cref="MxDataType" /> value to be converted.</param>
+    /// <returns>
+    /// A <see cref="DataType" /> that represents the equivalent type for the specified <paramref name="dataType" />
+    /// value.
+    /// </returns>
     public static DataType ToCoreType(this MxDataType dataType)
     {
         return dataType switch
@@ -109,10 +118,13 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Maps a given <see cref="Writeability"/> value to its corresponding <see cref="MxAttributeCategory"/> type.
+    /// Maps a given <see cref="Writeability" /> value to its corresponding <see cref="MxAttributeCategory" /> type.
     /// </summary>
-    /// <param name="writeability">The <see cref="Writeability"/> value to be mapped.</param>
-    /// <returns>An <see cref="MxAttributeCategory"/> that corresponds to the specified <paramref name="writeability"/> value.</returns>
+    /// <param name="writeability">The <see cref="Writeability" /> value to be mapped.</param>
+    /// <returns>
+    /// An <see cref="MxAttributeCategory" /> that corresponds to the specified <paramref name="writeability" />
+    /// value.
+    /// </returns>
     public static MxAttributeCategory ToMxType(this Writeability? writeability)
     {
         if (!writeability.HasValue)
@@ -129,11 +141,11 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Converts a specified <see cref="MxAttributeCategory"/> to its corresponding <see cref="Writeability"/> value.
+    /// Converts a specified <see cref="MxAttributeCategory" /> to its corresponding <see cref="Writeability" /> value.
     /// </summary>
-    /// <param name="category">The <see cref="MxAttributeCategory"/> to be converted.</param>
-    /// <returns>The corresponding <see cref="Writeability"/> value for the given <paramref name="category"/>.</returns>
-    /// <exception cref="category">Thrown when the <paramref name="category"/> value is not supported or recognized.</exception>
+    /// <param name="category">The <see cref="MxAttributeCategory" /> to be converted.</param>
+    /// <returns>The corresponding <see cref="Writeability" /> value for the given <paramref name="category" />.</returns>
+    /// <exception cref="category">Thrown when the <paramref name="category" /> value is not supported or recognized.</exception>
     public static Writeability ToCoreType(this MxAttributeCategory category)
     {
         // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
@@ -150,16 +162,16 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Converts the specified <paramref name="security"/> value from <see cref="Security"/>
-    /// to the corresponding <see cref="MxSecurityClassification"/> enumeration value.
+    /// Converts the specified <paramref name="security" /> value from <see cref="Security" />
+    /// to the corresponding <see cref="MxSecurityClassification" /> enumeration value.
     /// </summary>
     /// <param name="security">
-    /// The <see cref="Security"/> value representing the security classification level to convert.
+    /// The <see cref="Security" /> value representing the security classification level to convert.
     /// </param>
     /// <returns>
-    /// A <see cref="MxSecurityClassification"/> enumeration value that corresponds to the specified
-    /// <paramref name="security"/> level. Returns <see cref="MxSecurityClassification.MxSecurityUndefined"/>
-    /// if the provided <paramref name="security"/> value does not match any defined classification.
+    /// A <see cref="MxSecurityClassification" /> enumeration value that corresponds to the specified
+    /// <paramref name="security" /> level. Returns <see cref="MxSecurityClassification.MxSecurityUndefined" />
+    /// if the provided <paramref name="security" /> value does not match any defined classification.
     /// </returns>
     public static MxSecurityClassification ToMxType(this Security security)
     {
@@ -177,10 +189,10 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Maps a <see cref="MxSecurityClassification"/> instance to its corresponding <see cref="Security"/> value.
+    /// Maps a <see cref="MxSecurityClassification" /> instance to its corresponding <see cref="Security" /> value.
     /// </summary>
-    /// <param name="security">The <see cref="MxSecurityClassification"/> to be converted.</param>
-    /// <returns>A corresponding <see cref="Security"/> value if the classification is valid; otherwise, null.</returns>
+    /// <param name="security">The <see cref="MxSecurityClassification" /> to be converted.</param>
+    /// <returns>A corresponding <see cref="Security" /> value if the classification is valid; otherwise, null.</returns>
     public static Security? ToSecurity(this MxSecurityClassification security)
     {
         return security switch

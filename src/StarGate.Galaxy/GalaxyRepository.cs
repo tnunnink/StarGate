@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Abstractions;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Extensions;
 using StarGate.Galaxy.Handlers;
 
@@ -13,7 +11,7 @@ namespace StarGate.Galaxy;
 /// <summary>
 /// Provides a repository for querying and retrieving configuration objects from an ArchestrA Galaxy.
 /// </summary>
-/// <param name="galaxy">The <see cref="IGalaxy"/> instance used to access and query the Galaxy repository.</param>
+/// <param name="galaxy">The <see cref="IGalaxy" /> instance used to access and query the Galaxy repository.</param>
 public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
 {
     /// <summary>
@@ -29,7 +27,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     private static readonly ObjectDefinitionHandler ObjectHandler = new();
 
     /// <inheritdoc />
-    public GalaxyResult<IEnumerable<ObjectDefinition>> GetObjects(params string[] tagNames)
+    public GalaxyResult<IEnumerable<GalaxyObject>> GetObjects(params string[] tagNames)
     {
         if (tagNames is null)
             throw new ArgumentNullException(nameof(tagNames));
@@ -44,13 +42,13 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     }
 
     /// <inheritdoc />
-    public GalaxyResult UpdateObject(ObjectDefinition definition, string? comment = null)
+    public GalaxyResult UpdateObject(GalaxyObject config, string? comment = null)
     {
-        var created = galaxy.EnsureObjectCreated(definition, out var wasCreated);
+        var created = galaxy.EnsureObjectCreated(config, out var wasCreated);
         if (!created.Success) return created;
 
-        comment ??= $"Configuration applied to '{definition.TagName}' via StarGate";
-        var result = ObjectHandler.Apply(created.Value, definition, comment);
+        comment ??= $"Configuration applied to '{config.TagName}' via StarGate";
+        var result = ObjectHandler.Apply(created.Value, config, comment);
 
         if (!result.Success && wasCreated)
             return result.Merge(created.Value.Delete());
@@ -59,7 +57,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     }
 
     /// <inheritdoc />
-    public GalaxyResult UpdateObjects(IEnumerable<ObjectDefinition> definitions, string? comment = null)
+    public GalaxyResult UpdateObjects(IEnumerable<GalaxyObject> definitions, string? comment = null)
     {
         var ordered = definitions.OrderByInheritance();
         var result = GalaxyResult.Ok();
@@ -79,20 +77,20 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     /// <param name="tagNames">An array of strings representing the names of the tags to query.</param>
     /// <param name="option">Specifies whether the query should target object templates or instances.</param>
     /// <returns>
-    /// A GalaxyResult containing a collection of <see cref="ObjectDefinition"/> objects matching the provided tag names.
+    /// A GalaxyResult containing a collection of <see cref="GalaxyObject" /> objects matching the provided tag names.
     /// </returns>
-    private GalaxyResult<IEnumerable<ObjectDefinition>> GetObjectsByName(string[] tagNames,
+    private GalaxyResult<IEnumerable<GalaxyObject>> GetObjectsByName(string[] tagNames,
         EgObjectIsTemplateOrInstance option)
     {
         if (tagNames.Length == 0)
-            return new GalaxyResult<IEnumerable<ObjectDefinition>>([]);
+            return new GalaxyResult<IEnumerable<GalaxyObject>>([]);
 
         var results = galaxy.QueryObjectsByName(option, tagNames)
             .AsEnumerable()
             .Select(x => ObjectHandler.Extract(x))
             .ToArray();
 
-        return galaxy.CommandResults.ToResult<IEnumerable<ObjectDefinition>>(results);
+        return galaxy.CommandResults.ToResult<IEnumerable<GalaxyObject>>(results);
     }
 
     /// <summary>
@@ -100,17 +98,17 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     /// </summary>
     /// <param name="tagNames">An array of tag names corresponding to the instances to be retrieved.</param>
     /// <returns>
-    /// A <see cref="GalaxyResult{T}"/> containing an enumerable collection of <see cref="ObjectDefinition"/>
+    /// A <see cref="GalaxyResult{T}" /> containing an enumerable collection of <see cref="GalaxyObject" />
     /// objects that represent the retrieved instances.
     /// </returns>
-    private GalaxyResult<IEnumerable<ObjectDefinition>> GetInstancesAndSymbolsByName(string[] tagNames)
+    private GalaxyResult<IEnumerable<GalaxyObject>> GetInstancesAndSymbolsByName(string[] tagNames)
     {
         if (tagNames.Length == 0)
-            return new GalaxyResult<IEnumerable<ObjectDefinition>>([]);
+            return new GalaxyResult<IEnumerable<GalaxyObject>>([]);
 
         const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsInstance;
         var handler = new ObjectDefinitionHandler();
-        var results = new List<ObjectDefinition>();
+        var results = new List<GalaxyObject>();
 
         foreach (var tagName in tagNames)
         {
@@ -127,59 +125,6 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
             results.AddRange(instances);
         }
 
-        return galaxy.CommandResults.ToResult<IEnumerable<ObjectDefinition>>(results.ToArray());
-    }
-
-    /// <summary>
-    /// Retrieves template information for the specified tag names from the Galaxy repository.
-    /// </summary>
-    /// <param name="tagNames">An array of tag names for which to retrieve template information.</param>
-    /// <returns>A <see cref="GalaxyResult{T}"/> containing a collection of <see cref="ObjectInfo"/>
-    /// representing the template information, along with any associated errors.</returns>
-    private GalaxyResult<IEnumerable<ObjectInfo>> GetTemplateInfo(string[] tagNames)
-    {
-        if (tagNames.Length == 0)
-            return new GalaxyResult<IEnumerable<ObjectInfo>>([]);
-
-        const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsTemplate;
-
-        var results = galaxy.QueryObjectsByName(option, tagNames)
-            .AsEnumerable()
-            .Select(x => x.ToInfo())
-            .ToArray();
-
-        return galaxy.CommandResults.ToResult<IEnumerable<ObjectInfo>>(results);
-    }
-
-    /// <summary>
-    /// Retrieves instance information for the specified tag names from the Galaxy repository.
-    /// </summary>
-    /// <param name="tagNames">An array of tag names to query for instance information.</param>
-    /// <returns>A <see cref="GalaxyResult{T}"/> containing a collection of <see cref="ObjectInfo"/> instances for the specified tag names.</returns>
-    private GalaxyResult<IEnumerable<ObjectInfo>> GetInstanceInfo(string[] tagNames)
-    {
-        if (tagNames.Length == 0)
-            return new GalaxyResult<IEnumerable<ObjectInfo>>([]);
-
-        const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsInstance;
-        var results = new List<ObjectInfo>();
-
-        foreach (var tagName in tagNames)
-        {
-            var conditions = galaxy.CreateConditionsObject();
-            //todo I'm not sure if this is the most performant way. We could test splitting the instances/symbols out to separate methods.
-            // This will effectively make it search for both AutomationObjects and VisualElements (symbols)
-            // during testing it does seem that adding a tagname is much faster than querying the entire namespace and post filtering
-            conditions.Add(EConditionType.NameSpaceIdIs, 2, false);
-            conditions.Add(EConditionType.NameEquals, tagName);
-
-            var instances = galaxy.QueryObjectsMultiCondition(option, conditions)
-                .AsEnumerable()
-                .Select(x => x.ToInfo());
-
-            results.AddRange(instances);
-        }
-
-        return galaxy.CommandResults.ToResult<IEnumerable<ObjectInfo>>(results.ToArray());
+        return galaxy.CommandResults.ToResult<IEnumerable<GalaxyObject>>(results.ToArray());
     }
 }

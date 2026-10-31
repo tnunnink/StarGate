@@ -1,4 +1,4 @@
-﻿namespace StarGate.Core.Serialization;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Provides configuration options for customizing object serialization behavior.

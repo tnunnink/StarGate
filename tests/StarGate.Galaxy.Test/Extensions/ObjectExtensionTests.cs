@@ -4,8 +4,6 @@ using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Core.Extensions;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Extensions;
 
 // ReSharper disable SuspiciousTypeConversion.Global
@@ -148,32 +146,6 @@ public class ObjectExtensionTests : GalaxyTestFixture
 
         result.Success.Should().BeFalse();
         result.Errors.Should().NotBeEmpty();
-    }
-
-    [Test]
-    public void ToInfo_Instance_ShouldMapObjectProperties()
-    {
-        var obj = GetInstance(TestInstance);
-
-        var info = obj.ToInfo();
-
-        info.TagName.Should().Be(TestInstance);
-        info.Template.Should().Be(obj.DerivedFrom);
-        info.BasedOn.Should().Be(obj.basedOn);
-        info.Category.Should().NotBeNullOrEmpty();
-        info.Category.Should().NotContain("idxCategory");
-    }
-
-    [Test]
-    public void ToInfo_Template_ShouldMapObjectProperties()
-    {
-        var obj = GetTemplate(TestTemplate);
-
-        var info = obj.ToInfo();
-
-        info.TagName.Should().Be(TestTemplate);
-        info.Template.Should().Be(obj.DerivedFrom);
-        info.BasedOn.Should().Be(obj.basedOn);
     }
 
     [Test]

@@ -1,13 +1,12 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Extensions;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
 namespace StarGate.Galaxy.Handlers;
 
 /// <summary>
-/// Handles the extraction and application of the <see cref="ScalingExtension"/> configuration
+/// Handles the extraction and application of the <see cref="ScalingExtension" /> configuration
 /// on an ArchestrA Galaxy object.
 /// </summary>
 /// <remarks>
@@ -44,7 +43,7 @@ public class ScalingExtensionHandler : IConfigurationHandler<ScalingExtension>
     {
         if (context is null || string.IsNullOrEmpty(context) || source is null)
             return GalaxyResult.Ok();
-        
+
         // Ensure the host attribute exists and supports this extension type.
         if (!target.ValidateExtension(source, context, out var invalid))
             return invalid;

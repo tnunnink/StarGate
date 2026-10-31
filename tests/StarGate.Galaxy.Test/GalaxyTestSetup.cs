@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using ArchestrA.GRAccess;
 using NUnit.Framework;
@@ -18,20 +19,20 @@ namespace StarGate.Galaxy.Test;
 public class GalaxyTestSetup
 {
     /// <summary>
-    /// Represents the identifier for the Galaxy instance being used for testing.
-    /// This property provides the unique name of the Galaxy environment targeted
-    /// by the test setup. The value is used to query and interact with the specified Galaxy
-    /// within a testing context.
-    /// </summary>
-    private static string GalaxyIdentifier => "TestGalaxy";
-
-    /// <summary>
     /// Represents an instance of GRAccessAppClass used to interact with the Galaxy system.
     /// Provides methods for querying, logging in, and managing Galaxy environments
     /// within the context of automated tests. This variable is critical for establishing
     /// communication with the Galaxy server and managing related operations.
     /// </summary>
     private static GRAccessAppClass? _grAccess;
+
+    /// <summary>
+    /// Represents the identifier for the Galaxy instance being used for testing.
+    /// This property provides the unique name of the Galaxy environment targeted
+    /// by the test setup. The value is used to query and interact with the specified Galaxy
+    /// within a testing context.
+    /// </summary>
+    private static string GalaxyIdentifier => "TestGalaxy";
 
     /// <summary>
     /// Represents the Galaxy instance being used in the test environment.
@@ -72,10 +73,8 @@ public class GalaxyTestSetup
         finally
         {
             if (_grAccess != null)
-            {
                 // Release COM references cleanly
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(_grAccess);
-            }
+                Marshal.FinalReleaseComObject(_grAccess);
         }
     }
 

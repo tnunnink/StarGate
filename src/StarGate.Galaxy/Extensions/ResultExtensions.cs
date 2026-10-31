@@ -5,8 +5,8 @@ using StarGate.Core;
 namespace StarGate.Galaxy.Extensions;
 
 /// <summary>
-/// Provides extension methods for converting GRAccess command results into <see cref="GalaxyResult"/>
-/// and <see cref="GalaxyResult{TValue}"/> instances.
+/// Provides extension methods for converting GRAccess command results into <see cref="GalaxyResult" />
+/// and <see cref="GalaxyResult{TValue}" /> instances.
 /// </summary>
 public static class ResultExtensions
 {
@@ -14,9 +14,9 @@ public static class ResultExtensions
     extension(ICommandResult? result)
     {
         /// <summary>
-        /// Converts an <see cref="ICommandResult"/> into a <see cref="GalaxyResult"/>.
+        /// Converts an <see cref="ICommandResult" /> into a <see cref="GalaxyResult" />.
         /// </summary>
-        /// <returns>A <see cref="GalaxyResult"/> representing the success or failure of the command operation.</returns>
+        /// <returns>A <see cref="GalaxyResult" /> representing the success or failure of the command operation.</returns>
         public GalaxyResult ToResult()
         {
             if (result is null || result.Successful)
@@ -27,11 +27,15 @@ public static class ResultExtensions
         }
 
         /// <summary>
-        /// Converts an <see cref="ICommandResult"/> into a <see cref="GalaxyResult{TValue}"/> containing the specified value.
+        /// Converts an <see cref="ICommandResult" /> into a <see cref="GalaxyResult{TValue}" /> containing the specified
+        /// value.
         /// </summary>
         /// <typeparam name="TValue">The type of the value to return with the result.</typeparam>
         /// <param name="value">The value to attach to the result.</param>
-        /// <returns>A <see cref="GalaxyResult{TValue}"/> containing the value and representing the success or failure of the command operation.</returns>
+        /// <returns>
+        /// A <see cref="GalaxyResult{TValue}" /> containing the value and representing the success or failure of the
+        /// command operation.
+        /// </returns>
         public GalaxyResult<TValue> ToResult<TValue>(TValue value)
         {
             if (result is null || result.Successful)
@@ -46,9 +50,12 @@ public static class ResultExtensions
     extension(ICommandResults? results)
     {
         /// <summary>
-        /// Converts an <see cref="ICommandResults"/> collection into a <see cref="GalaxyResult"/>.
+        /// Converts an <see cref="ICommandResults" /> collection into a <see cref="GalaxyResult" />.
         /// </summary>
-        /// <returns>A <see cref="GalaxyResult"/> representing success if all commands succeeded, or containing errors for any failed commands.</returns>
+        /// <returns>
+        /// A <see cref="GalaxyResult" /> representing success if all commands succeeded, or containing errors for any
+        /// failed commands.
+        /// </returns>
         public GalaxyResult ToResult()
         {
             if (results is null || results.CompletelySuccessful)
@@ -63,11 +70,15 @@ public static class ResultExtensions
         }
 
         /// <summary>
-        /// Converts an <see cref="ICommandResults"/> collection into a <see cref="GalaxyResult{TValue}"/> containing the specified value.
+        /// Converts an <see cref="ICommandResults" /> collection into a <see cref="GalaxyResult{TValue}" /> containing the
+        /// specified value.
         /// </summary>
         /// <typeparam name="TValue">The type of the value to return with the result.</typeparam>
         /// <param name="value">The value to attach to the result.</param>
-        /// <returns>A <see cref="GalaxyResult{TValue}"/> containing the value and representing success if all commands succeeded, or containing errors for any failed commands.</returns>
+        /// <returns>
+        /// A <see cref="GalaxyResult{TValue}" /> containing the value and representing success if all commands succeeded,
+        /// or containing errors for any failed commands.
+        /// </returns>
         public GalaxyResult<TValue> ToResult<TValue>(TValue value)
         {
             if (results is null || results.CompletelySuccessful)

@@ -1,6 +1,5 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Core.Objects;
 using StarGate.Galaxy.Abstractions;
 using StarGate.Galaxy.Extensions;
 
@@ -8,10 +7,10 @@ namespace StarGate.Galaxy.Handlers;
 
 public class ObjectAttributeHandler : IConfigurationHandler<ObjectAttribute>
 {
-    private readonly IOExtensionHandler _ioHandler = new();
-    private readonly HistoryExtensionHandler _historyHandler = new();
-    private readonly LoggingExtensionHandler _loggingHandler = new();
     private readonly AlarmExtensionHandler _alarmHandler = new();
+    private readonly HistoryExtensionHandler _historyHandler = new();
+    private readonly IOExtensionHandler _ioHandler = new();
+    private readonly LoggingExtensionHandler _loggingHandler = new();
 
     /// <inheritdoc />
     public ObjectAttribute? Extract(IgObject target, string? context = null)

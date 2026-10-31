@@ -1,7 +1,7 @@
+using System;
 using FluentAssertions;
 using NUnit.Framework;
-using StarGate.Core.Extensions;
-using StarGate.Core.Objects;
+using StarGate.Core;
 using StarGate.Galaxy.Extensions;
 using StarGate.Galaxy.Handlers;
 
@@ -91,7 +91,7 @@ public class IOExtensionHandlerTests : GalaxyTestFixture
         var instance = GetInstance(TestInstance);
         var handler = new IOExtensionHandler();
         instance.CheckOut();
-        
+
         var source = new IOExtension
         {
             Binding = BindingType.ReadWrite,
@@ -121,7 +121,7 @@ public class IOExtensionHandlerTests : GalaxyTestFixture
         instance.Rollback();
 
         result.Success.Should().BeTrue();
-        extensions.Should().Contain(e => e.Equals(expected, System.StringComparison.OrdinalIgnoreCase));
+        extensions.Should().Contain(e => e.Equals(expected, StringComparison.OrdinalIgnoreCase));
     }
 
     [Test]
@@ -136,8 +136,8 @@ public class IOExtensionHandlerTests : GalaxyTestFixture
         instance.Rollback();
 
         result.Success.Should().BeTrue();
-        extensions.Should().Contain(e => e.Equals("InputExtension", System.StringComparison.OrdinalIgnoreCase));
-        extensions.Should().Contain(e => e.Equals("OutputExtension", System.StringComparison.OrdinalIgnoreCase));
+        extensions.Should().Contain(e => e.Equals("InputExtension", StringComparison.OrdinalIgnoreCase));
+        extensions.Should().Contain(e => e.Equals("OutputExtension", StringComparison.OrdinalIgnoreCase));
     }
 
     [Test]

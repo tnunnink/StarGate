@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarGate.Core.Graphics.Controls;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarGate.Core.Serialization.Converters;
+namespace StarGate.Core;
 
 /// <summary>
-/// Provides custom YAML serialization and deserialization for <see cref="GraphicReference"/>,
+/// Provides custom YAML serialization and deserialization for <see cref="GraphicReference" />,
 /// emitting literal strings as plain scalars and dynamic references as flow mappings: { ref: "..." }.
 /// </summary>
 public class GraphicReferenceConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type) => type == typeof(GraphicReference);
+    public bool Accepts(Type type)
+    {
+        return type == typeof(GraphicReference);
+    }
 
     public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         // 1. Literal scalar string (e.g., minDate: "01/01/2025")
-        if (parser.TryConsume<Scalar>(out var scalar))
-        {
-            return new GraphicReference { Text = scalar.Value };
-        }
+        if (parser.TryConsume<Scalar>(out var scalar)) return new GraphicReference { Text = scalar.Value };
 
         if (!parser.Accept<MappingStart>(out _))
             return null;
@@ -46,7 +45,7 @@ public class GraphicReferenceConverter : IYamlTypeConverter
         if (reference.Expression is not null)
         {
             // Flow mapping: { ref: "Me.StartDate" }
-            emitter.Emit(new MappingStart(null, null, isImplicit: true, MappingStyle.Flow));
+            emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
             emitter.Emit(new Scalar("ref"));
             emitter.Emit(new Scalar(reference.Expression));
             emitter.Emit(new MappingEnd());

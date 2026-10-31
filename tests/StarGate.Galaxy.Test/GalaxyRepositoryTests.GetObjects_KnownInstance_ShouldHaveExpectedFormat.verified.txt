@@ -1,0 +1,112 @@
+﻿- tagName: TestInstance
+  template: $TestTemplate
+  basedOn: $UserDefined
+  category: ApplicationObject
+  hierarchicalName: TestInstance
+  attributes:
+    - name: TestArray
+      dataType: String
+      length: 10
+      description: test
+      alarms: {}
+    - name: TestBigString
+      dataType: BigString
+      description: Test big string
+      alarms: {}
+    - name: TestBool
+      dataType: Boolean
+      description: this is a test value for booleans
+      io:
+        binding: Reflect
+        inputSource: Me.ParentBool
+        invert: false
+      alarms:
+        state:
+          category: Discrete
+          priority: 123
+          message: me.TestBool.Description
+          activeState: true
+          source: me.TestBool
+          delay: 00:00:00
+    - name: TestCalculated
+      dataType: Boolean
+      writeability: Calculated
+      description: this is a test of a calculated attribute
+      alarms: {}
+    - name: TestDouble
+      dataType: Double
+      description: this is a test for double attribute
+      alarms: {}
+    - name: TestElapsed
+      dataType: ElapsedTime
+      description: time elapsed
+      alarms: {}
+    - name: TestFloat
+      dataType: Float
+      description: testing a float value
+      units: '%'
+      io:
+        binding: Reflect
+        inputSource: Me.TestFloat
+        deadband: 0
+        scaling:
+          rawMax: 100
+          rawMin: 0
+          engMax: 100
+          engMin: 0
+          rangeMax: 106
+          rangeMin: -6
+          conversionMode: Linear
+          clampEnabled: true
+      alarms: {}
+    - name: TestInt
+      dataType: Integer
+      description: this is a test for integer attribute
+      units: gal
+      io:
+        binding: ReadWrite
+        inputSource: Me.TestFloat
+        outputDest: '---'
+        differentOutput: false
+        deadband: 0
+      history:
+        description: me.TestInt.Description
+        storagePeriod: 0
+        deadband: 0
+        trendHi: 10
+        trendLo: 0
+        swingDoorEnabled: false
+        interpolationType: SystemDefault
+        rollover: 0
+      alarms:
+        roc:
+          down:
+            priority: 500
+            message: me.TestInt.Description
+          period: 5000
+          units: Sec
+        deviation:
+          minor:
+            priority: 500
+            message: me.TestInt.Description
+          target: 50
+          deadband: 0
+          settlingPeriod: 00:00:30
+        quality:
+          message: me.TestInt.Description
+          priority: 500
+      log:
+        logEvent: true
+    - name: TestInternationalized
+      dataType: InternationalizedString
+      writeability: ObjectWriteable
+      description: my string
+      alarms: {}
+    - name: TestString
+      dataType: String
+      description: my string
+      alarms: {}
+    - name: TestTime
+      dataType: Time
+      description: this is a test for time attribute
+      alarms: {}

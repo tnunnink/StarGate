@@ -1,4 +1,4 @@
-﻿namespace StarGate.Core.Abstractions;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Provides an abstraction for serializing and deserializing objects and collections
