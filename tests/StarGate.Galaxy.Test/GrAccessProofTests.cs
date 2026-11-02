@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
-using StarGate.Galaxy.Extensions;
+using StarGate.Galaxy;
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class GrAccessProofTests : GalaxyTestFixture

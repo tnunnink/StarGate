@@ -21,6 +21,9 @@
             <HintPath>$(SystemDrive)\Program Files (x86)\ArchestrA\Framework\Bin\ArchestrA.Visualization.GraphicAccess.dll</HintPath>
             <Private>false</Private>
         </Reference>
+       <!-- <Reference Include="ArchestrA.Visualization.GraphicLibrary">
+          <HintPath>$(SystemDrive)\Program Files (x86)\ArchestrA\SEditorsCommon\ArchestrA.Visualization.GraphicLibrary.dll</HintPath>
+        </Reference>-->
         <Reference Include="System.Configuration"/>
     </ItemGroup>
 
@@ -50,6 +53,9 @@
         </None>
         <None Update="GalaxyRepositoryTests.GetObjects_KnownTemplate_ShouldBeVerified.verified.txt">
           <DependentUpon>GalaxyRepositoryTests.cs</DependentUpon>
+        </None>
+        <None Update="Extensions\ObjectExtensionTests.ReadSymbol_FromAutomationObject_ShouldReturnVerifiedXml.verified.xml">
+          <DependentUpon>ObjectExtensionTests.cs</DependentUpon>
         </None>
     </ItemGroup>
 

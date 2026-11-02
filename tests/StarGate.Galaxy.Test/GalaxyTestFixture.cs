@@ -3,7 +3,7 @@ using ArchestrA.GRAccess;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 /// <summary>
 /// Represents a base test fixture for test classes that interact with a Galaxy instance.

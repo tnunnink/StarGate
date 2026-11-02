@@ -23,5 +23,5 @@ public record PatternBrush : GraphicBrush
     /// The style determines the type of visual pattern, such as lines, shapes, or grids,
     /// used to render areas within the graphical element.
     /// </summary>
-    public HatchStyle Style { get; init; }
+    public HatchStyle Hatch { get; init; }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Xml.Linq;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for <see cref="XElement" /> instances.
@@ -51,6 +50,24 @@ public static class ElementExtensions
                     $"Required attribute '{selector}' was not found on element '{element.Name}'.");
 
             return parser(value);
+        }
+
+        /// <summary>
+        /// Retrieves the value associated with the specified selector from an XML element.
+        /// The method can extract values from child elements or attributes based on the provided selector.
+        /// </summary>
+        /// <param name="selector">
+        /// A string identifying the path to an XML element or an attribute. The path can be a series of dot-separated
+        /// element names or an attribute name prefixed with '@'. If the selector is null or empty, the value of the
+        /// current element is returned.
+        /// </param>
+        /// <returns>
+        /// A string representing the value associated with the specified selector or null if the selector
+        /// does not match any child element or attribute.
+        /// </returns>
+        public string? GetValue(string selector)
+        {
+            return element.SelectValue(selector);
         }
 
         /// <summary>
@@ -123,7 +140,7 @@ public static class ElementExtensions
         /// </returns>
         public GraphicColor GetColor(string selector)
         {
-            var color = element.Descendants(selector).FirstOrDefault();
+            var color = element.SelectElement(selector);
 
             if (color is null) return default;
 
@@ -154,18 +171,6 @@ public static class ElementExtensions
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bounds"></param>
-        public void SetBounds(GraphicBounds bounds)
-        {
-            element.SetAttributeValue("Left", bounds.Left);
-            element.SetAttributeValue("Top", bounds.Top);
-            element.SetAttributeValue("Width", bounds.Width);
-            element.SetAttributeValue("Height", bounds.Height);
-        }
-
-        /// <summary>
         /// Gets the origin point of the <see cref="XElement" /> as a <see cref="GraphicPoint" />.
         /// </summary>
         /// <returns>A <see cref="GraphicPoint" /> representing the origin of the element.
@@ -177,16 +182,6 @@ public static class ElementExtensions
                 X = element.GetStruct("@OriginX", double.Parse),
                 Y = element.GetStruct("@OriginY", double.Parse)
             };
-        }
-
-        /// <summary>
-        /// Sets the origin of the graphical element by updating its "OriginX" and "OriginY" attributes.
-        /// </summary>
-        /// <param name="point">The <see cref="GraphicPoint" /> representing the new origin coordinates.</param>
-        public void SetOrigin(GraphicPoint point)
-        {
-            element.SetAttributeValue("OriginX", point.X);
-            element.SetAttributeValue("OriginY", point.Y);
         }
 
         /// <summary>
@@ -220,6 +215,178 @@ public static class ElementExtensions
         }
 
         /// <summary>
+        /// Determines the fill direction based on the specified "FillBehavior", "HorizontalDirection",
+        /// and "VerticalDirection" values from the current XML element.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="FillDirection"/> value that represents the combined or individual direction
+        /// based on the "FillBehavior" attribute. Returns the default <see cref="FillDirection"/> if
+        /// no valid configuration is found.
+        /// </returns>
+        public FillDirection GetFillDirection()
+        {
+            var b = element.GetValue("FillBehavior")?.ToLower();
+            var h = element.GetEnum<FillDirection>("HorizontalDirection");
+            var v = element.GetEnum<FillDirection>("VerticalDirection");
+
+            return b switch
+            {
+                "both" => v.Combine(h),
+                "vertical" => v,
+                "horizontal" => h,
+                _ => throw new InvalidOperationException($"Could not determine fill behavior from value '{b}'")
+            };
+        }
+
+        /// <summary>
+        /// Adds a specified child XML element to the current XML element.
+        /// </summary>
+        /// <param name="child">
+        /// The <see cref="XElement"/> to be added as a child of the current XML element.
+        /// If the child is null, no action is performed.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="XElement"/> after the child element is added.
+        /// </returns>
+        public XElement AddChild(XElement? child)
+        {
+            if (child is not null)
+                element.Add(child);
+
+            return element;
+        }
+
+        /// <summary>
+        /// Adds a fill style to the current XML element based on the specified graphical brush and serialization function.
+        /// </summary>
+        /// <param name="brush">
+        /// The <see cref="GraphicBrush"/> instance defining the style of the fill. If null, no fill style is added.
+        /// </param>
+        /// <param name="serializer">
+        /// A function that serializes the provided <see cref="GraphicBrush"/> into an <see cref="XElement"/> for representation.
+        /// </param>
+        /// <returns>
+        /// The original <see cref="XElement"/> with the fill style added, if applicable.
+        /// </returns>
+        public XElement AddFillStyle(GraphicBrush? brush, Func<GraphicBrush?, XElement?> serializer)
+        {
+            var type = brush?.GetType().Name.Replace("Brush", string.Empty) ?? "NoFill";
+            var fill = new XElement("FillStyle", new XAttribute("FillType", type));
+
+            var child = serializer(brush);
+            if (child is not null)
+                fill.Add(child);
+
+            return element;
+        }
+
+        /// <summary>
+        /// Adds an unfilled style to the current XML element based on the specified graphical brush and serializer.
+        /// </summary>
+        /// <param name="brush">
+        /// The <see cref="GraphicBrush"/> representing the graphical brush to be serialized. If null, no unfilled style will be added.
+        /// </param>
+        /// <param name="serializer">
+        /// A function that takes a <see cref="GraphicBrush"/> as input and returns an <see cref="XElement"/> representing the serialized brush.
+        /// </param>
+        /// <returns>
+        /// The modified <see cref="XElement"/> with the unfilled style added, or the original element if the brush is null.
+        /// </returns>
+        public XElement AddUnfilledStyle(GraphicBrush? brush, Func<GraphicBrush?, XElement?> serializer)
+        {
+            var type = brush?.GetType().Name.Replace("Brush", string.Empty) ?? "NoFill";
+            var fill = new XElement("UnfilledStyle", new XAttribute("FillType", type));
+
+            var child = serializer(brush);
+            if (child is not null)
+                fill.Add(child);
+
+            return element;
+        }
+
+        /// <summary>
+        /// Adds a new child XML element representing a color to the current <see cref="XElement"/>.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the new child XML element to be created.
+        /// </param>
+        /// <param name="color">
+        /// The <see cref="GraphicColor"/> value to be represented by the new child element.
+        /// The color's RGBA components are stored as attributes in the child element.
+        /// </param>
+        /// <returns>
+        /// The updated <see cref="XElement"/> containing the newly added child element.
+        /// </returns>
+        public void AddColor(string name, GraphicColor color)
+        {
+            var child = new XElement(name,
+                new XAttribute("R", color.R),
+                new XAttribute("G", color.G),
+                new XAttribute("B", color.B),
+                new XAttribute("A", color.A)
+            );
+
+            element.Add(child);
+        }
+
+        /// <summary>
+        /// Sets the value of a specified XML element or attribute based on the selector path.
+        /// </summary>
+        /// <param name="selector">
+        /// A string specifying either an attribute (prefixed with '@') or a child element
+        /// by its name, which will receive the specified value.
+        /// </param>
+        /// <param name="value">
+        /// The value to assign to the specified XML element or attribute. If the value
+        /// is null, the respective element or attribute will be removed.
+        /// </param>
+        /// <returns>
+        /// The <see cref="XElement"/> that was updated with the specified value.
+        /// </returns>
+        public XElement SetValue(string selector, object? value)
+        {
+            var isAttribute = selector.StartsWith("@");
+            var name = selector.TrimStart("@").ToString();
+
+            if (isAttribute)
+                element.SetAttributeValue(name, value);
+            else
+                element.SetElementValue(name, value);
+
+            return element;
+        }
+
+        /// <summary>
+        /// Updates the XML element's attributes to correspond to the specified graphical bounds.
+        /// </summary>
+        /// <param name="bounds">
+        /// The <see cref="GraphicBounds"/> representing the left, top, width, and height values
+        /// to assign to the corresponding attributes of the XML element.
+        /// </param>
+        /// <returns>
+        /// The <see cref="XElement"/> updated with the new bounds attributes.
+        /// </returns>
+        public XElement SetBounds(GraphicBounds bounds)
+        {
+            element.SetAttributeValue("Left", bounds.Left);
+            element.SetAttributeValue("Top", bounds.Top);
+            element.SetAttributeValue("Width", bounds.Width);
+            element.SetAttributeValue("Height", bounds.Height);
+            return element;
+        }
+
+        /// <summary>
+        /// Sets the origin of the graphical element by updating its "OriginX" and "OriginY" attributes.
+        /// </summary>
+        /// <param name="point">The <see cref="GraphicPoint" /> representing the new origin coordinates.</param>
+        public XElement SetOrigin(GraphicPoint point)
+        {
+            element.SetAttributeValue("OriginX", point.X);
+            element.SetAttributeValue("OriginY", point.Y);
+            return element;
+        }
+
+        /// <summary>
         /// </summary>
         /// <param name="flip"></param>
         public void SetFlip(GraphicFlip? flip)
@@ -249,6 +416,22 @@ public static class ElementExtensions
                 default:
                     throw new ArgumentOutOfRangeException(nameof(flip), flip, null);
             }
+        }
+
+        public XElement SetFillDirection(FillDirection direction)
+        {
+            /*var b = element.GetValue("FillBehavior")?.ToLower();
+            var h = element.GetEnum<FillDirection>("HorizontalDirection");
+            var v = element.GetEnum<FillDirection>("VerticalDirection");
+
+            return b switch
+            {
+                "both" => v.Combine(h),
+                "vertical" => v,
+                "horizontal" => h,
+                _ => throw new InvalidOperationException($"Could not determine fill behavior from value '{b}'")
+            };*/
+            return element;
         }
 
         /// <summary>
@@ -323,5 +506,22 @@ public static class ElementExtensions
 
             return current;
         }
+    }
+
+    /// <summary>
+    /// Compares the specified string with another string for equality, using a case-insensitive comparison.
+    /// </summary>
+    /// <param name="text">
+    /// The input string to compare. This can be null.
+    /// </param>
+    /// <param name="value">
+    /// The string to compare against. This can also be null.
+    /// </param>
+    /// <returns>
+    /// A boolean value indicating whether the two strings are equal, ignoring case.
+    /// </returns>
+    public static bool Is(this string? text, string? value)
+    {
+        return StringComparer.OrdinalIgnoreCase.Equals(text, value);
     }
 }

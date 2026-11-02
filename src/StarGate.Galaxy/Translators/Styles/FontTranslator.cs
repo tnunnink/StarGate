@@ -1,4 +1,4 @@
-﻿namespace StarGate.Galaxy.Translators.Styles;
+﻿namespace StarGate.Galaxy;
 
 public class FontTranslator
 {

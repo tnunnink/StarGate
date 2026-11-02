@@ -1,10 +1,8 @@
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
-using StarGate.Galaxy.Handlers;
 
-namespace StarGate.Galaxy.Test.Handlers;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class ObjectAttributeHandlerTests : GalaxyTestFixture

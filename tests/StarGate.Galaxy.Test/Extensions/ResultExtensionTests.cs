@@ -2,9 +2,9 @@ using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
+using StarGate.Galaxy;
 
-namespace StarGate.Galaxy.Test.Extensions;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class ResultExtensionTests : GalaxyTestFixture

@@ -1,12 +1,10 @@
 ﻿using System.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Galaxy.Abstractions;
-using StarGate.Galaxy.Extensions;
 
-namespace StarGate.Galaxy.Handlers;
+namespace StarGate.Galaxy;
 
-public class ObjectDefinitionHandler : IConfigurationHandler<GalaxyObject>
+public class GalaxyObjectHandler : IConfigurationHandler<GalaxyObject>
 {
     private readonly ObjectAttributeHandler _attributeHandler = new();
     private readonly GraphicExtensionHandler _graphicHandler = new();

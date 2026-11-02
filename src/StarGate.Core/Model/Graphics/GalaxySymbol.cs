@@ -18,6 +18,7 @@ public class GalaxySymbol
     public string? Folder { get; init; }
 
     /// <summary>
+    /// Gets or sets the collection of graphic elements contained within the symbol.
     /// </summary>
     public IEnumerable<GraphicElement> Elements { get; init; } = [];
 }

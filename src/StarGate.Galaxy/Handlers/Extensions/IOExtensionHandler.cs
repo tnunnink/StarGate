@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Galaxy.Abstractions;
-using StarGate.Galaxy.Extensions;
 
-namespace StarGate.Galaxy.Handlers;
+namespace StarGate.Galaxy;
 
 // ReSharper disable StringLiteralTypo
 /// <summary>

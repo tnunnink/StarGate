@@ -1,7 +1,7 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Abstractions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Defines a contract for handling the extraction and application of configuration data

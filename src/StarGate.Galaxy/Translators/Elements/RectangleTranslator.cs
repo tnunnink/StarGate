@@ -1,15 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
-using StarGate.Galaxy.Translators.Styles;
+using StarGate.Galaxy;
+using StarGate.Galaxy;
 
-namespace StarGate.Galaxy.Translators.Elements;
+namespace StarGate.Galaxy;
 
-/// <summary>
-/// 
-/// </summary>
 public class RectangleTranslator : IGraphicTranslator<RectangleElement>
 {
     private static readonly FillStyleTranslator FillStyleTranslator = new();
@@ -42,6 +37,27 @@ public class RectangleTranslator : IGraphicTranslator<RectangleElement>
     /// <inheritdoc />
     public XElement? Write(RectangleElement? source)
     {
-        throw new NotImplementedException();
+        if (source is null) return null;
+
+        var element = new XElement("Rectangle")
+            .SetValue("@Name", source.Name)
+            .SetBounds(source.Bounds)
+            .SetOrigin(source.Origin)
+            .SetValue("@Angle", source.Angle)
+            .SetValue("@Radius", source.Radius)
+            .SetValue("@Enabled", source.Enabled)
+            .SetValue("@Visible", source.Visible)
+            .SetValue("@Locked", source.Locked)
+            .SetValue("@TabStop", source.TabStop)
+            .SetValue("@TabOrder", source.TabOrder)
+            .SetValue("@Faceplate", source.Faceplate)
+            .SetValue("@Anchor", source.Anchor)
+            .SetValue("@Dock", source.Dock)
+            .SetValue("@HasFillStyleData", source.Fill is not null)
+            .SetValue("@HasLineStyleData", source.Stroke is not null)
+            .SetValue("@HasTextStyleData", source.Font is not null)
+            .AddChild(FillStyleTranslator.Write(source.Fill));
+
+        return element;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for working with IMxValue instances in the ArchestrA GRAccess framework.

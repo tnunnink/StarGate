@@ -13,7 +13,7 @@ using NUnit.Framework;
 // Ensures all tests run in Single-Threaded Apartment (STA), which is critical for GRAccess COM
 [assembly: Apartment(ApartmentState.STA)]
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 [SetUpFixture]
 public class GalaxyTestSetup

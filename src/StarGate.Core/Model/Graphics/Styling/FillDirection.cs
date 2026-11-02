@@ -1,4 +1,6 @@
-﻿namespace StarGate.Core;
+﻿using System;
+
+namespace StarGate.Core;
 
 /// <summary>
 /// Represents the direction in which a fill operation can be applied.
@@ -44,7 +46,7 @@ public enum FillDirection
 
     /// <summary>
     /// Indicates a fill operation oriented diagonally upwards to the left.
-    /// Commonly utilized in graphical or layout systems to define a fill behavior
+    /// Commonly used in graphical or layout systems to define a fill behavior
     /// that progresses from the bottom-right corner toward the top-left corner.
     /// </summary>
     UpLeft,
@@ -62,4 +64,37 @@ public enum FillDirection
     /// should progress in a direction combining both downward and leftward movements.
     /// </summary>
     DownLeft
+}
+
+/// <summary>
+/// Provides extension methods for handling FillDirection operations.
+/// </summary>
+public static class FillDirectionExtension
+{
+    /// <summary>
+    /// Combines a vertical and a horizontal FillDirection to calculate a diagonal FillDirection.
+    /// </summary>
+    /// <param name="vertical">The vertical FillDirection, which must be either 'Up' or 'Down'.</param>
+    /// <param name="horizontal">The horizontal FillDirection, which must be either 'Left' or 'Right'.</param>
+    /// <returns>A combined FillDirection representing the diagonal direction.</returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the vertical direction is not 'Up' or 'Down', or if the horizontal direction is not 'Left' or 'Right'.
+    /// </exception>
+    public static FillDirection Combine(this FillDirection vertical, FillDirection horizontal)
+    {
+        if (vertical is not FillDirection.Up and not FillDirection.Down)
+            throw new ArgumentException("Vertical direction must have value of 'Up' or 'Down'");
+
+        if (horizontal is not FillDirection.Left and not FillDirection.Right)
+            throw new ArgumentException("Vertical direction must have value of 'Left' or 'Right'");
+
+        return (vertical, horizontal) switch
+        {
+            (FillDirection.Up, FillDirection.Right) => FillDirection.UpRight,
+            (FillDirection.Up, FillDirection.Left) => FillDirection.UpLeft,
+            (FillDirection.Down, FillDirection.Right) => FillDirection.DownRight,
+            (FillDirection.Down, FillDirection.Left) => FillDirection.DownLeft,
+            _ => throw new ArgumentException("")
+        };
+    }
 }

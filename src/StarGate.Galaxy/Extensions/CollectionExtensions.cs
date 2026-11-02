@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ArchestrA.GRAccess;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for working with enumerable sequences of specific types

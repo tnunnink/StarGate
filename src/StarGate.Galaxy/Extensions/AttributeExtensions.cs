@@ -1,7 +1,7 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for <see cref="IAttribute" /> objects to evaluate and manipulate

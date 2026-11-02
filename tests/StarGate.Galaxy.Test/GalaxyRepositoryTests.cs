@@ -6,7 +6,7 @@ using NUnit.Framework;
 using StarGate.Core;
 using VerifyNUnit;
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class GalaxyRepositoryTests : GalaxyTestFixture

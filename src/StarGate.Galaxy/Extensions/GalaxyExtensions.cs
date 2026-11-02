@@ -1,13 +1,37 @@
-﻿using ArchestrA.GRAccess;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 public static class GalaxyExtensions
 {
     /// <param name="galaxy">The galaxy instance to search for the template.</param>
     extension(IGalaxy galaxy)
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tagNames"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public GalaxyResult<IEnumerable<GalaxyObject>> GetObjectsByName(string[] tagNames,
+            EgObjectIsTemplateOrInstance option)
+        {
+            var handler = new GalaxyObjectHandler();
+
+            if (tagNames.Length == 0)
+                return new GalaxyResult<IEnumerable<GalaxyObject>>([]);
+
+            var results = galaxy.QueryObjectsByName(option, tagNames)
+                .AsEnumerable()
+                .Select(x => handler.Extract(x))
+                .ToArray();
+
+            return galaxy.CommandResults.ToResult<IEnumerable<GalaxyObject>>(results);
+        }
+
         /// <summary>
         /// Ensures that an object with the specified definition is created within the galaxy. If the object already exists
         /// and matches the expected template and base configuration, it is returned. Otherwise, attempts to create a new
@@ -69,6 +93,31 @@ public static class GalaxyExtensions
 
             var obj = galaxy.QueryObjectsByName(option, [tagName])[tagName];
             result = obj;
+            return result is not null;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve a symbol from the galaxy with the specified tag name.
+        /// Returns whether the operation was successful and outputs the retrieved symbol if it exists.
+        /// </summary>
+        /// <param name="tagName">The tag name of the symbol to search for.</param>
+        /// <param name="result">
+        /// When this method returns, contains the retrieved symbol if found; otherwise, contains <c>null</c>.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the symbol with the specified tag name exists and was successfully retrieved; otherwise, <c>false</c>.
+        /// </returns>
+        private bool TryGetSymbol(string tagName, out IgObject result)
+        {
+            const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsInstance;
+
+            //todo I'm not sure if there is another way to get symbols. The main API QueryObjectsByName doesn't return visual elements.
+            var conditions = galaxy.CreateConditionsObject();
+            conditions.Add(EConditionType.NameSpaceIdIs, 3);
+            conditions.Add(EConditionType.NameEquals, tagName);
+
+            var symbol = galaxy.QueryObjectsMultiCondition(option, conditions)[tagName];
+            result = symbol;
             return result is not null;
         }
     }

@@ -21,7 +21,7 @@ public abstract record GraphicBrush
     /// </summary>
     /// <param name="color">The <see cref="GraphicColor"/> to be converted into a <see cref="GraphicBrush"/>.</param>
     /// <returns>A new instance of <see cref="SolidBrush"/> with the specified <see cref="GraphicColor"/>.</returns>
-    public static implicit operator GraphicBrush(GraphicColor color) => new SolidBrush() { Color = color };
+    public static implicit operator GraphicBrush(GraphicColor color) => new SolidBrush { Color = color };
 
     /// <summary>
     /// Defines an implicit conversion operator from a hexadecimal color string to a <see cref="GraphicBrush"/>.
@@ -30,5 +30,5 @@ public abstract record GraphicBrush
     /// </summary>
     /// <param name="hex">The hexadecimal string representing the color to be converted.</param>
     /// <returns>A new instance of <see cref="SolidBrush"/> with the color parsed from the specified hexadecimal string.</returns>
-    public static implicit operator GraphicBrush(string hex) => new SolidBrush() { Color = GraphicColor.Parse(hex) };
+    public static implicit operator GraphicBrush(string hex) => new SolidBrush { Color = GraphicColor.Parse(hex) };
 }

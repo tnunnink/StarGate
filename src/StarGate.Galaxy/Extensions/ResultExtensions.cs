@@ -2,7 +2,7 @@
 using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for converting GRAccess command results into <see cref="GalaxyResult" />

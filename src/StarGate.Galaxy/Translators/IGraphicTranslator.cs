@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Translators;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Defines a contract for translating between an ArchestrA XML representation and a domain model.

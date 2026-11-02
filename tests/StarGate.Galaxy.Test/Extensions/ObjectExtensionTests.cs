@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
+using StarGate.Galaxy;
+using VerifyNUnit;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace StarGate.Galaxy.Test.Extensions;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class ObjectExtensionTests : GalaxyTestFixture
@@ -648,5 +650,15 @@ public class ObjectExtensionTests : GalaxyTestFixture
 
         result.Success.Should().BeTrue();
         GetTemplate(tagName).Should().BeNull();
+    }
+
+    [Test]
+    public Task ReadSymbol_FromAutomationObject_ShouldReturnVerifiedXml()
+    {
+        var instance = GetInstance(TestInstance);
+
+        var doc = instance.ReadSymbol("Graphic_001");
+
+        return Verifier.VerifyXml(doc.ToString());
     }
 }

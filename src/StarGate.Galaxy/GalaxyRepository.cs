@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
-using StarGate.Galaxy.Handlers;
+using StarGate.Galaxy;
+using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
@@ -24,7 +24,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     /// Handles the extraction and application of object definitions within the context of the Galaxy repository.
     /// Used to streamline operations related to managing object definitions for instances and templates.
     /// </summary>
-    private static readonly ObjectDefinitionHandler ObjectHandler = new();
+    private static readonly GalaxyObjectHandler GalaxyObjectHandler = new();
 
     /// <inheritdoc />
     public GalaxyResult<IEnumerable<GalaxyObject>> GetObjects(params string[] tagNames)
@@ -48,7 +48,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
         if (!created.Success) return created;
 
         comment ??= $"Configuration applied to '{config.TagName}' via StarGate";
-        var result = ObjectHandler.Apply(created.Value, config, comment);
+        var result = GalaxyObjectHandler.Apply(created.Value, config, comment);
 
         if (!result.Success && wasCreated)
             return result.Merge(created.Value.Delete());
@@ -87,7 +87,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
 
         var results = galaxy.QueryObjectsByName(option, tagNames)
             .AsEnumerable()
-            .Select(x => ObjectHandler.Extract(x))
+            .Select(x => GalaxyObjectHandler.Extract(x))
             .ToArray();
 
         return galaxy.CommandResults.ToResult<IEnumerable<GalaxyObject>>(results);
@@ -107,7 +107,7 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
             return new GalaxyResult<IEnumerable<GalaxyObject>>([]);
 
         const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsInstance;
-        var handler = new ObjectDefinitionHandler();
+        var handler = new GalaxyObjectHandler();
         var results = new List<GalaxyObject>();
 
         foreach (var tagName in tagNames)

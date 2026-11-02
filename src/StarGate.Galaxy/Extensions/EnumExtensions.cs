@@ -2,7 +2,7 @@
 using ArchestrA.GRAccess;
 using StarGate.Core;
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 public static class EnumExtensions
 {

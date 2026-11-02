@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using StarGate.Galaxy.Extensions;
+using StarGate.Galaxy;
+using VerifyNUnit;
 
-namespace StarGate.Galaxy.Test.Extensions;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class ValueExtensionTests : GalaxyTestFixture
@@ -70,37 +72,6 @@ public class ValueExtensionTests : GalaxyTestFixture
         value.As<byte[]>().Should().NotBeEmpty();
         value.As<byte[]>().ToList().ForEach(b => Console.Write($"{b}"));
     }
-
-    /*[Test]
-    [TestCase("Graphic_001._VisualElementDefinition")]
-    public void WriteGraphicBinaryToXmlUSingArchestrAVisualization(string attribute)
-    {
-        var instance = GetInstance(TestInstance);
-
-        var value = instance.Attributes[attribute].GetValue();
-
-        var container = new aaSymbolGraphicContainer();
-        container.Load(value.As<byte[]>());
-        GenerateXml(container);
-    }
-
-    public static XDocument GenerateXml(aaSymbolGraphicContainer container)
-    {
-        var doc = new XmlDocument();
-        XmlNode xmlDeclaration = doc.CreateXmlDeclaration("1.0", "utf-8", "");
-        doc.AppendChild(xmlDeclaration);
-        var node = doc.CreateNode(XmlNodeType.Element, "aa", "Symbol", "http://www.wonderware.com/ArchestrA");
-        var attribute = doc.CreateAttribute("GraphicVersion");
-        attribute.Value = aaGraphicVersion.LatestVersion.ToString();
-        node.Attributes?.SetNamedItem(attribute);
-        doc.AppendChild(node);
-
-        container.Save(doc, node, aaXMLFormat.All);
-
-        using var reader = new XmlNodeReader(doc);
-        reader.MoveToContent();
-        return XDocument.Load(reader);
-    }*/
 
     [Test]
     [TestCase("TestBool", false)]

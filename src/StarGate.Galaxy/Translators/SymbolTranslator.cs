@@ -1,4 +1,4 @@
-﻿namespace StarGate.Galaxy.Translators;
+﻿namespace StarGate.Galaxy;
 
 public class SymbolTranslator
 {

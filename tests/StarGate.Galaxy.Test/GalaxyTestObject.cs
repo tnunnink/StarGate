@@ -3,7 +3,7 @@ using ArchestrA.GRAccess;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 /// <summary>
 /// Represents a temporary object that interacts with the ArchestrA Galaxy system.

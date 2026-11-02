@@ -3,20 +3,18 @@ using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
-using StarGate.Galaxy.Handlers;
 
-namespace StarGate.Galaxy.Test.Handlers;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
-public class ObjectDefinitionHandlerTests : GalaxyTestFixture
+public class GalaxyObjectHandlerTests : GalaxyTestFixture
 {
     [Test]
     public void Extract_Instance_ShouldHaveExpectedIdentity()
     {
         var instance = GetInstance(TestInstance);
 
-        var definition = new ObjectDefinitionHandler().Extract(instance);
+        var definition = new GalaxyObjectHandler().Extract(instance);
 
         definition.TagName.Should().Be(TestInstance);
         definition.Template.Should().Be(instance.DerivedFrom);
@@ -31,7 +29,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     {
         var instance = GetInstance(TestInstance);
 
-        var definition = new ObjectDefinitionHandler().Extract(instance);
+        var definition = new GalaxyObjectHandler().Extract(instance);
 
         definition.Attributes.Select(a => a.Name)
             .Should().Contain(["TestBool", "TestInt", "TestFloat", "TestString", "TestArray"]);
@@ -42,7 +40,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     {
         var template = GetTemplate(TestTemplate);
 
-        var definition = new ObjectDefinitionHandler().Extract(template);
+        var definition = new GalaxyObjectHandler().Extract(template);
 
         definition.TagName.Should().Be(TestTemplate);
         definition.Attributes.Should().NotBeEmpty();
@@ -53,7 +51,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     {
         var instance = GetInstance(EmptyInstance);
 
-        var definition = new ObjectDefinitionHandler().Extract(instance);
+        var definition = new GalaxyObjectHandler().Extract(instance);
 
         definition.Attributes.Should().BeEmpty();
     }
@@ -63,7 +61,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     {
         var instance = GetInstance(TestInstance);
 
-        var definition = new ObjectDefinitionHandler().Extract(instance);
+        var definition = new GalaxyObjectHandler().Extract(instance);
 
         definition.Scripts.Should().BeEmpty();
         definition.Graphics.Should().BeEmpty();
@@ -74,7 +72,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     {
         var instance = GetInstance(TestInstance);
 
-        var definition = new ObjectDefinitionHandler().Extract(instance);
+        var definition = new GalaxyObjectHandler().Extract(instance);
 
         if (string.IsNullOrEmpty(instance.ContainedName))
             definition.ContainedName.Should().BeNull();
@@ -86,7 +84,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     public void Apply_NullSource_ShouldReturnSuccess()
     {
         var instance = GetInstance(TestInstance);
-        var handler = new ObjectDefinitionHandler();
+        var handler = new GalaxyObjectHandler();
 
         var result = handler.Apply(instance, null);
 
@@ -118,7 +116,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
             ]
         };
 
-        var result = new ObjectDefinitionHandler().Apply(temp.Instance, source, "test apply");
+        var result = new GalaxyObjectHandler().Apply(temp.Instance, source, "test apply");
 
         result.Success.Should().BeTrue();
         temp.Instance.CheckoutStatus.Should().Be(ECheckoutStatus.notCheckedOut);
@@ -132,7 +130,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var source = new GalaxyObject { TagName = temp.TagName, Template = "$UserDefined" };
 
-        var result = new ObjectDefinitionHandler().Apply(temp.Instance, source);
+        var result = new GalaxyObjectHandler().Apply(temp.Instance, source);
 
         result.Success.Should().BeTrue();
         temp.Instance.CheckoutStatus.Should().Be(ECheckoutStatus.notCheckedOut);
@@ -149,7 +147,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
             Attributes = [new ObjectAttribute { Name = "Invalid" }] // missing data type
         };
 
-        var result = new ObjectDefinitionHandler().Apply(temp.Instance, source);
+        var result = new GalaxyObjectHandler().Apply(temp.Instance, source);
 
         result.Success.Should().BeFalse();
         result.Errors.Should().Contain(e => e.Code == ErrorCode.MissingDataType);
@@ -159,7 +157,7 @@ public class ObjectDefinitionHandlerTests : GalaxyTestFixture
     [Test]
     public void ExtractThenApply_Instance_ShouldRoundTripAttributeNames()
     {
-        var handler = new ObjectDefinitionHandler();
+        var handler = new GalaxyObjectHandler();
         var original = handler.Extract(GetInstance(TestInstance));
         using var temp = new GalaxyTestObject(Galaxy);
 

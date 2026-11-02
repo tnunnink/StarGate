@@ -1,8 +1,7 @@
 ﻿using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Galaxy.Abstractions;
 
-namespace StarGate.Galaxy.Handlers;
+namespace StarGate.Galaxy;
 
 public class AlarmExtensionHandler : IConfigurationHandler<AlarmExtension>
 {

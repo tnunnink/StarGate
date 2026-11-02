@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Xml;
 using System.Xml.Linq;
 using ArchestrA.GRAccess;
+using ArchestrA.Visualization.GraphicLibrary;
 using StarGate.Core;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace StarGate.Galaxy.Extensions;
+namespace StarGate.Galaxy;
 
 /// <summary>
 /// Provides extension methods for interacting with <see cref="IgObject" /> instances.
@@ -52,12 +54,12 @@ public static class ObjectExtensions
         /// </summary>
         /// <param name="comment">The comment to associate with the check-in operation.</param>
         /// <returns>
-        /// A <see cref="GalaxyResult{T}" /> indicating whether both the save and check-in operations were successful,
+        /// A <see cref="GalaxyResult" /> indicating whether both the save and check-in operations were successful,
         /// along with any errors encountered.
         /// </returns>
         public GalaxyResult Commit(string comment)
         {
-            // This chains each all and will short-circuit if save fails.
+            // This chains each call and will short-circuit if save fails.
             return obj.Execute(x => x.Save()).Then(() => obj.Execute(x => x.CheckIn(comment)));
         }
 
@@ -99,9 +101,12 @@ public static class ObjectExtensions
         }
 
         /// <summary>
+        /// Creates a new object, either a template or an instance, based on the specified tag name.
         /// </summary>
-        /// <param name="tagName"></param>
-        /// <returns></returns>
+        /// <param name="tagName">The name of the tag to use when creating the new object. If the tag name starts
+        /// with the character '$', a template will be created; otherwise, an instance will be created.</param>
+        /// <returns>A <see cref="GalaxyResult{IgObject}" /> representing the newly created object or
+        /// an error if the operation fails.</returns>
         public GalaxyResult<IgObject> CreateObject(string tagName)
         {
             if (obj is not ITemplate parent)
@@ -110,12 +115,10 @@ public static class ObjectExtensions
             if (tagName.StartsWith("$"))
             {
                 var template = parent.CreateTemplate(tagName);
-
                 return parent.CommandResult.ToResult((IgObject)template);
             }
 
             var instance = parent.CreateInstance(tagName);
-
             return parent.CommandResult.ToResult((IgObject)instance);
         }
 
@@ -398,6 +401,58 @@ public static class ObjectExtensions
 
             attribute.SetValue(true);
             return attribute.CommandResult.ToResult();
+        }
+
+        /// <summary>
+        /// Reads the symbol definition from the specified <see cref="IgObject" /> and returns it as an <see cref="XDocument" />.
+        /// </summary>
+        /// <param name="primitiveName">The name of the primitive to retrieve the symbol definition for. If null, the default primitive is used.</param>
+        /// <returns>An <see cref="XDocument" /> containing the serialized symbol definition.</returns>
+        public XDocument ReadSymbol(string? primitiveName = null)
+        {
+            var container = new aaSymbolGraphicContainer();
+            var blob = obj.GetVisualDefinition(primitiveName);
+            container.Load(blob);
+
+            var doc = GenerateDocument(out var root);
+            container.Save(doc, root, aaXMLFormat.All);
+
+            using var reader = new XmlNodeReader(doc);
+            return XDocument.Load(reader);
+
+            XmlDocument GenerateDocument(out XmlElement xmlElement)
+            {
+                const string ns = "http://www.wonderware.com/ArchestrA";
+                var xmlDocument = new XmlDocument();
+                xmlDocument.AppendChild(xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null));
+
+                xmlElement = xmlDocument.CreateElement("aa", "Symbol", ns);
+                xmlElement.SetAttribute("xmlns:aa", ns);
+                xmlElement.SetAttribute("GraphicVersion", aaGraphicVersion.LatestVersion.ToString());
+                xmlDocument.AppendChild(xmlElement);
+                return xmlDocument;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the visual definition associated with the specified primitive name or the default visual element definition
+        /// if no primitive name is provided.
+        /// </summary>
+        /// <param name="primitiveName">The name of the primitive whose visual definition is to be retrieved. If null or empty, retrieves the default visual element definition.</param>
+        /// <returns>A byte array containing the visual definition data.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the visual definition cannot be retrieved due to an invalid or missing attribute value.</exception>
+        private byte[] GetVisualDefinition(string? primitiveName = null)
+        {
+            var attributeName = string.IsNullOrEmpty(primitiveName)
+                ? "_VisualElementDefinition"
+                : primitiveName + "._VisualElementDefinition";
+
+            var value = obj.Attributes[attributeName].GetValue();
+
+            if (value is not byte[] binary)
+                throw new InvalidOperationException("");
+
+            return binary;
         }
     }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy.Extensions;
+using StarGate.Galaxy;
 
-namespace StarGate.Galaxy.Translators.Styles;
+namespace StarGate.Galaxy;
 
 public class StrokeTranslator : IGraphicTranslator<StrokeStyle>
 {

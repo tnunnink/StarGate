@@ -33,7 +33,7 @@ public class FillStyle
     /// only the horizontal direction, or only the vertical direction.
     /// </summary>
     [DefaultValue(FillDirection.UpLeft)]
-    public FillDirection Direction { get; init; } = FillDirection.UpLeft;
+    public FillDirection Direction { get; init; } = FillDirection.UpRight;
 
     /// <summary>
     /// Represents the vertical fill percentage of a graphic element, where valid values range from 0 to 100.

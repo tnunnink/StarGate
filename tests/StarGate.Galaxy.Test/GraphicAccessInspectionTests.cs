@@ -4,7 +4,7 @@ using System.Reflection;
 using ArchestrA.Visualization.GraphicAccess;
 using NUnit.Framework;
 
-namespace StarGate.Galaxy.Test;
+namespace StarGate.Galaxy.Tests;
 
 [TestFixture]
 public class GraphicAccessInspectionTests : GalaxyTestFixture
@@ -70,7 +70,7 @@ public class GraphicAccessInspectionTests : GalaxyTestFixture
     {
         var access = new GraphicAccess();
         access.ExportGraphicToXml(Galaxy, name, $"Graphics/{name}.xml");
-        Console.WriteLine(access.CommandResult.Text);
+        Console.WriteLine(access.CommandResult.CustomMessage);
     }
 
     [Test]
