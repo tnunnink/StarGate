@@ -4,10 +4,10 @@ using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
-public class SolidBrushTranslator : IGraphicTranslator<SolidBrush>
+public class SolidBrushTranslator : GraphicTranslator<SolidBrush>
 {
     /// <inheritdoc />
-    public SolidBrush? Read(XElement? target)
+    public override SolidBrush? Read(XElement? target)
     {
         if (target is null) return null;
 
@@ -19,7 +19,7 @@ public class SolidBrushTranslator : IGraphicTranslator<SolidBrush>
     }
 
     /// <inheritdoc />
-    public XElement? Write(SolidBrush? source)
+    public override XElement? Write(SolidBrush? source)
     {
         if (source is null) return null;
 

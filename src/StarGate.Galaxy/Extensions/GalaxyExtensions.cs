@@ -11,11 +11,20 @@ public static class GalaxyExtensions
     extension(IGalaxy galaxy)
     {
         /// <summary>
-        /// 
+        /// Retrieves a collection of Galaxy objects by their specified tag names from the provided galaxy instance,
+        /// with an option to filter objects based on whether they are templates or instances.
         /// </summary>
-        /// <param name="tagNames"></param>
-        /// <param name="option"></param>
-        /// <returns></returns>
+        /// <param name="tagNames">
+        /// An array of tag names representing the objects to retrieve. Each tag name is used as a filter to locate
+        /// the corresponding objects in the galaxy.
+        /// </param>
+        /// <param name="option">
+        /// Specifies the filter criteria to retrieve either templates, instances, or both from the galaxy.
+        /// </param>
+        /// <returns>
+        /// A <see cref="GalaxyResult" /> containing the collection of retrieved objects.
+        /// If no objects are found or the operation fails, the result will include an error indicating the failure reason.
+        /// </returns>
         public GalaxyResult<IEnumerable<GalaxyObject>> GetObjectsByName(string[] tagNames,
             EgObjectIsTemplateOrInstance option)
         {
@@ -30,6 +39,38 @@ public static class GalaxyExtensions
                 .ToArray();
 
             return galaxy.CommandResults.ToResult<IEnumerable<GalaxyObject>>(results);
+        }
+
+        /// <summary>
+        /// Retrieves a collection of Galaxy symbols by their specified tag names from the provided galaxy instance.
+        /// </summary>
+        /// <param name="tagNames">
+        /// An array of tag names representing the symbols to retrieve. Each tag name is used as a filter to locate
+        /// the corresponding symbols in the galaxy.
+        /// </param>
+        /// <returns>
+        /// A <see cref="GalaxyResult" /> containing the collection of retrieved symbols.
+        /// If no symbols are found or the operation fails, the result will include an error indicating the failure reason.
+        /// </returns>
+        public IEnumerable<IgObject> GetSymbols(params string[] tagNames)
+        {
+            if (tagNames.Length == 0) return [];
+            var results = new List<IgObject>();
+
+            const EgObjectIsTemplateOrInstance option = EgObjectIsTemplateOrInstance.gObjectIsInstance;
+            var conditions = galaxy.CreateConditionsObject();
+            conditions.Add(EConditionType.NameSpaceIdIs, 3);
+
+            foreach (var tagName in tagNames)
+            {
+                if (conditions.count > 1) conditions.Remove(1);
+                conditions.Add(EConditionType.NameEquals, tagName);
+
+                var symbol = galaxy.QueryObjectsMultiCondition(option, conditions)[tagName];
+                results.Add(symbol);
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -55,17 +96,17 @@ public static class GalaxyExtensions
 
             if (galaxy.TryGetObject(config.TagName, out var existing))
             {
-                if (existing.DerivedFrom != config.Template)
+                if (existing.DerivedFrom != config.DerivedFrom)
                     return GalaxyResult.Fail(existing, ErrorCode.ObjectNotFound, "Failed");
 
                 return GalaxyResult.Ok(existing);
             }
 
-            if (!galaxy.TryGetObject(config.Template, out var template))
+            if (!galaxy.TryGetObject(config.DerivedFrom, out var template))
                 return GalaxyResult.Fail<IgObject>(
                     null!,
                     ErrorCode.ObjectNotFound,
-                    $"Template object {config.Template} does not exist."
+                    $"Template object {config.DerivedFrom} does not exist."
                 );
 
             var created = template.CreateObject(config.TagName);

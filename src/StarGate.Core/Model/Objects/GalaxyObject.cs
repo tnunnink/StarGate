@@ -18,7 +18,7 @@ public class GalaxyObject
     /// <summary>
     /// Gets or sets the name of the template or object from which this object is derived.
     /// </summary>
-    public required string Template { get; init; }
+    public required string DerivedFrom { get; init; }
 
     /// <summary>
     /// Gets or sets the base template or object model this definition is based on.
@@ -101,7 +101,7 @@ public static class ObjectDefinitionExtensions
             if (!visited.Add(item.TagName)) return;
 
             // If its parent is ALSO in the import batch, process the parent first
-            if (lookup.TryGetValue(item.Template, out var parent))
+            if (lookup.TryGetValue(item.DerivedFrom, out var parent))
                 Visit(parent);
 
             ordered.Add(item);

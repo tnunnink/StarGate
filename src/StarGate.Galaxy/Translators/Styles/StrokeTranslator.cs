@@ -1,15 +1,14 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
-public class StrokeTranslator : IGraphicTranslator<StrokeStyle>
+public class StrokeTranslator : GraphicTranslator<StrokeStyle>
 {
-    public string LocalName => "LineStyleData";
+    private static readonly BrushTranslator BrushTranslator = new();
 
-    public StrokeStyle? Read(XElement? target)
+    /// <inheritdoc />
+    public override StrokeStyle? Read(XElement? target)
     {
         if (target is null) return null;
 
@@ -17,13 +16,27 @@ public class StrokeTranslator : IGraphicTranslator<StrokeStyle>
         {
             Pattern = target.GetEnum<StrokePattern>("LineStyle.@LinePattern"),
             Width = target.GetStruct("LineStyle.@Weight", int.Parse),
-            /*Color =*/
-            /*StartCap = target.GetValue("@StartCap", s => Enum.Parse(typeof(StrokeCap), s))*/
+            Brush = BrushTranslator.Read(target.GetChild("LineStyle.FillStyle")),
+            StartCap = target.GetOptionalEnum<StrokeCap>("@StartCap"),
+            EndCap = target.GetOptionalEnum<StrokeCap>("@EndCap")
         };
     }
 
-    public XElement? Write(StrokeStyle? source)
+    /// <inheritdoc />
+    public override XElement? Write(StrokeStyle? source)
     {
-        throw new System.NotImplementedException();
+        if (source is null) return null;
+
+        var element = new XElement("LineStyleData")
+            .AddChild("LineStyle", e =>
+            {
+                e.SetValue("@Weight", source.Width);
+                e.SetValue("@LinePattern", source.Pattern);
+                e.AddFillStyle(source.Brush, b => BrushTranslator.Write(b));
+            })
+            .SetValue("@StartCap", source.StartCap)
+            .SetValue("@EndCap", source.StartCap);
+
+        return element;
     }
 }

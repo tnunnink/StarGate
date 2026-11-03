@@ -1,13 +1,12 @@
 ﻿using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
-public class PatternBrushTranslator : IGraphicTranslator<PatternBrush>
+public class PatternBrushTranslator : GraphicTranslator<PatternBrush>
 {
     /// <inheritdoc />
-    public PatternBrush? Read(XElement? target)
+    public override PatternBrush? Read(XElement? target)
     {
         if (target is null) return null;
 
@@ -21,7 +20,7 @@ public class PatternBrushTranslator : IGraphicTranslator<PatternBrush>
     }
 
     /// <inheritdoc />
-    public XElement? Write(PatternBrush? source)
+    public override XElement? Write(PatternBrush? source)
     {
         if (source is null) return null;
 

@@ -10,7 +10,7 @@ public class GalaxySerializerTests
         var data = new GalaxyObject
         {
             TagName = "Test",
-            Template = "$UserDefined",
+            DerivedFrom = "$UserDefined",
             Attributes =
             [
                 new ObjectAttribute

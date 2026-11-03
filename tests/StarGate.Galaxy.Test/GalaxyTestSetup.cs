@@ -9,6 +9,8 @@ using NUnit.Framework;
 
 // Disables parallel execution across ALL tests in this assembly
 [assembly: NonParallelizable]
+[assembly: Property("AppDomain", "None")]
+[assembly: Property("ProcessModel", "Single")]
 
 // Ensures all tests run in Single-Threaded Apartment (STA), which is critical for GRAccess COM
 [assembly: Apartment(ApartmentState.STA)]

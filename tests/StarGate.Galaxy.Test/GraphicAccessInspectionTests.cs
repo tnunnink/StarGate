@@ -76,6 +76,7 @@ public class GraphicAccessInspectionTests : GalaxyTestFixture
     [Test]
     [TestCase("TestArc")]
     [TestCase("TestButton")]
+    [TestCase("TestCalendar")]
     [TestCase("TestCheckBox")]
     [TestCase("TestChord")]
     [TestCase("TestClosedCurve")]
@@ -98,7 +99,7 @@ public class GraphicAccessInspectionTests : GalaxyTestFixture
     public void ImportGraphics(string name)
     {
         var access = new GraphicAccess();
-        access.ImportGraphicFromXml(Galaxy, name, $"Graphics/{name}.xml", true);
-        Console.WriteLine(access.CommandResult.Text);
+        access.ImportGraphicFromXml(Galaxy, $"Test\\{name}", $"Graphics/{name}.xml", true);
+        Console.WriteLine(access.CommandResult.CustomMessage);
     }
 }

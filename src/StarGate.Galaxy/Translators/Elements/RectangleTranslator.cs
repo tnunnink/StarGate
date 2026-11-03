@@ -1,22 +1,21 @@
 ﻿using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy;
-using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
-public class RectangleTranslator : IGraphicTranslator<RectangleElement>
+public class RectangleTranslator : GraphicTranslator<RectangleElement>
 {
-    private static readonly FillStyleTranslator FillStyleTranslator = new();
+    private static readonly FillTranslator FillTranslator = new();
+    private static readonly StrokeTranslator StrokeTranslator = new();
 
     /// <inheritdoc />
-    public RectangleElement? Read(XElement? target)
+    public override RectangleElement? Read(XElement? target)
     {
         if (target is null) return null;
 
         return new RectangleElement
         {
-            Name = target.GetRequiredValue("@Name", s => s),
+            Name = target.GetRequiredValue("@Name"),
             Bounds = target.GetBounds(),
             Origin = target.GetOrigin(),
             Angle = target.GetStruct("@Angle", double.Parse),
@@ -30,12 +29,13 @@ public class RectangleTranslator : IGraphicTranslator<RectangleElement>
             Faceplate = target.GetStruct("@FaceplateMode", bool.Parse),
             Anchor = target.GetEnum<AnchorType>("@Anchor"),
             Dock = target.GetEnum<DockType>("@Dock"),
-            Fill = FillStyleTranslator.Read(target.GetChild("FillStyleData")),
+            Fill = FillTranslator.Read(target.GetChild("FillStyleData")),
+            Stroke = StrokeTranslator.Read(target.GetChild("LineStyleData"))
         };
     }
 
     /// <inheritdoc />
-    public XElement? Write(RectangleElement? source)
+    public override XElement? Write(RectangleElement? source)
     {
         if (source is null) return null;
 
@@ -56,7 +56,8 @@ public class RectangleTranslator : IGraphicTranslator<RectangleElement>
             .SetValue("@HasFillStyleData", source.Fill is not null)
             .SetValue("@HasLineStyleData", source.Stroke is not null)
             .SetValue("@HasTextStyleData", source.Font is not null)
-            .AddChild(FillStyleTranslator.Write(source.Fill));
+            .AddChild(FillTranslator.Write(source.Fill))
+            .AddChild(StrokeTranslator.Write(source.Stroke));
 
         return element;
     }

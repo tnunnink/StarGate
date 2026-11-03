@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Galaxy.Test", "tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Core.Tests", "tests\StarGate.Core.Tests\StarGate.Core.Tests.csproj", "{CD698D25-1A58-4917-8E23-2A29707BF19B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.TestConsole", "tests\StarGate.TestConsole\StarGate.TestConsole.csproj", "{A459A164-F893-4749-918B-85978B907C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +34,14 @@ Global
 		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A459A164-F893-4749-918B-85978B907C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A459A164-F893-4749-918B-85978B907C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A459A164-F893-4749-918B-85978B907C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A459A164-F893-4749-918B-85978B907C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D54A69B4-0A03-4A15-B080-D7B7F83DC89B} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
 		{CD698D25-1A58-4917-8E23-2A29707BF19B} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
+		{A459A164-F893-4749-918B-85978B907C9A} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
 	EndGlobalSection
 EndGlobal

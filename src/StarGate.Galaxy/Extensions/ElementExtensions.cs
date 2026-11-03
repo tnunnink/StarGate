@@ -28,6 +28,31 @@ public static class ElementExtensions
         }
 
         /// <summary>
+        /// Retrieves the value of an attribute or element specified by the selector.
+        /// Throws an <see cref="InvalidOperationException"/> if the value is not found.
+        /// </summary>
+        /// <param name="selector">
+        /// A string specifying the path of the attribute or element to locate.
+        /// If the path is invalid or no matching value is found, an exception will be thrown.
+        /// </param>
+        /// <returns>
+        /// The value of the specified attribute or element as a string.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the required value corresponding to the specified selector is not found.
+        /// </exception>
+        public string GetRequiredValue(string selector)
+        {
+            var value = element.SelectValue(selector);
+
+            if (value is null)
+                throw new InvalidOperationException(
+                    $"Required attribute '{selector}' was not found on element '{element.Name}'.");
+
+            return value;
+        }
+
+        /// <summary>
         /// Retrieves the value from the specified selector, applies a parser, and returns the required parsed value.
         /// Throws an exception if the selector does not yield a valid value.
         /// </summary>
@@ -127,6 +152,22 @@ public static class ElementExtensions
                 return result;
 
             return fallback;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <returns></returns>
+        public TEnum? GetOptionalEnum<TEnum>(string selector) where TEnum : struct, Enum
+        {
+            var value = element.SelectValue(selector);
+
+            if (value is not null && Enum.TryParse<TEnum>(value, true, out var result))
+                return result;
+
+            return null;
         }
 
         /// <summary>
@@ -253,6 +294,21 @@ public static class ElementExtensions
             if (child is not null)
                 element.Add(child);
 
+            return element;
+        }
+
+        /// <summary>
+        /// Adds a new child XML element to the current element with the specified name and applies the provided configuration.
+        /// </summary>
+        /// <param name="name">The name of the child element to be created and added to the current element.</param>
+        /// <param name="config">An action that takes the newly created <see cref="XElement"/> as a parameter
+        /// and allows for configuration of the child element.</param>
+        /// <returns>The current <see cref="XElement"/> with the newly added child element.</returns>
+        public XElement AddChild(string name, Action<XElement> config)
+        {
+            var child = new XElement(name);
+            config(child);
+            element.Add(child);
             return element;
         }
 

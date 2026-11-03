@@ -16,7 +16,7 @@ public class GalaxyObjectHandler : IConfigurationHandler<GalaxyObject>
         {
             TagName = target.Tagname,
             BasedOn = target.basedOn,
-            Template = target.DerivedFrom,
+            DerivedFrom = target.DerivedFrom,
             Category = target.category.ToString().Replace("idxCategory", string.Empty),
             HierarchicalName = target.HierarchicalName,
             ContainedName = !string.IsNullOrEmpty(target.ContainedName) ? target.ContainedName : null,

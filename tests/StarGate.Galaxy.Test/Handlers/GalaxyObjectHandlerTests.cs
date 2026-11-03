@@ -17,7 +17,7 @@ public class GalaxyObjectHandlerTests : GalaxyTestFixture
         var definition = new GalaxyObjectHandler().Extract(instance);
 
         definition.TagName.Should().Be(TestInstance);
-        definition.Template.Should().Be(instance.DerivedFrom);
+        definition.DerivedFrom.Should().Be(instance.DerivedFrom);
         definition.BasedOn.Should().Be(instance.basedOn);
         definition.Category.Should().NotBeNullOrEmpty();
         definition.Category.Should().NotContain("idxCategory");
@@ -98,7 +98,7 @@ public class GalaxyObjectHandlerTests : GalaxyTestFixture
         var source = new GalaxyObject
         {
             TagName = temp.TagName,
-            Template = "$UserDefined",
+            DerivedFrom = "$UserDefined",
             Attributes =
             [
                 new ObjectAttribute
@@ -128,7 +128,7 @@ public class GalaxyObjectHandlerTests : GalaxyTestFixture
     public void Apply_NoAttributes_ShouldCheckOutAndCheckIn()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new GalaxyObject { TagName = temp.TagName, Template = "$UserDefined" };
+        var source = new GalaxyObject { TagName = temp.TagName, DerivedFrom = "$UserDefined" };
 
         var result = new GalaxyObjectHandler().Apply(temp.Instance, source);
 
@@ -143,7 +143,7 @@ public class GalaxyObjectHandlerTests : GalaxyTestFixture
         var source = new GalaxyObject
         {
             TagName = temp.TagName,
-            Template = "$UserDefined",
+            DerivedFrom = "$UserDefined",
             Attributes = [new ObjectAttribute { Name = "Invalid" }] // missing data type
         };
 

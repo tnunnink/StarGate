@@ -1,6 +1,5 @@
 ﻿using System.Xml.Linq;
 using StarGate.Core;
-using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 
@@ -11,12 +10,12 @@ namespace StarGate.Galaxy;
 /// This translator handles the mapping of fill style properties such as orientation, direction,
 /// and brush configuration from an XML representation to a <see cref="FillStyle"/> object and vice versa.
 /// </remarks>
-public class FillStyleTranslator : IGraphicTranslator<FillStyle>
+public class FillTranslator : GraphicTranslator<FillStyle>
 {
     private static readonly BrushTranslator BrushTranslator = new();
 
     /// <inheritdoc />
-    public FillStyle? Read(XElement? target)
+    public override FillStyle? Read(XElement? target)
     {
         if (target is null) return null;
 
@@ -32,7 +31,7 @@ public class FillStyleTranslator : IGraphicTranslator<FillStyle>
     }
 
     /// <inheritdoc />
-    public XElement? Write(FillStyle? source)
+    public override XElement? Write(FillStyle? source)
     {
         if (source is null) return null;
 
