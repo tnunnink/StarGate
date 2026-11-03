@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ArchestrA.GRAccess;
 using StarGate.Core;
-using StarGate.Galaxy;
-using StarGate.Galaxy;
 
 namespace StarGate.Galaxy;
 

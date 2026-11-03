@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RunSettings>
-    <RunConfiguration>
-        <DisableAppDomain>true</DisableAppDomain>
-        <TargetPlatform>x86</TargetPlatform>
-    </RunConfiguration>
-</RunSettings>

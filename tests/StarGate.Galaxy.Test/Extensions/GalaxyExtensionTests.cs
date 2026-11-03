@@ -1,9 +1,6 @@
 using System;
 using System.Linq;
-using System.Runtime.Remoting;
-using System.Threading;
 using ArchestrA.Configuration;
-using ArchestrA.GRAccess;
 using FluentAssertions;
 using NUnit.Framework;
 using StarGate.Core;
@@ -15,43 +12,6 @@ namespace StarGate.Galaxy.Tests;
 [SingleThreaded]
 public class GalaxyExtensionTests : GalaxyTestFixture
 {
-    [Test]
-    public void Diagnose_SelfContainedSession()
-    {
-        var access = new GRAccessAppClass();
-        var galaxy = access.QueryGalaxies(Environment.MachineName)["TestGalaxy"];
-        galaxy.Login(string.Empty, string.Empty);
-
-        try
-        {
-            Console.WriteLine($"Domain: {AppDomain.CurrentDomain.FriendlyName} (id {AppDomain.CurrentDomain.Id}), " +
-                              $"default: {AppDomain.CurrentDomain.IsDefaultAppDomain()}");
-            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId}, " +
-                              $"apartment {Thread.CurrentThread.GetApartmentState()}");
-
-            var configuration = (IGalaxyConfiguration)galaxy.GetGalaxyConfiguration();
-            Console.WriteLine($"configuration is proxy: {RemotingServices.IsTransparentProxy(configuration)}");
-
-            var tree = configuration.GetFolderTree(ArchestrA.Core.FolderType.Visual, out var treeStatus, out var treeMessage);
-            Console.WriteLine($"GetFolderTree status={treeStatus} message={treeMessage}");
-            Console.WriteLine($"folder tree is proxy: {RemotingServices.IsTransparentProxy(tree)}");
-
-            try
-            {
-                var folderId = tree.GetFolderId("Test", out var status, out var message);
-                Console.WriteLine($"folderId={folderId} status={status} message={message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"GetFolderId threw {e.GetType().Name}: {e.Message}");
-            }
-        }
-        finally
-        {
-            galaxy.Logout();
-        }
-    }
-    
     [Test]
     public void GetSymbols_ValidSymbolName_ShouldHaveExpectedCount()
     {
@@ -73,34 +33,13 @@ public class GalaxyExtensionTests : GalaxyTestFixture
         if (result is IGalaxyConfiguration configuration)
         {
             var info = configuration.GetGObjectInfoFromName("TestGraphic", Namespace.VisualElement);
-            
+
             var folderTree = configuration.GetFolderTree(ArchestrA.Core.FolderType.Visual, out _, out _);
             var folderId = folderTree.GetFolderId("Test", out var status, out var message);
             Console.WriteLine($"GetFolderId Status: {status}; {message}");
 
             configuration.MoveObjectsToFolder([info.Id], folderId, out var failed);
             Console.WriteLine("FUCK YEAH");
-            return;
-        }
-        
-        Console.WriteLine("You stupid FUCK!!!");
-    }
-    
-    [Test]
-    public void CheckAppDomain()
-    {
-        Console.WriteLine($"Current AppDomain: {AppDomain.CurrentDomain.FriendlyName}");
-        Console.WriteLine($"IsDefaultAppDomain: {AppDomain.CurrentDomain.IsDefaultAppDomain()}");
-    }
-
-    [Test]
-    public void GetToolSets()
-    {
-        var toolsets = Galaxy.QueryToolsetsEx(FolderType.Visual);
-
-        foreach (IToolset toolset in toolsets)
-        {
-            Console.WriteLine(toolset.Name);
         }
     }
 

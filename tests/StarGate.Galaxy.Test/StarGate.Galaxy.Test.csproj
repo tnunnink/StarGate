@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <GenerateProgramFile>false</GenerateProgramFile>
         <Platforms>x86</Platforms>
         <PlatformTarget>x86</PlatformTarget>
         <LangVersion>latestmajor</LangVersion>
@@ -43,6 +45,7 @@
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="7.2.2"/>
         <PackageReference Include="NUnit" Version="5.0.0"/>
+        <PackageReference Include="NUnitLite" Version="5.0.0"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.6.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
         <PackageReference Include="Verify.NUnit" Version="31.28.0"/>

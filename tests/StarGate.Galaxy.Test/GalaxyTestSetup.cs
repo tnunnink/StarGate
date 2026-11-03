@@ -70,13 +70,19 @@ public class GalaxyTestSetup
     {
         try
         {
+            Console.WriteLine("Teardown: logging out...");
             Galaxy?.Logout();
+            Console.WriteLine("Teardown: logged out.");
         }
         finally
         {
             if (_grAccess != null)
+            {
+                Console.WriteLine("Teardown: releasing COM object...");
                 // Release COM references cleanly
                 Marshal.FinalReleaseComObject(_grAccess);
+                Console.WriteLine("Teardown: released.");
+            }
         }
     }
 
