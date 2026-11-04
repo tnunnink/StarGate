@@ -4,10 +4,10 @@ using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
-[TestFixture]
+[TestClass]
 public class RectangleElementTests
 {
-    [Test]
+    [TestMethod]
     public void Kind_ShouldBeRectangle()
     {
         var element = new RectangleElement { Name = "Rect1" };
@@ -15,7 +15,7 @@ public class RectangleElementTests
         element.Kind.Should().Be(ElementKind.Rectangle);
     }
 
-    [Test]
+    [TestMethod]
     public void Kind_ShouldHaveYamlIgnoreAttribute()
     {
         var property = typeof(RectangleElement).GetProperty(nameof(RectangleElement.Kind));
@@ -24,7 +24,7 @@ public class RectangleElementTests
         property.GetCustomAttribute<YamlIgnoreAttribute>().Should().NotBeNull();
     }
 
-    [Test]
+    [TestMethod]
     public void Defaults_ShouldHaveExpectedValues()
     {
         var element = new RectangleElement { Name = "RectDefault" };
@@ -48,7 +48,7 @@ public class RectangleElementTests
         element.Font.Should().BeNull();
     }
 
-    [Test]
+    [TestMethod]
     public void Properties_WhenSet_ShouldRetainValues()
     {
         var fill = new FillStyle
@@ -105,11 +105,12 @@ public class RectangleElementTests
         element.Font.Should().Be(font);
     }
 
-    [TestCase(null)]
-    [TestCase(0)]
-    [TestCase(1)]
-    [TestCase(35)]
-    [TestCase(70)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow(0)]
+    [DataRow(1)]
+    [DataRow(35)]
+    [DataRow(70)]
     public void Validation_WithValidRadius_Passes(int? radius)
     {
         var element = new RectangleElement
@@ -123,10 +124,11 @@ public class RectangleElementTests
         result.Success.Should().BeTrue();
     }
 
-    [TestCase(-1)]
-    [TestCase(-10)]
-    [TestCase(71)]
-    [TestCase(100)]
+    [TestMethod]
+    [DataRow(-1)]
+    [DataRow(-10)]
+    [DataRow(71)]
+    [DataRow(100)]
     public void Validation_WithInvalidRadius_Fails(int? radius)
     {
         var element = new RectangleElement
@@ -141,7 +143,7 @@ public class RectangleElementTests
         result.Errors.Should().ContainSingle(r => r.Message == "Corner radius must be between 0 and 70.");
     }
 
-    [Test]
+    [TestMethod]
     public void Serialization_ShouldSerializeAndDeserializeCorrectly()
     {
         var serializer = new GalaxySerializer();
@@ -173,7 +175,7 @@ public class RectangleElementTests
         deserialized.Kind.Should().Be(ElementKind.Rectangle);
     }
 
-    [Test]
+    [TestMethod]
     public Task Serialization_ShouldBeVerified()
     {
         var serializer = new GalaxySerializer();

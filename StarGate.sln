@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Galaxy", "src\Star
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Core.Tests", "tests\StarGate.Core.Tests\StarGate.Core.Tests.csproj", "{CD698D25-1A58-4917-8E23-2A29707BF19B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Galaxy.Tests", "tests\StarGate.Galaxy.Tests\StarGate.Galaxy.Tests.csproj", "{B07432A6-02E8-42DD-B203-FF789A3903E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGate.Core.Tests", "tests\StarGate.Core.Tests\StarGate.Core.Tests.csproj", "{724A168A-DC2B-48D0-A79D-104F7D94EC8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,17 +24,17 @@ Global
 		{D51E8D6E-068C-417D-9ED5-71E80741712A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51E8D6E-068C-417D-9ED5-71E80741712A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51E8D6E-068C-417D-9ED5-71E80741712A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD698D25-1A58-4917-8E23-2A29707BF19B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B07432A6-02E8-42DD-B203-FF789A3903E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B07432A6-02E8-42DD-B203-FF789A3903E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07432A6-02E8-42DD-B203-FF789A3903E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07432A6-02E8-42DD-B203-FF789A3903E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{724A168A-DC2B-48D0-A79D-104F7D94EC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{724A168A-DC2B-48D0-A79D-104F7D94EC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724A168A-DC2B-48D0-A79D-104F7D94EC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{724A168A-DC2B-48D0-A79D-104F7D94EC8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CD698D25-1A58-4917-8E23-2A29707BF19B} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
 		{B07432A6-02E8-42DD-B203-FF789A3903E7} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
+		{724A168A-DC2B-48D0-A79D-104F7D94EC8B} = {A3C22BDB-5F42-41B0-8E02-8CBC675B7BCC}
 	EndGlobalSection
 EndGlobal

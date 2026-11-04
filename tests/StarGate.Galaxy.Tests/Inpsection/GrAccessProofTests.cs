@@ -513,6 +513,7 @@ public class GrAccessProofTests : GalaxyFixture
     public void FolderTree_GetFolderId_ShouldNotThrowRemotingException()
     {
         var configuration = (IGalaxyConfiguration)Galaxy.GetGalaxyConfiguration();
+        
         var tree = configuration.GetFolderTree(FolderType.Visual, out var treeStatus, out _);
         Console.WriteLine($"GetFolderTree: {treeStatus}; proxy: {RemotingServices.IsTransparentProxy(tree)}");
 
