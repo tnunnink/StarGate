@@ -1,7 +1,8 @@
 ﻿namespace StarGate.Core;
 
 [TestClass]
-public class GalaxySerializerTests
+[UsesVerify]
+public partial class GalaxySerializerTests
 {
     [TestMethod]
     public Task Serialize_BasicConfig_ShouldBeVerified()

@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MSTest" Version="4.0.2"/>
+        <PackageReference Include="MSTest" Version="4.5.2" />
         <PackageReference Include="FluentAssertions" Version="7.2.2"/>
         <PackageReference Include="Verify.MSTest" Version="31.28.0"/>
     </ItemGroup>
@@ -24,6 +24,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\StarGate.Core\StarGate.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Graphics\Elements\RectangleElementTests.Serialization_ShouldBeVerified.verified.txt">
+        <DependentUpon>RectangleElementTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\GalaxySerializerTests.Serialize_BasicConfig_ShouldBeVerified.verified.txt">
+        <DependentUpon>GalaxySerializerTests.cs</DependentUpon>
+      </None>
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,5 @@
-﻿TagName: Test
-Template: $UserDefined
-Attributes:
-- Name: MyAttribute
-  Value: 123
-Scripts: []
-Graphics: []
+﻿tagName: Test
+derivedFrom: $UserDefined
+attributes:
+  - name: MyAttribute
+    value: 123

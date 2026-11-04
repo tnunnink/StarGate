@@ -5,7 +5,8 @@ using YamlDotNet.Serialization;
 namespace StarGate.Core;
 
 [TestClass]
-public class RectangleElementTests
+[UsesVerify]
+public partial class RectangleElementTests
 {
     [TestMethod]
     public void Kind_ShouldBeRectangle()
