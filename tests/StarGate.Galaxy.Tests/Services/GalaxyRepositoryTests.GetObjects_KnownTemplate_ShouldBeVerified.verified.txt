@@ -1,0 +1,34 @@
+﻿- tagName: $TestTemplate
+  derivedFrom: $UserDefined
+  basedOn: $UserDefined
+  category: ApplicationObject
+  hierarchicalName: $TestTemplate
+  attributes:
+    - name: ParentBool
+      dataType: Boolean
+      description: {Value: this is a locked parent bool, Locked: true}
+      units: ''
+      history:
+        description: {Value: me.ParentBool.Description, Locked: true}
+        storagePeriod: {Value: 0, Locked: true}
+        deadband: {Value: 0, Locked: true}
+        trendHi: {Value: 10, Locked: true}
+        trendLo: {Value: 0, Locked: true}
+        swingDoorEnabled: {Value: false, Locked: true}
+        interpolationType: {Value: SystemDefault, Locked: true}
+        rollover: {Value: 0, Locked: true}
+      alarms:
+        state:
+          category: {Value: Discrete, Locked: true}
+          priority: {Value: 500, Locked: true}
+          message: {Value: me.ParentBool.Description, Locked: true}
+          activeState: {Value: true, Locked: true}
+          source: {Value: me.ParentBool, Locked: true}
+          delay: {Value: '00:00:00', Locked: true}
+    - name: ParentInt
+      dataType: Integer
+      description: this is a parent int test
+      units: '%'
+      alarms: {}
+      log:
+        logEvent: {Value: true, Locked: true}

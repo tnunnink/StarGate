@@ -1,0 +1,62 @@
+﻿<aa:Symbol xmlns:aa="http://www.wonderware.com/ArchestrA" GraphicVersion="411" Name="" Left="0" Top="0" Width="500"
+           Height="500" LocalLeft="0" LocalTop="0" LocalWidth="500" LocalHeight="500" HasTransform="False"
+           Enabled="True" Locked="False" TabStop="True" TabOrder="0" Visible="True" ElementID="0" Square="False"
+           Transparency="0" Dock="None" AutoSize="False" AutoSizeMode="GrowOnly" Anchor="None" OriginX="0" OriginY="0"
+           HasFillStyleData="False" HasLineStyleData="False" HasTextStyleData="False" ElementStyleID="0"
+           HasCustomProperties="True" LastUsedId="1" Description="" Smoothing="True" AnchorOffsetRatioX="0"
+           AnchorOffsetRatioY="0" ImageFillStyle="Normal" Alignment="Centers" RefreshRate="0" FaceplateMode="False"
+           SizeMode="Auto" ContentType="" ShowConfiguredReferences="False">
+    <Font Name="Arial" Size="12" Bold="false" Italic="false" Strikeout="false" Underline="false" Charset="0"
+          VerticalFont="false"/>
+    <GraphicElements>
+        <TextBox Name="TextBox1" Left="50" Top="50" Width="240" Height="80" LocalLeft="50" LocalTop="50"
+                 LocalWidth="240" LocalHeight="80" HasTransform="False" Enabled="True" Locked="False" TabStop="True"
+                 TabOrder="0" Visible="True" ElementID="1" Square="False" Transparency="0" Dock="None" AutoSize="False"
+                 AutoSizeMode="GrowOnly" Anchor="None" OriginX="0" OriginY="0" HasFillStyleData="True"
+                 HasLineStyleData="True" HasTextStyleData="True" ElementStyleID="0" HasCustomProperties="False">
+            <FillStyleData VerticalPercentFill="100" HorizontalPercentFill="100">
+                <FillStyle FillType="Solid">
+                    <SolidFill>
+                        <FillColor R="255" G="255" B="255" A="255"/>
+                        <Transparency>0</Transparency>
+                    </SolidFill>
+                </FillStyle>
+                <UnfilledStyle FillType="Solid">
+                    <SolidFill>
+                        <FillColor R="0" G="0" B="0" A="255"/>
+                        <Transparency>0</Transparency>
+                    </SolidFill>
+                </UnfilledStyle>
+                <FillBehavior>Both</FillBehavior>
+                <HorizontalDirection>Right</HorizontalDirection>
+                <VerticalDirection>Up</VerticalDirection>
+                <FillOrientation>RelativeToGraphic</FillOrientation>
+            </FillStyleData>
+            <LineStyleData>
+                <LineStyle Weight="1" LinePattern="Solid">
+                    <FillStyle FillType="Solid">
+                        <SolidFill>
+                            <FillColor R="0" G="0" B="0" A="255"/>
+                            <Transparency>0</Transparency>
+                        </SolidFill>
+                    </FillStyle>
+                </LineStyle>
+            </LineStyleData>
+            <TextStyleData Text="This is a test" WordWrap="True" ReadingOrder="LeftToRight" Alignment="TopLeft"
+                           Orientation="0" TextFormat="" AutoScale="False" Expandable="False">
+                <TextColor FillType="Solid">
+                    <SolidFill>
+                        <FillColor R="0" G="0" B="0" A="255"/>
+                        <Transparency>0</Transparency>
+                    </SolidFill>
+                </TextColor>
+                <Font Name="Arial" Size="12" Bold="false" Italic="false" Strikeout="false" Underline="false" Charset="0"
+                      VerticalFont="false"/>
+                <TextFormat FormatType="FormatString" FormatString=""/>
+            </TextStyleData>
+        </TextBox>
+    </GraphicElements>
+    <PredefinedScripts/>
+    <NamedScripts/>
+    <BackFillColor FillType="NoFill"/>
+</aa:Symbol>
