@@ -1,6 +1,4 @@
-﻿using YamlDotNet.Serialization;
-
-namespace StarGate.Core;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Represents an image graphic element supporting raster and vector images.
@@ -8,7 +6,6 @@ namespace StarGate.Core;
 public record ImageElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Image;
 
     /// <summary>

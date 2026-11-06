@@ -10,7 +10,6 @@ namespace StarGate.Core;
 public record ChordElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Chord;
 
     /// <summary>

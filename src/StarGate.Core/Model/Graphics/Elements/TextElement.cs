@@ -8,7 +8,7 @@ namespace StarGate.Core;
 public record TextElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.Text;
 
     /// <summary>

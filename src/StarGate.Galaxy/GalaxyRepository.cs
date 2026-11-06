@@ -40,6 +40,18 @@ public class GalaxyRepository(IGalaxy galaxy) : IGalaxyRepository
     }
 
     /// <inheritdoc />
+    public GalaxyResult<IEnumerable<GalaxySymbol>> GetSymbols(params string[] tagNames)
+    {
+        if (tagNames is null)
+            throw new ArgumentNullException(nameof(tagNames));
+
+        var handler = new GalaxySymbolHandler(galaxy);
+        var symbols = galaxy.GetSymbols(tagNames).AsEnumerable().Select(x => handler.Extract(x)).ToArray();
+
+        return galaxy.CommandResults.ToResult<IEnumerable<GalaxySymbol>>(symbols);
+    }
+
+    /// <inheritdoc />
     public GalaxyResult UpdateObject(GalaxyObject config, string? comment = null)
     {
         var created = galaxy.EnsureObjectCreated(config, out var wasCreated);

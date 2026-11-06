@@ -348,12 +348,12 @@ public static class ObjectExtensions
         /// Replaces an existing attribute on the specified <see cref="IgObject" /> or adds a new attribute if it does not
         /// exist.
         /// </summary>
-        /// <param name="attribute">The <see cref="ObjectAttribute" /> to replace or add to the <see cref="IgObject" />.</param>
+        /// <param name="attribute">The <see cref="GalaxyAttribute" /> to replace or add to the <see cref="IgObject" />.</param>
         /// <returns>
         /// A <see cref="GalaxyResult" /> indicating the success or failure of the operation. Returns failure if the
         /// attribute does not have a data type.
         /// </returns>
-        public GalaxyResult ReplaceAttribute(ObjectAttribute attribute)
+        public GalaxyResult ReplaceAttribute(GalaxyAttribute attribute)
         {
             if (!attribute.DataType.HasValue)
                 return GalaxyResult.Fail(

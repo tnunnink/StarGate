@@ -5,7 +5,7 @@ namespace StarGate.Core;
 /// <summary>
 /// Represents an attribute of an object, including its data type, configuration values, and optional extensions.
 /// </summary>
-public class ObjectAttribute : IGalaxyMergeable<ObjectAttribute>
+public class GalaxyAttribute
 {
     /// <summary>
     /// Gets or sets the name of the attribute.
@@ -77,26 +77,4 @@ public class ObjectAttribute : IGalaxyMergeable<ObjectAttribute>
     /// in the Galaxy log.
     /// </summary>
     public LoggingExtension? Log { get; init; }
-
-    /// <inheritdoc />
-    public ObjectAttribute Merge(ObjectAttribute? current)
-    {
-        if (current is null) return this;
-
-        return new ObjectAttribute
-        {
-            Name = Name,
-            DataType = DataType ?? current.DataType,
-            Length = Length ?? current.Length,
-            Writeability = Writeability ?? current.Writeability,
-            Value = Value?.Merge(current.Value) ?? current.Value,
-            Description = Description?.Merge(current.Description) ?? current.Description,
-            Units = Units?.Merge(current.Units) ?? current.Units,
-            IO = IO?.Merge(current.IO) ?? current.IO,
-            History = History?.Merge(current.History) ?? current.History,
-            Alarms = Alarms?.Merge(current.Alarms) ?? current.Alarms,
-            Log = Log?.Merge(current.Log) ?? current.Log,
-            Stats = Stats?.Merge(current.Stats) ?? current.Stats
-        };
-    }
 }

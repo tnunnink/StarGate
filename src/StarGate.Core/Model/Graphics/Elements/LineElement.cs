@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -11,7 +10,6 @@ namespace StarGate.Core;
 public record LineElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Line;
 
     /// <summary>

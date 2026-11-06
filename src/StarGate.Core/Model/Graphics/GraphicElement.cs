@@ -13,7 +13,6 @@ public abstract record GraphicElement
     /// Gets the specific kind of graphic element represented by this instance.
     /// This corresponds to the type of visual or interactive element within an ArchestrA graphic symbol.
     /// </summary>
-    [YamlIgnore]
     public abstract ElementKind Kind { get; }
 
     /// <summary>

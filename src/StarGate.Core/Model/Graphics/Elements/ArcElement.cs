@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -9,7 +8,6 @@ namespace StarGate.Core;
 public record ArcElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Arc;
 
     /// <summary>

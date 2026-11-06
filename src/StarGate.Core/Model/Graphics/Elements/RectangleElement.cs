@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using YamlDotNet.Serialization;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace StarGate.Core;
 
@@ -9,7 +9,6 @@ namespace StarGate.Core;
 public record RectangleElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Rectangle;
 
     /// <summary>
@@ -17,5 +16,6 @@ public record RectangleElement : GraphicElement
     /// When greater than zero, this element represents a rounded rectangle.
     /// </summary>
     [Range(0, 70, ErrorMessage = "Corner radius must be between 0 and 70.")]
+    [DefaultValue(0)]
     public int? Radius { get; init; }
 }

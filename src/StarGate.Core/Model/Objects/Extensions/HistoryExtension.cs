@@ -6,7 +6,7 @@
 /// behaviors such as data interpolation, deadband, storage period controls, and more.
 /// </summary>
 [GalaxyExtension("HistoryExtension", ExtensionType.Attribute)]
-public class HistoryExtension : IGalaxyMergeable<HistoryExtension>, IAttributeExtension
+public class HistoryExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the configuration for the name of the attribute whose value is used as the
@@ -66,23 +66,5 @@ public class HistoryExtension : IGalaxyMergeable<HistoryExtension>, IAttributeEx
     public bool Supports(DataType dataType)
     {
         return dataType is not DataType.InternationalizedString and not DataType.Time;
-    }
-
-    /// <inheritdoc />
-    public HistoryExtension Merge(HistoryExtension? current)
-    {
-        if (current is null) return this;
-
-        return new HistoryExtension
-        {
-            Description = Description?.Merge(current.Description) ?? current.Description,
-            StoragePeriod = StoragePeriod?.Merge(current.StoragePeriod) ?? current.StoragePeriod,
-            Deadband = Deadband?.Merge(current.Deadband) ?? current.Deadband,
-            TrendHi = TrendHi?.Merge(current.TrendHi) ?? current.TrendHi,
-            TrendLo = TrendLo?.Merge(current.TrendLo) ?? current.TrendLo,
-            SwingDoorEnabled = SwingDoorEnabled?.Merge(current.SwingDoorEnabled) ?? current.SwingDoorEnabled,
-            InterpolationType = InterpolationType?.Merge(current.InterpolationType) ?? current.InterpolationType,
-            Rollover = Rollover?.Merge(current.Rollover) ?? current.Rollover
-        };
     }
 }

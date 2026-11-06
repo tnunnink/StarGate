@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarGate.Core;
 
-public class WizardTarget : IGalaxyMergeable<WizardTarget>
+public class WizardTarget
 {
     public required WizardAssociation Kind { get; init; }
 
@@ -12,9 +12,4 @@ public class WizardTarget : IGalaxyMergeable<WizardTarget>
     public bool? Trim { get; init; }
 
     public IEnumerable<WizardSetting> Settings { get; init; } = [];
-
-    public WizardTarget Merge(WizardTarget? current)
-    {
-        throw new NotImplementedException();
-    }
 }

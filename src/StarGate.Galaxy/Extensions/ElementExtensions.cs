@@ -188,9 +188,8 @@ public static class ElementExtensions
             var r = color.GetStruct("@R", byte.Parse);
             var g = color.GetStruct("@G", byte.Parse);
             var b = color.GetStruct("@B", byte.Parse);
-            var a = color.GetStruct("@A", byte.Parse, (byte)255);
 
-            return new GraphicColor(r, g, b, a);
+            return new GraphicColor(r, g, b);
         }
 
         /// <summary>
@@ -379,7 +378,7 @@ public static class ElementExtensions
                 new XAttribute("R", color.R),
                 new XAttribute("G", color.G),
                 new XAttribute("B", color.B),
-                new XAttribute("A", color.A)
+                new XAttribute("A", 255)
             );
 
             element.Add(child);

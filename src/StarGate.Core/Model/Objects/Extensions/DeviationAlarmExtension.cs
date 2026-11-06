@@ -5,7 +5,7 @@
 /// against a target value.
 /// </summary>
 [GalaxyExtension("AnalogExtension", ExtensionType.Attribute)]
-public class DeviationAlarmExtension : IGalaxyMergeable<DeviationAlarmExtension>, IAttributeExtension
+public class DeviationAlarmExtension : IAttributeExtension
 {
     /// <summary>
     /// The major deviation alarm configuration, raised when the value deviates far from the target.
@@ -39,20 +39,5 @@ public class DeviationAlarmExtension : IGalaxyMergeable<DeviationAlarmExtension>
     public bool Supports(DataType dataType)
     {
         return dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public DeviationAlarmExtension Merge(DeviationAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new DeviationAlarmExtension
-        {
-            Major = Major?.Merge(current.Major) ?? current.Major,
-            Minor = Minor?.Merge(current.Minor) ?? current.Minor,
-            Target = Target?.Merge(current.Target) ?? current.Target,
-            Deadband = Deadband?.Merge(current.Deadband) ?? current.Deadband,
-            SettlingPeriod = SettlingPeriod?.Merge(current.SettlingPeriod) ?? current.SettlingPeriod
-        };
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -10,7 +9,6 @@ namespace StarGate.Core;
 public record ConnectorElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Connector;
 
     /// <summary>

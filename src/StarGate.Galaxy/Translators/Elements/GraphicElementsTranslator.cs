@@ -23,9 +23,7 @@ public class GraphicElementsTranslator : GraphicTranslator<IEnumerable<GraphicEl
     {
         if (target is null) yield break;
 
-        var elements = target.Element("GraphicElements")?.Elements() ?? [];
-
-        foreach (var element in elements)
+        foreach (var element in target.Elements())
         {
             var graphic = Dispatcher.Read(element);
             

@@ -4,7 +4,7 @@
 /// Represents configuration settings for an object attribute, including its value, lock state, and security
 /// permissions.
 /// </summary>
-public class AttributeConfig : IGalaxyMergeable<AttributeConfig>
+public class AttributeConfig
 {
     /// <summary>
     /// Gets or sets the configured value of the attribute.
@@ -20,18 +20,4 @@ public class AttributeConfig : IGalaxyMergeable<AttributeConfig>
     /// Gets or sets the security access level required for the attribute.
     /// </summary>
     public Security? Security { get; init; }
-
-    /// <inheritdoc />
-    public AttributeConfig Merge(AttributeConfig? current)
-    {
-        if (current is null) return this;
-
-        return new AttributeConfig
-        {
-            // Source wins if specified; otherwise retain current
-            Value = Value ?? current.Value,
-            Locked = Locked ?? current.Locked,
-            Security = Security ?? current.Security
-        };
-    }
 }

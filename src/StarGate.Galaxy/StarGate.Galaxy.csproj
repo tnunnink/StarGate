@@ -20,6 +20,14 @@
             <HintPath>$(SystemDrive)\Program Files (x86)\ArchestrA\SEditorsCommon\ArchestrA.Visualization.GraphicLibrary.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="ArchestrA.Configuration">
+            <HintPath>$(SystemDrive)\Program Files (x86)\Wonderware\InTouch\ArchestrA.Configuration.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ArchestrA.Core">
+            <HintPath>$(SystemDrive)\Program Files (x86)\Wonderware\InTouch\ArchestrA.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>

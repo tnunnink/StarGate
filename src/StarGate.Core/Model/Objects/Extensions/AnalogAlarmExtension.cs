@@ -5,7 +5,7 @@
 /// This class is capable of merging with another instance to combine or override
 /// property values as needed for configuration purposes.
 /// </summary>
-public class AnalogAlarmExtension : IGalaxyMergeable<AnalogAlarmExtension>
+public class AnalogAlarmExtension
 {
     /// <summary>
     /// Represents the configuration for the "Limit" attribute in the AnalogAlarmExtension.
@@ -31,17 +31,4 @@ public class AnalogAlarmExtension : IGalaxyMergeable<AnalogAlarmExtension>
     /// </summary>
     [GalaxyAttribute("DescAttrName")]
     public AttributeConfig? Message { get; init; }
-
-    /// <inheritdoc />
-    public AnalogAlarmExtension Merge(AnalogAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new AnalogAlarmExtension
-        {
-            Limit = Limit?.Merge(current.Limit) ?? current.Limit,
-            Priority = Priority?.Merge(current.Priority) ?? current.Priority,
-            Message = Message?.Merge(current.Message) ?? current.Message
-        };
-    }
 }

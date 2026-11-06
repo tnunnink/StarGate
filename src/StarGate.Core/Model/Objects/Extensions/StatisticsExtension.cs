@@ -4,7 +4,7 @@
 /// Represents an extension that provides statistical configurations and operations
 /// for managing and interacting with Galaxy-specific data.
 /// </summary>
-public class StatisticsExtension : IAttributeExtension, IGalaxyMergeable<StatisticsExtension>
+public class StatisticsExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the configuration for automatic reset behavior within the statistical operations
@@ -22,17 +22,5 @@ public class StatisticsExtension : IAttributeExtension, IGalaxyMergeable<Statist
     public bool Supports(DataType dataType)
     {
         return dataType is DataType.Boolean || dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public StatisticsExtension Merge(StatisticsExtension? current)
-    {
-        if (current is null) return this;
-
-        return new StatisticsExtension
-        {
-            AutoReset = AutoReset?.Merge(current.AutoReset) ?? current.AutoReset,
-            SampleSize = SampleSize?.Merge(current.SampleSize) ?? current.SampleSize
-        };
     }
 }

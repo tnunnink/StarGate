@@ -1,6 +1,4 @@
-﻿using YamlDotNet.Serialization;
-
-namespace StarGate.Core;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Represents an interactive push-button graphic element with text, styling, and optional image states.
@@ -8,7 +6,6 @@ namespace StarGate.Core;
 public record ButtonElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Button;
 
     /// <summary>

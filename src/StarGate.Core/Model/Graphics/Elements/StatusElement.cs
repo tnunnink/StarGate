@@ -10,7 +10,7 @@ namespace StarGate.Core;
 public record StatusElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.Status;
 
     /// <summary>

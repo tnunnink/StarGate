@@ -6,7 +6,7 @@ namespace StarGate.Core;
 /// including the shared deadband and time delay settings.
 /// </summary>
 [GalaxyExtension("AnalogExtension", ExtensionType.Attribute)]
-public class LimitAlarmExtension : IGalaxyMergeable<LimitAlarmExtension>, IAttributeExtension
+public class LimitAlarmExtension : IAttributeExtension
 {
     /// <summary>
     /// The high-high (most severe high-limit) alarm configuration.
@@ -44,21 +44,5 @@ public class LimitAlarmExtension : IGalaxyMergeable<LimitAlarmExtension>, IAttri
     public bool Supports(DataType dataType)
     {
         return dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public LimitAlarmExtension Merge(LimitAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new LimitAlarmExtension
-        {
-            HiHi = HiHi?.Merge(current.HiHi) ?? current.HiHi,
-            Hi = Hi?.Merge(current.Hi) ?? current.Hi,
-            Lo = Lo?.Merge(current.Lo) ?? current.Lo,
-            LoLo = LoLo?.Merge(current.LoLo) ?? current.LoLo,
-            Deadband = Deadband?.Merge(current.Deadband) ?? current.Deadband,
-            Delay = Delay?.Merge(current.Delay) ?? current.Delay
-        };
     }
 }

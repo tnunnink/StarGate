@@ -8,7 +8,7 @@ namespace StarGate.Core;
 /// alarms, and script body definitions.
 /// </summary>
 [GalaxyExtension("ScriptExtension", ExtensionType.Object)]
-public class ScriptExtension : IGalaxyMergeable<ScriptExtension>
+public class ScriptExtension
 {
     /// <summary>
     /// Gets the unique name identifier of the script extension.
@@ -129,10 +129,4 @@ public class ScriptExtension : IGalaxyMergeable<ScriptExtension>
     /// </summary>
     [GalaxyAttribute("OffScanText")]
     public AttributeConfig? OffScanText { get; init; }
-
-    /// <inheritdoc />
-    public ScriptExtension Merge(ScriptExtension? current)
-    {
-        throw new NotImplementedException();
-    }
 }

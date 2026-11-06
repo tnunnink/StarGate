@@ -8,7 +8,7 @@ namespace StarGate.Core;
 public record RadioButtonElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.RadioButton;
 
     /// <summary>

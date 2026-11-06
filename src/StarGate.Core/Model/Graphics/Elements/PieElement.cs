@@ -10,7 +10,7 @@ namespace StarGate.Core;
 public record PieElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.Pie;
 
     /// <summary>

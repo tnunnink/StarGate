@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ArchestrA.Configuration;
 using ArchestrA.GRAccess;
 using StarGate.Core;
+using EConditionType = ArchestrA.GRAccess.EConditionType;
+using FolderType = ArchestrA.Core.FolderType;
+using Namespace = ArchestrA.Core.Namespace;
 
 namespace StarGate.Galaxy;
 
@@ -10,6 +14,13 @@ public static class GalaxyExtensions
     /// <param name="galaxy">The galaxy instance to search for the template.</param>
     extension(IGalaxy galaxy)
     {
+        /// <summary>
+        /// Provides access to the configuration functionality of the galaxy environment.
+        /// This property provides an interface for retrieving and managing the galaxy configuration,
+        /// including objects, folder trees, and other metadata operations.
+        /// </summary>
+        public IGalaxyConfiguration Config => (IGalaxyConfiguration)galaxy.GetGalaxyConfiguration();
+
         /// <summary>
         /// Retrieves a collection of Galaxy objects by their specified tag names from the provided galaxy instance,
         /// with an option to filter objects based on whether they are templates or instances.
@@ -112,6 +123,23 @@ public static class GalaxyExtensions
             var created = template.CreateObject(config.TagName);
             wasCreated = created.Success;
             return created;
+        }
+
+        /// <summary>
+        /// Retrieves the folder path for the visual symbol identified by the specified tag name.
+        /// </summary>
+        /// <param name="tagName">
+        /// The tag name of the visual symbol whose folder path should be retrieved.
+        /// </param>
+        /// <returns>
+        /// The folder path containing the specified visual symbol, or <c>null</c> if the visual folder tree cannot be retrieved.
+        /// If the symbol is not found, the path for the default folder identifier is returned when available.
+        /// </returns>
+        public string? GetSymbolFolder(string tagName)
+        {
+            var info = galaxy.Config.GetGObjectInfoFromName(tagName, Namespace.VisualElement);
+            var tree = galaxy.Config.GetFolderTree(FolderType.Visual, out _, out _);
+            return tree?.GetPath(info?.FolderId ?? 0);
         }
 
         /// <summary>

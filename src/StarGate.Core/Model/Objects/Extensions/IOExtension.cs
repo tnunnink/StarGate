@@ -9,7 +9,7 @@ namespace StarGate.Core;
 [GalaxyExtension("InputExtension", ExtensionType.Attribute)]
 [GalaxyExtension("OutputExtension", ExtensionType.Attribute)]
 [GalaxyExtension("InputOutputExtension", ExtensionType.Attribute)]
-public class IOExtension : IGalaxyMergeable<IOExtension>, IAttributeExtension
+public class IOExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets or sets the binding type configuration specifying the nature of the interaction
@@ -70,25 +70,6 @@ public class IOExtension : IGalaxyMergeable<IOExtension>, IAttributeExtension
     public bool Supports(DataType dataType)
     {
         return dataType != DataType.InternationalizedString;
-    }
-
-    /// <inheritdoc />
-    public IOExtension Merge(IOExtension? current)
-    {
-        if (current is null) return this;
-
-        return new IOExtension
-        {
-            Binding = Binding ?? current.Binding,
-            InputSource = InputSource?.Merge(current.InputSource) ?? current.InputSource,
-            OutputDest = OutputDest?.Merge(current.OutputDest) ?? current.OutputDest,
-            DifferentOutput = DifferentOutput?.Merge(current.DifferentOutput) ?? current.DifferentOutput,
-            Buffered = Buffered?.Merge(current.Buffered) ?? current.Buffered,
-            Invert = Invert?.Merge(current.Invert) ?? current.Invert,
-            OutputEveryScan = OutputEveryScan?.Merge(current.OutputEveryScan) ?? current.OutputEveryScan,
-            Deadband = Deadband?.Merge(current.Deadband) ?? current.Deadband,
-            Scaling = Scaling?.Merge(current.Scaling) ?? current.Scaling
-        };
     }
 
     /// <summary>

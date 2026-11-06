@@ -21,6 +21,17 @@ public interface IGalaxyRepository
     GalaxyResult<IEnumerable<GalaxyObject>> GetObjects(params string[] tagNames);
 
     /// <summary>
+    /// Retrieves a collection of galaxy symbols that match the specified tag names.
+    /// </summary>
+    /// <param name="tagNames">
+    /// An array of tag names used to identify the symbols to retrieve.
+    /// </param>
+    /// <returns>
+    /// A <c>GalaxyResult</c> containing a collection of <c>GalaxySymbol</c> instances for the matching symbols.
+    /// </returns>
+    GalaxyResult<IEnumerable<GalaxySymbol>> GetSymbols(params string[] tagNames);
+
+    /// <summary>
     /// Updates the configuration of an existing object in the galaxy repository.
     /// </summary>
     /// <param name="config">

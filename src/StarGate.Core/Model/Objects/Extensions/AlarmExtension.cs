@@ -4,7 +4,7 @@
 /// Represents an alarm extension that groups the different alarm types which can be
 /// configured on an attribute: state, limit, rate of change, deviation, and quality.
 /// </summary>
-public class AlarmExtension : IGalaxyMergeable<AlarmExtension>
+public class AlarmExtension
 {
     /// <summary>
     /// Gets the state (discrete) alarm configuration, which alarms when the value matches a specific state.
@@ -30,23 +30,4 @@ public class AlarmExtension : IGalaxyMergeable<AlarmExtension>
     /// Gets the quality alarm configuration, which alarms when the value's quality becomes bad or uncertain.
     /// </summary>
     public QualityAlarmExtension? Quality { get; init; }
-
-    /// <summary>
-    /// Merges this alarm extension with the current one, combining each alarm type's configuration.
-    /// </summary>
-    /// <param name="current">The current alarm extension to merge with, or <c>null</c> if there is none.</param>
-    /// <returns>The merged <see cref="AlarmExtension" />.</returns>
-    public AlarmExtension Merge(AlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new AlarmExtension
-        {
-            State = State?.Merge(current.State) ?? current.State,
-            Limit = Limit?.Merge(current.Limit) ?? current.Limit,
-            Roc = Roc?.Merge(current.Roc) ?? current.Roc,
-            Deviation = Deviation?.Merge(current.Deviation) ?? current.Deviation,
-            Quality = Quality?.Merge(current.Quality) ?? current.Quality
-        };
-    }
 }

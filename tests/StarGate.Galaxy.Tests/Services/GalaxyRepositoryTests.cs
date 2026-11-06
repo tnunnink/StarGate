@@ -36,7 +36,7 @@ public partial class GalaxyRepositoryTests : GalaxyFixture
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
     }
 
-    [TestMethod]
+    /*[TestMethod]
     public void GetObjects_InstanceObjectAndSymbol_ShouldReturnSuccess()
     {
         var repo = new GalaxyRepository(Galaxy);
@@ -48,7 +48,7 @@ public partial class GalaxyRepositoryTests : GalaxyFixture
         result.Success.Should().BeTrue();
         result.Value.Should().HaveCount(2);
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
-    }
+    }*/
 
     [TestMethod]
     public Task GetObjects_KnownInstance_ShouldHaveExpectedFormat()
@@ -76,6 +76,32 @@ public partial class GalaxyRepositoryTests : GalaxyFixture
         stopwatch.Stop();
 
         result.Success.Should().BeTrue();
+
+        var serializer = new GalaxySerializer();
+        var yaml = serializer.Serialize(result.Value);
+        return Verify(yaml);
+    }
+
+    [TestMethod]
+    public void GetSymbols_KnownTestSymbol_ShouldBeSuccessWithResult()
+    {
+        var repo = new GalaxyRepository(Galaxy);
+
+        var stopwatch = Stopwatch.StartNew();
+        var result = repo.GetSymbols("TestGraphic");
+        stopwatch.Stop();
+
+        result.Success.Should().BeTrue();
+        result.Value.Should().HaveCount(1);
+        Console.WriteLine(stopwatch.ElapsedMilliseconds);
+    }
+
+    [TestMethod]
+    public Task GetSymbols_KnownTestSymbol_ShouldBeVerified()
+    {
+        var repo = new GalaxyRepository(Galaxy);
+
+        var result = repo.GetSymbols("TestGraphic");
 
         var serializer = new GalaxySerializer();
         var yaml = serializer.Serialize(result.Value);

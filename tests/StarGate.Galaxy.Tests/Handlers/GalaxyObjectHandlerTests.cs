@@ -99,13 +99,13 @@ public class GalaxyObjectHandlerTests : GalaxyFixture
             DerivedFrom = "$UserDefined",
             Attributes =
             [
-                new ObjectAttribute
+                new GalaxyAttribute
                 {
                     Name = "First",
                     DataType = DataType.Integer,
                     Value = new AttributeConfig { Value = 1 }
                 },
-                new ObjectAttribute
+                new GalaxyAttribute
                 {
                     Name = "Second",
                     DataType = DataType.String,
@@ -142,7 +142,7 @@ public class GalaxyObjectHandlerTests : GalaxyFixture
         {
             TagName = temp.TagName,
             DerivedFrom = "$UserDefined",
-            Attributes = [new ObjectAttribute { Name = "Invalid" }] // missing data type
+            Attributes = [new GalaxyAttribute { Name = "Invalid" }] // missing data type
         };
 
         var result = new GalaxyObjectHandler().Apply(temp.Instance, source);

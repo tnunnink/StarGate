@@ -63,7 +63,7 @@ public class GalaxyObject
     /// <summary>
     /// Gets or sets the collection of configured attributes associated with the object.
     /// </summary>
-    public IEnumerable<ObjectAttribute> Attributes { get; init; } = [];
+    public IEnumerable<GalaxyAttribute> Attributes { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the collection of script extensions associated with the object.
@@ -76,7 +76,7 @@ public class GalaxyObject
     public IEnumerable<GraphicExtension> Graphics { get; init; } = [];
 }
 
-public static class ObjectDefinitionExtensions
+public static class GalaxyObjectExtensions
 {
     /// <summary>
     /// Orders a collection of <see cref="GalaxyObject" /> objects based on their inheritance hierarchy,

@@ -5,7 +5,7 @@
 /// define an alarm, such as its category, priority, message, source, and time deadband.
 /// </summary>
 [GalaxyExtension("AlarmExtension", ExtensionType.Attribute)]
-public class StateAlarmExtension : IGalaxyMergeable<StateAlarmExtension>, IAttributeExtension
+public class StateAlarmExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the configuration for the alarm category, which classifies the alarm
@@ -52,21 +52,5 @@ public class StateAlarmExtension : IGalaxyMergeable<StateAlarmExtension>, IAttri
     public bool Supports(DataType dataType)
     {
         return dataType == DataType.Boolean;
-    }
-
-    /// <inheritdoc />
-    public StateAlarmExtension Merge(StateAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new StateAlarmExtension
-        {
-            Category = Category?.Merge(current.Category) ?? current.Category,
-            Priority = Priority?.Merge(current.Priority) ?? current.Priority,
-            Message = Message?.Merge(current.Message) ?? current.Message,
-            ActiveState = ActiveState?.Merge(current.ActiveState) ?? current.ActiveState,
-            Source = Source?.Merge(current.Source) ?? current.Source,
-            Delay = Delay?.Merge(current.Delay) ?? current.Delay
-        };
     }
 }

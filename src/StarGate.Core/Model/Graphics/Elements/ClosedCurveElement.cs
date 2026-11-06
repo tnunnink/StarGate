@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -10,7 +9,7 @@ namespace StarGate.Core;
 public record ClosedCurveElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+
     public override ElementKind Kind => ElementKind.ClosedCurve;
 
     /// <summary>

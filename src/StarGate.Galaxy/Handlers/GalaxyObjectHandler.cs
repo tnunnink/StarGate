@@ -27,7 +27,7 @@ public class GalaxyObjectHandler : IConfigurationHandler<GalaxyObject>
             Attributes = target.ListUda()
                 .Select(name => _attributeHandler.Extract(target, name))
                 .Where(a => a is not null)
-                .Cast<ObjectAttribute>()
+                .Cast<GalaxyAttribute>()
                 .ToArray(),
             Scripts = [],
             Graphics = []

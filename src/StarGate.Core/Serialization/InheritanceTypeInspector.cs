@@ -22,7 +22,10 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
 
     public IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container)
     {
-        return _inner.GetProperties(type, container)
+        var props = _inner.GetProperties(type, container).ToArray();
+
+        return _inner
+            .GetProperties(type, container)
             .OrderBy(p => GetPropertyDepth(type, p))
             .ThenBy(p => p.Order);
     }
@@ -32,45 +35,43 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
         object? container,
         string name,
         bool ignoreUnmatched,
-        bool caseInsensitivePropertyMatching)
-    {
-        return _inner.GetProperty(type, container, name, ignoreUnmatched, caseInsensitivePropertyMatching);
-    }
+        bool caseInsensitivePropertyMatching) =>
+        _inner.GetProperty(type, container, name, ignoreUnmatched, caseInsensitivePropertyMatching);
 
-    public string GetEnumName(Type enumType, string name)
-    {
-        return _inner.GetEnumName(enumType, name);
-    }
+    public string GetEnumName(Type enumType, string name) => _inner.GetEnumName(enumType, name);
 
-    public string GetEnumValue(object enumValue)
-    {
-        return _inner.GetEnumValue(enumValue);
-    }
+    public string GetEnumValue(object enumValue) => _inner.GetEnumValue(enumValue);
 
-    public bool HasParseMethod(Type type)
-    {
-        return _inner.HasParseMethod(type);
-    }
+    public bool HasParseMethod(Type type) => _inner.HasParseMethod(type);
 
-    public object? Parse(string value, Type expectedType)
-    {
-        return _inner.Parse(value, expectedType);
-    }
+    public object? Parse(string value, Type expectedType) => _inner.Parse(value, expectedType);
 
+
+    /// <summary>
+    /// Calculates the inheritance depth used to order a property descriptor for the specified target type.
+    /// </summary>
+    /// <param name="targetType">The type used to locate the matching declared property.</param>
+    /// <param name="property">The property descriptor whose name is used to determine the declaring type depth.</param>
+    /// <returns>The depth of the declaring type in the inheritance hierarchy, excluding object.</returns>
     private static int GetPropertyDepth(Type targetType, IPropertyDescriptor property)
     {
         // Find the PropertyInfo on targetType matching the descriptor's Name
-        var properties = targetType.GetProperty(
+        var propertyInfo = targetType.GetProperty(
             property.Name,
             BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase
         );
 
-        var declaringType = properties?.DeclaringType ?? targetType;
+        if (propertyInfo is null)
+            return int.MaxValue;
+
+        // If it's an overridden property, walk back to where it was originally defined
+        var declaringType = propertyInfo.GetMethod?.GetBaseDefinition().DeclaringType ?? propertyInfo.DeclaringType;
 
         // Calculate depth from System.Object
         var depth = 0;
         var current = declaringType;
-        while (current != null && current != typeof(object))
+
+        while (current is not null && current != typeof(object))
         {
             depth++;
             current = current.BaseType;

@@ -25,6 +25,7 @@ public class SymbolTranslator : GraphicTranslator<GalaxySymbol>
         return new GalaxySymbol
         {
             TagName = target.GetRequiredValue("@Name"),
+            Folder = target.GetValue("@Folder"),
             Elements = ElementsTranslator.Read(target.Element("GraphicElements")) ?? [],
         };
     }

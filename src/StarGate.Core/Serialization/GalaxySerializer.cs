@@ -79,6 +79,9 @@ public static class YamlTypeConverterRegistration
             .WithTypeConverter(new AttributeConfigConverter())
             .WithTypeConverter(new ValueBindingConverter())
             .WithTypeConverter(new ItemBindingConverter())
-            .WithTypeConverter(new GraphicReferenceConverter());
+            .WithTypeConverter(new GraphicReferenceConverter())
+            .WithTypeConverter(new GraphicBoundsConverter())
+            .WithTypeConverter(new GraphicColorConverter())
+            ;
     }
 }

@@ -1,6 +1,4 @@
-﻿using YamlDotNet.Serialization;
-
-namespace StarGate.Core;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Represents a common Windows checkbox control with two-way data binding and optional caption overrides.
@@ -8,7 +6,6 @@ namespace StarGate.Core;
 public record CheckBoxElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.CheckBox;
 
     /// <summary>

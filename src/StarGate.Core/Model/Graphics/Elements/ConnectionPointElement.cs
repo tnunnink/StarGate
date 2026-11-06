@@ -1,6 +1,4 @@
-﻿using YamlDotNet.Serialization;
-
-namespace StarGate.Core;
+﻿namespace StarGate.Core;
 
 /// <summary>
 /// Represents an anchor point placed on a graphic element where connectors can dock.
@@ -8,7 +6,6 @@ namespace StarGate.Core;
 public record ConnectionPointElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.ConnectionPoint;
 
     /// <summary>

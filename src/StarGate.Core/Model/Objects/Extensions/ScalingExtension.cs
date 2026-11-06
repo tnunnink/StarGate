@@ -8,7 +8,7 @@
 /// clamping of values within specified ranges.
 /// </summary>
 [GalaxyExtension("ScalingExtension", ExtensionType.Attribute)]
-public class ScalingExtension : IGalaxyMergeable<ScalingExtension>, IAttributeExtension
+public class ScalingExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets or sets the maximum raw input value used for signal conversion and scaling.
@@ -61,23 +61,5 @@ public class ScalingExtension : IGalaxyMergeable<ScalingExtension>, IAttributeEx
     public bool Supports(DataType dataType)
     {
         return dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public ScalingExtension Merge(ScalingExtension? current)
-    {
-        if (current is null) return this;
-
-        return new ScalingExtension
-        {
-            RawMax = RawMax?.Merge(current.RawMax) ?? current.RawMax,
-            RawMin = RawMin?.Merge(current.RawMin) ?? current.RawMin,
-            EngMax = EngMax?.Merge(current.EngMax) ?? current.EngMax,
-            EngMin = EngMin?.Merge(current.EngMin) ?? current.EngMin,
-            RangeMax = RangeMax?.Merge(current.RangeMax) ?? current.RangeMax,
-            RangeMin = RangeMin?.Merge(current.RangeMin) ?? current.RangeMin,
-            ConversionMode = ConversionMode?.Merge(current.ConversionMode) ?? current.ConversionMode,
-            ClampEnabled = ClampEnabled?.Merge(current.ClampEnabled ?? current.ClampEnabled)
-        };
     }
 }

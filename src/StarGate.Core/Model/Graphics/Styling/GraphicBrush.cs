@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace StarGate.Core;
 
@@ -12,7 +13,8 @@ public abstract record GraphicBrush
     /// Transparency percent (0 = fully opaque, 100 = fully transparent).
     /// </summary>
     [Range(0.0, 100.0, ErrorMessage = "Transparency must be between 0 and 100.")]
-    public double? Transparency { get; init; }
+    [DefaultValue(0.0)]
+    public double Transparency { get; init; }
 
     /// <summary>
     /// Defines an implicit conversion operator from a <see cref="GraphicColor"/> to a <see cref="GraphicBrush"/>.

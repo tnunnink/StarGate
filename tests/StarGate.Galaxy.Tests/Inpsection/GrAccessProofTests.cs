@@ -2,9 +2,14 @@
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using ArchestrA.Configuration;
+using ArchestrA.Core;
 using ArchestrA.GRAccess;
 using FluentAssertions;
 using FolderType = ArchestrA.Core.FolderType;
+using MxAttributeCategory = ArchestrA.GRAccess.MxAttributeCategory;
+using MxDataType = ArchestrA.GRAccess.MxDataType;
+using MxValueClass = ArchestrA.GRAccess.MxValueClass;
+using Namespace = ArchestrA.Core.Namespace;
 
 namespace StarGate.Galaxy.Tests;
 
@@ -513,7 +518,7 @@ public class GrAccessProofTests : GalaxyFixture
     public void FolderTree_GetFolderId_ShouldNotThrowRemotingException()
     {
         var configuration = (IGalaxyConfiguration)Galaxy.GetGalaxyConfiguration();
-        
+
         var tree = configuration.GetFolderTree(FolderType.Visual, out var treeStatus, out _);
         Console.WriteLine($"GetFolderTree: {treeStatus}; proxy: {RemotingServices.IsTransparentProxy(tree)}");
 
@@ -521,6 +526,32 @@ public class GrAccessProofTests : GalaxyFixture
         Console.WriteLine($"GetFolderId: id={folderId} status={status} message={message}");
 
         folderId.Should().BeGreaterThan(0);
+    }
+
+    [TestMethod]
+    public void InspectGObjectInfoPropertiesToSeeWhatWeCanHarvest()
+    {
+        // this is a much cleaner API since it lets you specify namespace. I wonder if it will be performant for many tag names.
+        var info = Galaxy.Config.GetGObjectInfoFromName(TestInstance, Namespace.AutomationObject);
+
+        info.Should().NotBeNull();
+
+        foreach (var propertyInfo in typeof(IGObjectInfo).GetProperties())
+        {
+            Console.WriteLine($"{propertyInfo.Name} [{propertyInfo.PropertyType}] = {propertyInfo.GetValue(info)}");
+        }
+    }
+
+    [TestMethod]
+    public void GetFolderPathForGivenGraphicName()
+    {
+        var info = Galaxy.Config.GetGObjectInfoFromName("SA_Meters", Namespace.VisualElement);
+        var tree = Galaxy.Config.GetFolderTree(FolderType.Visual, out _, out _);
+        var path = tree.GetPath(info.FolderId);
+
+        path.Should().NotBeEmpty();
+        path.Replace("$", "/").Should().Be("Situational Awareness Library/Meters");
+        Console.WriteLine(path);
     }
 
     private static HashSet<string> DumpAttributeDifferences(IgObject obj, HashSet<string> baseline)

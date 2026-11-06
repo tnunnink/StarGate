@@ -10,7 +10,6 @@ namespace StarGate.Core;
 public record ComboBoxElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.ComboBox;
 
     /// <summary>

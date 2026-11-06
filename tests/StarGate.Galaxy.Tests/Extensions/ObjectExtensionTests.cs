@@ -424,7 +424,7 @@ public class ObjectExtensionTests : GalaxyFixture
     public void ReplaceAttribute_NoDataType_ShouldFailWithMissingDataType()
     {
         var obj = GetInstance(TestInstance);
-        var attribute = new ObjectAttribute { Name = "NoType" };
+        var attribute = new GalaxyAttribute { Name = "NoType" };
 
         var result = obj.ReplaceAttribute(attribute);
 
@@ -438,7 +438,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var attribute = new ObjectAttribute { Name = "NewAttribute", DataType = DataType.Integer };
+        var attribute = new GalaxyAttribute { Name = "NewAttribute", DataType = DataType.Integer };
 
         var result = obj.ReplaceAttribute(attribute);
 
@@ -453,9 +453,9 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        obj.ReplaceAttribute(new ObjectAttribute { Name = "Replaced", DataType = DataType.Integer });
+        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = DataType.Integer });
 
-        var result = obj.ReplaceAttribute(new ObjectAttribute { Name = "Replaced", DataType = DataType.String });
+        var result = obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = DataType.String });
 
         result.Success.Should().BeTrue();
         obj.Attributes["Replaced"].DataType.Should().Be(MxDataType.MxString);
@@ -467,7 +467,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var attribute = new ObjectAttribute { Name = "NewArray", DataType = DataType.Integer, Length = 5 };
+        var attribute = new GalaxyAttribute { Name = "NewArray", DataType = DataType.Integer, Length = 5 };
 
         var result = obj.ReplaceAttribute(attribute);
 
@@ -481,7 +481,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var attribute = new ObjectAttribute
+        var attribute = new GalaxyAttribute
         {
             Name = "NewCalculated",
             DataType = DataType.Integer,
@@ -500,7 +500,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        obj.ReplaceAttribute(new ObjectAttribute { Name = "Target", DataType = DataType.Integer });
+        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Target", DataType = DataType.Integer });
 
         var result = obj.AddExtension<LoggingExtension>("Target");
 

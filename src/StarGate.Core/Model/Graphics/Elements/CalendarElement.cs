@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -11,7 +10,6 @@ namespace StarGate.Core;
 public record CalendarElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Calendar;
 
     /// <summary>

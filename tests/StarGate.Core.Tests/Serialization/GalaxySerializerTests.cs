@@ -14,7 +14,7 @@ public partial class GalaxySerializerTests
             DerivedFrom = "$UserDefined",
             Attributes =
             [
-                new ObjectAttribute
+                new GalaxyAttribute
                 {
                     Name = "MyAttribute",
                     Value = new AttributeConfig { Value = 123 }

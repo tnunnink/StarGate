@@ -116,7 +116,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var source = new ObjectAttribute
+        var source = new GalaxyAttribute
         {
             Name = "NewAttribute",
             DataType = DataType.Integer,
@@ -136,7 +136,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var source = new ObjectAttribute
+        var source = new GalaxyAttribute
         {
             Name = "LoggedAttribute",
             DataType = DataType.Integer,
@@ -155,7 +155,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var source = new ObjectAttribute { Name = "NoType" };
+        var source = new GalaxyAttribute { Name = "NoType" };
 
         var result = new ObjectAttributeHandler().Apply(obj, source);
 
@@ -170,10 +170,10 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         var obj = temp.Instance;
         obj.CheckOut();
         var handler = new ObjectAttributeHandler();
-        handler.Apply(obj, new ObjectAttribute { Name = "Merged", DataType = DataType.Integer, Length = null });
+        handler.Apply(obj, new GalaxyAttribute { Name = "Merged", DataType = DataType.Integer, Length = null });
 
         // Only supply a description; type should be retained from the existing attribute.
-        var result = handler.Apply(obj, new ObjectAttribute
+        var result = handler.Apply(obj, new GalaxyAttribute
         {
             Name = "Merged",
             Description = new AttributeConfig { Value = "updated" }
@@ -189,7 +189,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
     public void Apply_ObjectNotCheckedOut_ShouldReturnFailure()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new ObjectAttribute { Name = "NotCheckedOut", DataType = DataType.Integer };
+        var source = new GalaxyAttribute { Name = "NotCheckedOut", DataType = DataType.Integer };
 
         var result = new ObjectAttributeHandler().Apply(temp.Instance, source);
 

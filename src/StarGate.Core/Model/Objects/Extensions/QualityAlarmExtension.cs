@@ -7,7 +7,7 @@
 /// associated with "bad values."
 /// </summary>
 [GalaxyExtension("BadValueAlarmExtension", ExtensionType.Attribute)]
-public class QualityAlarmExtension : IGalaxyMergeable<QualityAlarmExtension>, IAttributeExtension
+public class QualityAlarmExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the configuration for the name of the attribute whose value is used as the
@@ -26,17 +26,5 @@ public class QualityAlarmExtension : IGalaxyMergeable<QualityAlarmExtension>, IA
     public bool Supports(DataType dataType)
     {
         return dataType is DataType.Boolean || dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public QualityAlarmExtension Merge(QualityAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new QualityAlarmExtension
-        {
-            Priority = Priority?.Merge(current.Priority) ?? current.Priority,
-            Message = Message?.Merge(current.Message) ?? current.Message
-        };
     }
 }

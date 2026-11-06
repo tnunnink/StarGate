@@ -5,7 +5,7 @@
 /// decreases faster than a configured rate over an evaluation period.
 /// </summary>
 [GalaxyExtension("AnalogExtension", ExtensionType.Attribute)]
-public class RocAlarmExtension : IGalaxyMergeable<RocAlarmExtension>, IAttributeExtension
+public class RocAlarmExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the alarm configuration that triggers when the value is increasing faster than the configured rate.
@@ -35,19 +35,5 @@ public class RocAlarmExtension : IGalaxyMergeable<RocAlarmExtension>, IAttribute
     public bool Supports(DataType dataType)
     {
         return dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public RocAlarmExtension Merge(RocAlarmExtension? current)
-    {
-        if (current is null) return this;
-
-        return new RocAlarmExtension
-        {
-            Up = Up?.Merge(current.Up) ?? current.Up,
-            Down = Down?.Merge(current.Down) ?? current.Down,
-            Period = Period?.Merge(current.Period) ?? current.Period,
-            Units = Units?.Merge(current.Units) ?? current.Units
-        };
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -9,7 +8,6 @@ namespace StarGate.Core;
 public record GroupElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.Group;
 
     /// <summary>

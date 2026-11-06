@@ -9,7 +9,7 @@ namespace StarGate.Core;
 public record PathElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.Path;
 
     /// <summary>

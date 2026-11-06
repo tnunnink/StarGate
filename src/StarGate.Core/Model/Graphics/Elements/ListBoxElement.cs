@@ -9,14 +9,13 @@ namespace StarGate.Core;
 public record ListBoxElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
     public override ElementKind Kind => ElementKind.ListBox;
 
     /// <summary>
     /// Gets a value indicating whether the list box automatically resizes to display complete rows of items without
     /// clipping.
     /// </summary>
-    [DefaultValue(true)] //todo we need to go back and add this for all properties where the default is not false/0/empty so that yAML will not serialize when the are default
+    [DefaultValue(true)]
     public bool? IntegralHeight { get; init; }
 
     /// <summary>

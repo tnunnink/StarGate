@@ -5,7 +5,7 @@
 /// value are recorded as data change events in the Galaxy log.
 /// </summary>
 [GalaxyExtension("LogDataChangeEventExtension", ExtensionType.Attribute)]
-public class LoggingExtension : IGalaxyMergeable<LoggingExtension>, IAttributeExtension
+public class LoggingExtension : IAttributeExtension
 {
     /// <summary>
     /// Gets the configuration that enables logging of a data change event whenever the
@@ -18,16 +18,5 @@ public class LoggingExtension : IGalaxyMergeable<LoggingExtension>, IAttributeEx
     public bool Supports(DataType dataType)
     {
         return dataType is DataType.Boolean || dataType.IsNumeric();
-    }
-
-    /// <inheritdoc />
-    public LoggingExtension Merge(LoggingExtension? current)
-    {
-        if (current is null) return this;
-
-        return new LoggingExtension
-        {
-            LogEvent = LogEvent?.Merge(current.LogEvent) ?? current.LogEvent
-        };
     }
 }

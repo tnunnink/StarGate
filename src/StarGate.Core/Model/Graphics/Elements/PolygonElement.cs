@@ -10,7 +10,7 @@ namespace StarGate.Core;
 public record PolygonElement : GraphicElement
 {
     /// <inheritdoc />
-    [YamlIgnore]
+    
     public override ElementKind Kind => ElementKind.Polygon;
 
     /// <summary>

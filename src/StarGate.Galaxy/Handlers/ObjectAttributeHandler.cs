@@ -3,7 +3,7 @@ using StarGate.Core;
 
 namespace StarGate.Galaxy;
 
-public class ObjectAttributeHandler : IConfigurationHandler<ObjectAttribute>
+public class ObjectAttributeHandler : IConfigurationHandler<GalaxyAttribute>
 {
     private readonly AlarmExtensionHandler _alarmHandler = new();
     private readonly HistoryExtensionHandler _historyHandler = new();
@@ -11,7 +11,7 @@ public class ObjectAttributeHandler : IConfigurationHandler<ObjectAttribute>
     private readonly LoggingExtensionHandler _loggingHandler = new();
 
     /// <inheritdoc />
-    public ObjectAttribute? Extract(IgObject target, string? context = null)
+    public GalaxyAttribute? Extract(IgObject target, string? context = null)
     {
         if (context is null || string.IsNullOrWhiteSpace(context))
             return null;
@@ -19,15 +19,15 @@ public class ObjectAttributeHandler : IConfigurationHandler<ObjectAttribute>
         if (!target.TryGetAttribute(context, out var uda))
             return null;
 
-        return new ObjectAttribute
+        return new GalaxyAttribute
         {
             Name = uda.Name,
             DataType = uda.DataType.ToCoreType(),
             Length = uda.GetLength(),
             Writeability = uda.GetWriteability(),
-            Value = target.GetConfig<ObjectAttribute>(x => x.Value, context),
-            Description = target.GetConfig<ObjectAttribute>(x => x.Description, context),
-            Units = target.GetConfig<ObjectAttribute>(x => x.Units, context),
+            Value = target.GetConfig<GalaxyAttribute>(x => x.Value, context),
+            Description = target.GetConfig<GalaxyAttribute>(x => x.Description, context),
+            Units = target.GetConfig<GalaxyAttribute>(x => x.Units, context),
             IO = _ioHandler.Extract(target, context),
             History = _historyHandler.Extract(target, context),
             Log = _loggingHandler.Extract(target, context),
@@ -36,20 +36,17 @@ public class ObjectAttributeHandler : IConfigurationHandler<ObjectAttribute>
     }
 
     /// <inheritdoc />
-    public GalaxyResult Apply(IgObject target, ObjectAttribute? source, string? context = null)
+    public GalaxyResult Apply(IgObject target, GalaxyAttribute? source, string? context = null)
     {
         if (source is null) return GalaxyResult.Ok();
 
-        var current = Extract(target, source.Name);
-        var merged = source.Merge(current);
-
-        return target.ReplaceAttribute(merged)
-            .Then(() => target.Configure(merged, x => x.Value, source.Name))
-            .And(() => target.Configure(merged, x => x.Description, source.Name))
-            .And(() => target.Configure(merged, x => x.Units, source.Name))
-            .And(() => _ioHandler.Apply(target, merged.IO, source.Name))
-            .And(() => _historyHandler.Apply(target, merged.History, source.Name))
-            .And(() => _loggingHandler.Apply(target, merged.Log, source.Name))
-            .And(() => _alarmHandler.Apply(target, merged.Alarms, source.Name));
+        return target.ReplaceAttribute(source)
+            .Then(() => target.Configure(source, x => x.Value, source.Name))
+            .And(() => target.Configure(source, x => x.Description, source.Name))
+            .And(() => target.Configure(source, x => x.Units, source.Name))
+            .And(() => _ioHandler.Apply(target, source.IO, source.Name))
+            .And(() => _historyHandler.Apply(target, source.History, source.Name))
+            .And(() => _loggingHandler.Apply(target, source.Log, source.Name))
+            .And(() => _alarmHandler.Apply(target, source.Alarms, source.Name));
     }
 }
