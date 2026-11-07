@@ -3,7 +3,7 @@
 /// <summary>
 /// Specifies the supported data types for attributes and values within the Galaxy system.
 /// </summary>
-public enum DataType
+public enum AttributeDataType
 {
     /// <summary>
     /// Represents a boolean (true or false) value.
@@ -52,34 +52,34 @@ public enum DataType
 }
 
 /// <summary>
-/// Provides extension methods for the <see cref="DataType" /> enumeration, enabling additional functionality
+/// Provides extension methods for the <see cref="AttributeDataType" /> enumeration, enabling additional functionality
 /// and operations based on the nature of data types.
 /// </summary>
 public static class DataTypeExtensions
 {
     /// <summary>
-    /// Determines whether the specified <see cref="DataType" /> is numeric.
+    /// Determines whether the specified <see cref="AttributeDataType" /> is numeric.
     /// A numeric data type includes Integer, Float, and Double.
     /// </summary>
-    /// <param name="dataType">The <see cref="DataType" /> to check.</param>
+    /// <param name="dataType">The <see cref="AttributeDataType" /> to check.</param>
     /// <returns>
     /// Returns <c>true</c> if the <paramref name="dataType" /> is numeric; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsNumeric(this DataType dataType)
+    public static bool IsNumeric(this AttributeDataType dataType)
     {
-        return dataType is DataType.Integer or DataType.Float or DataType.Double;
+        return dataType is AttributeDataType.Integer or AttributeDataType.Float or AttributeDataType.Double;
     }
 
     /// <summary>
-    /// Determines whether the specified <see cref="DataType" /> is textual.
+    /// Determines whether the specified <see cref="AttributeDataType" /> is textual.
     /// A textual data type includes String, BigString, and InternationalizedString.
     /// </summary>
-    /// <param name="dataType">The <see cref="DataType" /> to check.</param>
+    /// <param name="dataType">The <see cref="AttributeDataType" /> to check.</param>
     /// <returns>
     /// Returns <c>true</c> if the <paramref name="dataType" /> is textual; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsTextual(this DataType dataType)
+    public static bool IsTextual(this AttributeDataType dataType)
     {
-        return dataType is DataType.String or DataType.BigString or DataType.InternationalizedString;
+        return dataType is AttributeDataType.String or AttributeDataType.BigString or AttributeDataType.InternationalizedString;
     }
 }

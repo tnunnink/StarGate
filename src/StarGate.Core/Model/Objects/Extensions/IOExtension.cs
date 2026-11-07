@@ -67,9 +67,9 @@ public class IOExtension : IAttributeExtension
     /// </summary>
     public ScalingExtension? Scaling { get; init; }
 
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
-        return dataType != DataType.InternationalizedString;
+        return dataType != AttributeDataType.InternationalizedString;
     }
 
     /// <summary>

@@ -22,12 +22,10 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
 
     public IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container)
     {
-        var props = _inner.GetProperties(type, container).ToArray();
-
         return _inner
             .GetProperties(type, container)
-            .OrderBy(p => GetPropertyDepth(type, p))
-            .ThenBy(p => p.Order);
+            .OrderBy(p => GetExplicitOrder(type, p))
+            .ThenBy(p => GetPropertyDepth(type, p));
     }
 
     public IPropertyDescriptor GetProperty(
@@ -46,6 +44,21 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
 
     public object? Parse(string value, Type expectedType) => _inner.Parse(value, expectedType);
 
+    private static int GetExplicitOrder(Type targetType, IPropertyDescriptor property)
+    {
+        var propertyInfo = targetType.GetProperty(
+            property.Name,
+            BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase
+        );
+
+        var member = propertyInfo?.GetCustomAttribute<YamlMemberAttribute>();
+        if (member is not null && member.Order != 0)
+        {
+            return member.Order;
+        }
+
+        return int.MaxValue;
+    }
 
     /// <summary>
     /// Calculates the inheritance depth used to order a property descriptor for the specified target type.

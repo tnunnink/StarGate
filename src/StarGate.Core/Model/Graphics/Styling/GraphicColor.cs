@@ -4,7 +4,7 @@ using System.Globalization;
 namespace StarGate.Core;
 
 /// <summary>
-/// Represents an RGBA color value used for styling graphic elements and symbols.
+/// Represents an RGB color value used for styling graphic elements and symbols.
 /// </summary>
 /// <param name="R">The red component value (0–255).</param>
 /// <param name="G">The green component value (0–255).</param>
@@ -12,12 +12,12 @@ namespace StarGate.Core;
 public readonly record struct GraphicColor(byte R, byte G, byte B)
 {
     /// <summary>
-    /// Gets a predefined opaque black color (RGBA: 0, 0, 0, 255).
+    /// Gets a predefined opaque black color (RGB: 0, 0, 0).
     /// </summary>
     public static GraphicColor Black => new(0, 0, 0);
 
     /// <summary>
-    /// Gets a predefined opaque white color (RGBA: 255, 255, 255, 255).
+    /// Gets a predefined opaque white color (RGB: 255, 255, 255).
     /// </summary>
     public static GraphicColor White => new(255, 255, 255);
 

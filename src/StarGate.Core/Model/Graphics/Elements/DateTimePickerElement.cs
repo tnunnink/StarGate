@@ -31,14 +31,14 @@ public record DateTimePickerElement : GraphicElement
     /// Gets or initializes the minimum allowable date value for the DateTimePicker element.
     /// This defines the earliest date that can be selected or displayed.
     /// </summary>
-    public GraphicReference? MinDate { get; init; }
+    public GraphicExpression? MinDate { get; init; }
 
     /// <summary>
     /// Specifies the maximum allowable date for the <see cref="DateTimePickerElement" />.
     /// Represents a graphical reference that can define the maximum date as either a literal text
     /// value or a dynamic reference expression.
     /// </summary>
-    public GraphicReference? MaxDate { get; init; }
+    public GraphicExpression? MaxDate { get; init; }
 
     /// <summary>
     /// Gets the background color displayed within the drop-down month calendar.

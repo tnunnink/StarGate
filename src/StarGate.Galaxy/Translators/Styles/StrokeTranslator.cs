@@ -16,9 +16,9 @@ public class StrokeTranslator : GraphicTranslator<StrokeStyle>
         {
             Pattern = target.GetEnum<StrokePattern>("LineStyle.@LinePattern"),
             Width = target.GetStruct("LineStyle.@Weight", int.Parse),
-            Brush = BrushTranslator.Read(target.GetChild("LineStyle.FillStyle")),
-            StartCap = target.GetOptionalEnum<StrokeCap>("@StartCap"),
-            EndCap = target.GetOptionalEnum<StrokeCap>("@EndCap")
+            Brush = BrushTranslator.Read(target.GetChild("LineStyle.FillStyle")) ?? GraphicColor.Black,
+            StartCap = target.GetEnum<StrokeCap>("@StartCap"),
+            EndCap = target.GetEnum<StrokeCap>("@EndCap")
         };
     }
 

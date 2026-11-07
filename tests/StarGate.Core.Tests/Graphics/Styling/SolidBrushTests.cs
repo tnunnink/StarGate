@@ -3,7 +3,7 @@
 namespace StarGate.Core;
 
 [TestClass]
-public class SolidBrushTests
+public class SolidBrushTests : VerifyBase
 {
     [TestMethod]
     public void DefaultShouldHaveExpectedValues()
@@ -15,8 +15,24 @@ public class SolidBrushTests
     }
 
     [TestMethod]
-    public void SerializedShouldHaveVerifiedOutput()
+    public Task SerializedWithColorShouldBeVerified()
     {
-        var brush = new SolidBrush() { Color = "" };
+        var serializer = new GalaxySerializer();
+        var brush = new SolidBrush { Color = "FFFFFF" };
+
+        var yaml = serializer.Serialize(brush);
+
+        return Verify(yaml);
+    }
+    
+    [TestMethod]
+    public Task SerializedWithAllShouldBeVerified()
+    {
+        var serializer = new GalaxySerializer();
+        var brush = new SolidBrush { Color = "FFFFFF", Transparency = 12.0 };
+
+        var yaml = serializer.Serialize(brush);
+
+        return Verify(yaml);
     }
 }

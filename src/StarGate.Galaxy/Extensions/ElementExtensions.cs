@@ -28,6 +28,24 @@ public static class ElementExtensions
         }
 
         /// <summary>
+        /// Retrieves the value associated with the specified selector from an XML element.
+        /// The method can extract values from child elements or attributes based on the provided selector.
+        /// </summary>
+        /// <param name="selector">
+        /// A string identifying the path to an XML element or an attribute. The path can be a series of dot-separated
+        /// element names or an attribute name prefixed with '@'. If the selector is null or empty, the value of the
+        /// current element is returned.
+        /// </param>
+        /// <returns>
+        /// A string representing the value associated with the specified selector or null if the selector
+        /// does not match any child element or attribute.
+        /// </returns>
+        public string? GetText(string selector)
+        {
+            return element.SelectValue(selector);
+        }
+
+        /// <summary>
         /// Retrieves the value of an attribute or element specified by the selector.
         /// Throws an <see cref="InvalidOperationException"/> if the value is not found.
         /// </summary>
@@ -41,7 +59,7 @@ public static class ElementExtensions
         /// <exception cref="InvalidOperationException">
         /// Thrown when the required value corresponding to the specified selector is not found.
         /// </exception>
-        public string GetRequiredValue(string selector)
+        public string GetRequiredText(string selector)
         {
             var value = element.SelectValue(selector);
 
@@ -50,6 +68,24 @@ public static class ElementExtensions
                     $"Required attribute '{selector}' was not found on element '{element.Name}'.");
 
             return value;
+        }
+
+        /// <summary>
+        /// Retrieves the value from the specified selector, applies a parser to it, and returns the parsed value.
+        /// If the value is null or cannot be found, the provided fallback value is returned.
+        /// </summary>
+        /// <param name="selector">
+        /// Specifies the path or attribute to retrieve the value from. If the selector starts with '@', it is treated as an attribute reference.
+        /// Otherwise, it is treated as a descendant element selector or the current element's value if empty.
+        /// </param>
+        /// <param name="parser">A function to parse the retrieved string into the desired type.</param>
+        /// <param name="fallback">The fallback value to return when the selector does not yield a valid value.</param>
+        /// <typeparam name="TValue">The type of the value to be parsed and returned.</typeparam>
+        /// <returns>The parsed value of type <typeparamref name="TValue"/>, or the fallback value if the selector does not match.</returns>
+        public TValue? GetValue<TValue>(string selector, Func<string, TValue> parser, TValue? fallback = default)
+        {
+            var value = element.SelectValue(selector);
+            return value is not null ? parser(value) : fallback;
         }
 
         /// <summary>
@@ -75,42 +111,6 @@ public static class ElementExtensions
                     $"Required attribute '{selector}' was not found on element '{element.Name}'.");
 
             return parser(value);
-        }
-
-        /// <summary>
-        /// Retrieves the value associated with the specified selector from an XML element.
-        /// The method can extract values from child elements or attributes based on the provided selector.
-        /// </summary>
-        /// <param name="selector">
-        /// A string identifying the path to an XML element or an attribute. The path can be a series of dot-separated
-        /// element names or an attribute name prefixed with '@'. If the selector is null or empty, the value of the
-        /// current element is returned.
-        /// </param>
-        /// <returns>
-        /// A string representing the value associated with the specified selector or null if the selector
-        /// does not match any child element or attribute.
-        /// </returns>
-        public string? GetValue(string selector)
-        {
-            return element.SelectValue(selector);
-        }
-
-        /// <summary>
-        /// Retrieves the value from the specified selector, applies a parser to it, and returns the parsed value.
-        /// If the value is null or cannot be found, the provided fallback value is returned.
-        /// </summary>
-        /// <param name="selector">
-        /// Specifies the path or attribute to retrieve the value from. If the selector starts with '@', it is treated as an attribute reference.
-        /// Otherwise, it is treated as a descendant element selector or the current element's value if empty.
-        /// </param>
-        /// <param name="parser">A function to parse the retrieved string into the desired type.</param>
-        /// <param name="fallback">The fallback value to return when the selector does not yield a valid value.</param>
-        /// <typeparam name="TValue">The type of the value to be parsed and returned.</typeparam>
-        /// <returns>The parsed value of type <typeparamref name="TValue"/>, or the fallback value if the selector does not match.</returns>
-        public TValue? GetValue<TValue>(string selector, Func<string, TValue> parser, TValue? fallback = default)
-        {
-            var value = element.SelectValue(selector);
-            return value is not null ? parser(value) : fallback;
         }
 
         /// <summary>
@@ -152,22 +152,6 @@ public static class ElementExtensions
                 return result;
 
             return fallback;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="selector"></param>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <returns></returns>
-        public TEnum? GetOptionalEnum<TEnum>(string selector) where TEnum : struct, Enum
-        {
-            var value = element.SelectValue(selector);
-
-            if (value is not null && Enum.TryParse<TEnum>(value, true, out var result))
-                return result;
-
-            return null;
         }
 
         /// <summary>
@@ -265,7 +249,7 @@ public static class ElementExtensions
         /// </returns>
         public FillDirection GetFillDirection()
         {
-            var b = element.GetValue("FillBehavior")?.ToLower();
+            var b = element.GetText("FillBehavior")?.ToLower();
             var h = element.GetEnum<FillDirection>("HorizontalDirection");
             var v = element.GetEnum<FillDirection>("VerticalDirection");
 

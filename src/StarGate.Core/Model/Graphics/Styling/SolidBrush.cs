@@ -1,4 +1,6 @@
-﻿namespace StarGate.Core;
+﻿using YamlDotNet.Serialization;
+
+namespace StarGate.Core;
 
 /// <summary>
 /// Represents a brush with a single solid color, used for rendering graphical elements.
@@ -10,5 +12,6 @@ public record SolidBrush : GraphicBrush
     /// Specifies the color of the brush, represented as an RGBA value.
     /// The color determines the visual appearance of the rendered brush.
     /// </summary>
+    [YamlMember(Order = 1)]
     public GraphicColor Color { get; init; }
 }

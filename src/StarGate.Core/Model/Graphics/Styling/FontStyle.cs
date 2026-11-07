@@ -1,4 +1,6 @@
-﻿namespace StarGate.Core;
+﻿using System.ComponentModel;
+
+namespace StarGate.Core;
 
 /// <summary>
 /// Represents the style properties of a font used for graphical elements.
@@ -12,40 +14,43 @@ public class FontStyle
     /// <summary>
     /// Gets the graphical brush used to render the font's appearance.
     /// </summary>
-    public GraphicBrush? Brush { get; init; }
+    public GraphicBrush Brush { get; init; } = GraphicColor.Black;
 
     /// <summary>
     /// Gets the name of the font-family.
     /// </summary>
+    [DefaultValue("Arial")]
     public string Family { get; init; } = "Arial";
 
     /// <summary>
     /// Gets the size of the font in points or drawing units.
     /// </summary>
+    [DefaultValue(12)]
     public double Size { get; init; } = 12;
 
     /// <summary>
     /// Gets a value indicating whether the font is styled in bold weight.
     /// </summary>
-    public bool? Bold { get; init; }
+    public bool Bold { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether the font is styled in italics.
     /// </summary>
-    public bool? Italic { get; init; }
+    public bool Italic { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether the font text is underlined.
     /// </summary>
-    public bool? Underline { get; init; }
+    public bool Underline { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether the font text has a strikethrough line.
     /// </summary>
-    public bool? Strikeout { get; init; }
+    public bool Strikeout { get; init; }
 
     /// <summary>
     /// Gets the horizontal and vertical alignment of the text within its bounding area.
     /// </summary>
-    public GraphicAlignment? Alignment { get; init; }
+    [DefaultValue(GraphicAlignment.TopLeft)]
+    public GraphicAlignment Alignment { get; init; } = GraphicAlignment.TopLeft;
 }

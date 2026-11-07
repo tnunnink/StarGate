@@ -32,16 +32,16 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
     }
 
     [TestMethod]
-    [DataRow("TestBool", DataType.Boolean)]
-    [DataRow("TestInt", DataType.Integer)]
-    [DataRow("TestFloat", DataType.Float)]
-    [DataRow("TestDouble", DataType.Double)]
-    [DataRow("TestString", DataType.String)]
-    [DataRow("TestTime", DataType.Time)]
-    [DataRow("TestElapsed", DataType.ElapsedTime)]
-    [DataRow("TestInternationalized", DataType.InternationalizedString)]
-    [DataRow("TestBigString", DataType.BigString)]
-    public void Extract_UserDefinedAttribute_ShouldHaveExpectedNameAndType(string name, DataType type)
+    [DataRow("TestBool", AttributeDataType.Boolean)]
+    [DataRow("TestInt", AttributeDataType.Integer)]
+    [DataRow("TestFloat", AttributeDataType.Float)]
+    [DataRow("TestDouble", AttributeDataType.Double)]
+    [DataRow("TestString", AttributeDataType.String)]
+    [DataRow("TestTime", AttributeDataType.Time)]
+    [DataRow("TestElapsed", AttributeDataType.ElapsedTime)]
+    [DataRow("TestInternationalized", AttributeDataType.InternationalizedString)]
+    [DataRow("TestBigString", AttributeDataType.BigString)]
+    public void Extract_UserDefinedAttribute_ShouldHaveExpectedNameAndType(string name, AttributeDataType type)
     {
         var instance = GetInstance(TestInstance);
 
@@ -119,7 +119,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         var source = new GalaxyAttribute
         {
             Name = "NewAttribute",
-            DataType = DataType.Integer,
+            DataType = AttributeDataType.Integer,
             Value = new AttributeConfig { Value = 42 }
         };
 
@@ -139,7 +139,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         var source = new GalaxyAttribute
         {
             Name = "LoggedAttribute",
-            DataType = DataType.Integer,
+            DataType = AttributeDataType.Integer,
             Log = new LoggingExtension { LogEvent = new AttributeConfig { Value = true } }
         };
 
@@ -170,7 +170,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
         var obj = temp.Instance;
         obj.CheckOut();
         var handler = new ObjectAttributeHandler();
-        handler.Apply(obj, new GalaxyAttribute { Name = "Merged", DataType = DataType.Integer, Length = null });
+        handler.Apply(obj, new GalaxyAttribute { Name = "Merged", DataType = AttributeDataType.Integer, Length = null });
 
         // Only supply a description; type should be retained from the existing attribute.
         var result = handler.Apply(obj, new GalaxyAttribute
@@ -181,7 +181,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
 
         result.Success.Should().BeTrue();
         var attribute = handler.Extract(obj, "Merged");
-        attribute!.DataType.Should().Be(DataType.Integer);
+        attribute!.DataType.Should().Be(AttributeDataType.Integer);
         attribute.Description!.Value.Should().Be("updated");
     }
 
@@ -189,7 +189,7 @@ public class ObjectAttributeHandlerTests : GalaxyFixture
     public void Apply_ObjectNotCheckedOut_ShouldReturnFailure()
     {
         using var temp = new GalaxyTestObject(Galaxy);
-        var source = new GalaxyAttribute { Name = "NotCheckedOut", DataType = DataType.Integer };
+        var source = new GalaxyAttribute { Name = "NotCheckedOut", DataType = AttributeDataType.Integer };
 
         var result = new ObjectAttributeHandler().Apply(temp.Instance, source);
 

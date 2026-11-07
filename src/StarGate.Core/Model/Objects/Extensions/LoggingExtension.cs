@@ -15,8 +15,8 @@ public class LoggingExtension : IAttributeExtension
     public AttributeConfig? LogEvent { get; init; }
 
     /// <inheritdoc />
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
-        return dataType is DataType.Boolean || dataType.IsNumeric();
+        return dataType is AttributeDataType.Boolean || dataType.IsNumeric();
     }
 }

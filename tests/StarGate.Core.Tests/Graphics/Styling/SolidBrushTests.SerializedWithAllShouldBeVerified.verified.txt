@@ -1,0 +1,2 @@
+﻿color: "#FFFFFF"
+transparency: 12

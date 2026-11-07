@@ -55,65 +55,65 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Maps a given <see cref="DataType" /> value to its corresponding <see cref="MxDataType" /> type.
+    /// Maps a given <see cref="AttributeDataType" /> value to its corresponding <see cref="MxDataType" /> type.
     /// </summary>
-    /// <param name="dataType">The <see cref="DataType" /> value to be mapped.</param>
+    /// <param name="dataType">The <see cref="AttributeDataType" /> value to be mapped.</param>
     /// <returns>
     /// An <see cref="MxDataType" /> that represents the equivalent type for the specified
     /// <paramref name="dataType" /> value.
     /// </returns>
-    public static MxDataType ToMxType(this DataType dataType)
+    public static MxDataType ToMxType(this AttributeDataType dataType)
     {
         return dataType switch
         {
-            DataType.Boolean => MxDataType.MxBoolean,
-            DataType.Integer => MxDataType.MxInteger,
-            DataType.Float => MxDataType.MxFloat,
-            DataType.Double => MxDataType.MxDouble,
-            DataType.String => MxDataType.MxString,
-            DataType.Time => MxDataType.MxTime,
-            DataType.ElapsedTime => MxDataType.MxElapsedTime,
-            DataType.InternationalizedString => MxDataType.MxInternationalizedString,
-            DataType.BigString => MxDataType.MxBigString,
+            AttributeDataType.Boolean => MxDataType.MxBoolean,
+            AttributeDataType.Integer => MxDataType.MxInteger,
+            AttributeDataType.Float => MxDataType.MxFloat,
+            AttributeDataType.Double => MxDataType.MxDouble,
+            AttributeDataType.String => MxDataType.MxString,
+            AttributeDataType.Time => MxDataType.MxTime,
+            AttributeDataType.ElapsedTime => MxDataType.MxElapsedTime,
+            AttributeDataType.InternationalizedString => MxDataType.MxInternationalizedString,
+            AttributeDataType.BigString => MxDataType.MxBigString,
             _ => MxDataType.MxDataTypeUnknown
         };
     }
 
     /// <summary>
-    /// Maps the specified <see cref="MxDataType" /> value to its corresponding <see cref="DataType" /> type.
+    /// Maps the specified <see cref="MxDataType" /> value to its corresponding <see cref="AttributeDataType" /> type.
     /// </summary>
     /// <param name="dataType">The <see cref="MxDataType" /> value to be converted.</param>
     /// <returns>
-    /// A <see cref="DataType" /> that represents the equivalent type for the specified <paramref name="dataType" />
+    /// A <see cref="AttributeDataType" /> that represents the equivalent type for the specified <paramref name="dataType" />
     /// value.
     /// </returns>
-    public static DataType ToCoreType(this MxDataType dataType)
+    public static AttributeDataType ToCoreType(this MxDataType dataType)
     {
         return dataType switch
         {
-            MxDataType.MxBoolean => DataType.Boolean,
-            MxDataType.MxInteger => DataType.Integer,
-            MxDataType.MxFloat => DataType.Float,
-            MxDataType.MxDouble => DataType.Double,
-            MxDataType.MxString => DataType.String,
-            MxDataType.MxTime => DataType.Time,
-            MxDataType.MxElapsedTime => DataType.ElapsedTime,
-            MxDataType.MxInternationalizedString => DataType.InternationalizedString,
-            MxDataType.MxBigString => DataType.BigString,
+            MxDataType.MxBoolean => AttributeDataType.Boolean,
+            MxDataType.MxInteger => AttributeDataType.Integer,
+            MxDataType.MxFloat => AttributeDataType.Float,
+            MxDataType.MxDouble => AttributeDataType.Double,
+            MxDataType.MxString => AttributeDataType.String,
+            MxDataType.MxTime => AttributeDataType.Time,
+            MxDataType.MxElapsedTime => AttributeDataType.ElapsedTime,
+            MxDataType.MxInternationalizedString => AttributeDataType.InternationalizedString,
+            MxDataType.MxBigString => AttributeDataType.BigString,
 
             //todo not sure if we want to do these really. We shouldn't have to
-            MxDataType.MxDataTypeUnknown => DataType.String,
-            MxDataType.MxNoData => DataType.String,
-            MxDataType.MxReferenceType => DataType.String,
-            MxDataType.MxStatusType => DataType.String,
-            MxDataType.MxDataTypeEnum => DataType.String,
-            MxDataType.MxSecurityClassificationEnum => DataType.String,
-            MxDataType.MxDataQualityType => DataType.String,
-            MxDataType.MxQualifiedEnum => DataType.String,
-            MxDataType.MxQualifiedStruct => DataType.String,
-            MxDataType.MxDataTypeEND => DataType.String,
+            MxDataType.MxDataTypeUnknown => AttributeDataType.String,
+            MxDataType.MxNoData => AttributeDataType.String,
+            MxDataType.MxReferenceType => AttributeDataType.String,
+            MxDataType.MxStatusType => AttributeDataType.String,
+            MxDataType.MxDataTypeEnum => AttributeDataType.String,
+            MxDataType.MxSecurityClassificationEnum => AttributeDataType.String,
+            MxDataType.MxDataQualityType => AttributeDataType.String,
+            MxDataType.MxQualifiedEnum => AttributeDataType.String,
+            MxDataType.MxQualifiedStruct => AttributeDataType.String,
+            MxDataType.MxDataTypeEND => AttributeDataType.String,
             _ => throw new ArgumentOutOfRangeException(nameof(dataType),
-                $"MxDataType value '{dataType}' is not defined for '{nameof(DataType)}'.")
+                $"MxDataType value '{dataType}' is not defined for '{nameof(AttributeDataType)}'.")
         };
     }
 

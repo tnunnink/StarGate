@@ -15,7 +15,7 @@ public class RectangleTranslator : GraphicTranslator<RectangleElement>
 
         return new RectangleElement
         {
-            Name = target.GetRequiredValue("@Name"),
+            Name = target.GetRequiredText("@Name"),
             Bounds = target.GetBounds(),
             Origin = target.GetOrigin(),
             Angle = target.GetStruct("@Angle", double.Parse),

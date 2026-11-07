@@ -36,7 +36,7 @@ public class DeviationAlarmExtension : IAttributeExtension
     public AttributeConfig? SettlingPeriod { get; init; }
 
     /// <inheritdoc />
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
         return dataType.IsNumeric();
     }

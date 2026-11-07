@@ -438,7 +438,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var attribute = new GalaxyAttribute { Name = "NewAttribute", DataType = DataType.Integer };
+        var attribute = new GalaxyAttribute { Name = "NewAttribute", DataType = AttributeDataType.Integer };
 
         var result = obj.ReplaceAttribute(attribute);
 
@@ -453,9 +453,9 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = DataType.Integer });
+        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = AttributeDataType.Integer });
 
-        var result = obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = DataType.String });
+        var result = obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = AttributeDataType.String });
 
         result.Success.Should().BeTrue();
         obj.Attributes["Replaced"].DataType.Should().Be(MxDataType.MxString);
@@ -467,7 +467,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        var attribute = new GalaxyAttribute { Name = "NewArray", DataType = DataType.Integer, Length = 5 };
+        var attribute = new GalaxyAttribute { Name = "NewArray", DataType = AttributeDataType.Integer, Length = 5 };
 
         var result = obj.ReplaceAttribute(attribute);
 
@@ -484,7 +484,7 @@ public class ObjectExtensionTests : GalaxyFixture
         var attribute = new GalaxyAttribute
         {
             Name = "NewCalculated",
-            DataType = DataType.Integer,
+            DataType = AttributeDataType.Integer,
             Writeability = Writeability.Calculated
         };
 
@@ -500,7 +500,7 @@ public class ObjectExtensionTests : GalaxyFixture
         using var temp = new GalaxyTestObject(Galaxy);
         var obj = temp.Instance;
         obj.CheckOut();
-        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Target", DataType = DataType.Integer });
+        obj.ReplaceAttribute(new GalaxyAttribute { Name = "Target", DataType = AttributeDataType.Integer });
 
         var result = obj.AddExtension<LoggingExtension>("Target");
 

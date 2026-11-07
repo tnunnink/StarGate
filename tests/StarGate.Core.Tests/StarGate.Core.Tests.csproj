@@ -36,6 +36,12 @@
       <None Update="Graphics\Elements\RectangleElementTests.SerializeOverriddenShouldBeVerified.verified.txt">
         <DependentUpon>RectangleElementTests.cs</DependentUpon>
       </None>
+      <None Update="Graphics\Styling\SolidBrushTests.SerializedWithAllShouldBeVerified.verified.txt">
+        <DependentUpon>SolidBrushTests.cs</DependentUpon>
+      </None>
+      <None Update="Graphics\Styling\SolidBrushTests.SerializedWithColorShouldBeVerified.verified.txt">
+        <DependentUpon>SolidBrushTests.cs</DependentUpon>
+      </None>
     </ItemGroup>
 
 </Project>

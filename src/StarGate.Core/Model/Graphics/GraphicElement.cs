@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -37,7 +36,7 @@ public abstract record GraphicElement
     /// </summary>
     [Range(0.0, 360.0, ErrorMessage = "Angle must be between 0.0 and 360.0 degrees.")]
     [DefaultValue(0.0)]
-    public double? Angle { get; init; } = 0.0;
+    public double Angle { get; init; }
 
     /// <summary>
     /// Gets the axis along which the graphic element is mirrored or flipped.

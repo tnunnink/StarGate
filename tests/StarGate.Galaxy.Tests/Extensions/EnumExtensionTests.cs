@@ -54,16 +54,16 @@ public class EnumExtensionTests
     }
 
     [TestMethod]
-    [DataRow(DataType.Boolean, MxDataType.MxBoolean)]
-    [DataRow(DataType.Integer, MxDataType.MxInteger)]
-    [DataRow(DataType.Float, MxDataType.MxFloat)]
-    [DataRow(DataType.Double, MxDataType.MxDouble)]
-    [DataRow(DataType.String, MxDataType.MxString)]
-    [DataRow(DataType.Time, MxDataType.MxTime)]
-    [DataRow(DataType.ElapsedTime, MxDataType.MxElapsedTime)]
-    [DataRow(DataType.InternationalizedString, MxDataType.MxInternationalizedString)]
-    [DataRow(DataType.BigString, MxDataType.MxBigString)]
-    public void ToMxType_DataType_ShouldReturnExpectedMxDataType(DataType dataType, MxDataType expected)
+    [DataRow(AttributeDataType.Boolean, MxDataType.MxBoolean)]
+    [DataRow(AttributeDataType.Integer, MxDataType.MxInteger)]
+    [DataRow(AttributeDataType.Float, MxDataType.MxFloat)]
+    [DataRow(AttributeDataType.Double, MxDataType.MxDouble)]
+    [DataRow(AttributeDataType.String, MxDataType.MxString)]
+    [DataRow(AttributeDataType.Time, MxDataType.MxTime)]
+    [DataRow(AttributeDataType.ElapsedTime, MxDataType.MxElapsedTime)]
+    [DataRow(AttributeDataType.InternationalizedString, MxDataType.MxInternationalizedString)]
+    [DataRow(AttributeDataType.BigString, MxDataType.MxBigString)]
+    public void ToMxType_DataType_ShouldReturnExpectedMxDataType(AttributeDataType dataType, MxDataType expected)
     {
         dataType.ToMxType().Should().Be(expected);
     }
@@ -71,22 +71,22 @@ public class EnumExtensionTests
     [TestMethod]
     public void ToMxType_UndefinedDataType_ShouldReturnUnknown()
     {
-        const DataType invalid = (DataType)int.MaxValue;
+        const AttributeDataType invalid = (AttributeDataType)int.MaxValue;
 
         invalid.ToMxType().Should().Be(MxDataType.MxDataTypeUnknown);
     }
 
     [TestMethod]
-    [DataRow(MxDataType.MxBoolean, DataType.Boolean)]
-    [DataRow(MxDataType.MxInteger, DataType.Integer)]
-    [DataRow(MxDataType.MxFloat, DataType.Float)]
-    [DataRow(MxDataType.MxDouble, DataType.Double)]
-    [DataRow(MxDataType.MxString, DataType.String)]
-    [DataRow(MxDataType.MxTime, DataType.Time)]
-    [DataRow(MxDataType.MxElapsedTime, DataType.ElapsedTime)]
-    [DataRow(MxDataType.MxInternationalizedString, DataType.InternationalizedString)]
-    [DataRow(MxDataType.MxBigString, DataType.BigString)]
-    public void ToCoreType_MxDataType_ShouldReturnExpectedDataType(MxDataType dataType, DataType expected)
+    [DataRow(MxDataType.MxBoolean, AttributeDataType.Boolean)]
+    [DataRow(MxDataType.MxInteger, AttributeDataType.Integer)]
+    [DataRow(MxDataType.MxFloat, AttributeDataType.Float)]
+    [DataRow(MxDataType.MxDouble, AttributeDataType.Double)]
+    [DataRow(MxDataType.MxString, AttributeDataType.String)]
+    [DataRow(MxDataType.MxTime, AttributeDataType.Time)]
+    [DataRow(MxDataType.MxElapsedTime, AttributeDataType.ElapsedTime)]
+    [DataRow(MxDataType.MxInternationalizedString, AttributeDataType.InternationalizedString)]
+    [DataRow(MxDataType.MxBigString, AttributeDataType.BigString)]
+    public void ToCoreType_MxDataType_ShouldReturnExpectedDataType(MxDataType dataType, AttributeDataType expected)
     {
         dataType.ToCoreType().Should().Be(expected);
     }
@@ -104,7 +104,7 @@ public class EnumExtensionTests
     [DataRow(MxDataType.MxDataTypeEND)]
     public void ToCoreType_NonStandardMxDataType_ShouldReturnString(MxDataType dataType)
     {
-        dataType.ToCoreType().Should().Be(DataType.String);
+        dataType.ToCoreType().Should().Be(AttributeDataType.String);
     }
 
     [TestMethod]

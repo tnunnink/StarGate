@@ -12,13 +12,13 @@ public class FillStyle
     /// Gets the brush used for rendering graphical content within the element.
     /// Defines the visual properties, such as transparency, of the fill applied to the element.
     /// </summary>
-    public GraphicBrush? Brush { get; init; }
+    public GraphicBrush Brush { get; init; } = GraphicColor.White;
 
     /// <summary>
     /// Gets the brush used to define the unfilled areas of a graphical element.
     /// Controls the visual representation and properties of areas where no fill is applied.
     /// </summary>
-    public GraphicBrush? Unfilled { get; init; }
+    public GraphicBrush Unfilled { get; init; } = GraphicColor.Black;
 
     /// <summary>
     /// Gets the orientation used for filling graphical content within this element.
@@ -41,7 +41,7 @@ public class FillStyle
     /// </summary>
     [Range(0.0, 100.0, ErrorMessage = "VerticalFill must be between 0 and 100.")]
     [DefaultValue(100.0)]
-    public double? Vertical { get; init; } = 100.0;
+    public double Vertical { get; init; } = 100.0;
 
     /// <summary>
     /// Specifies the horizontal fill percentage of the graphic element.
@@ -50,5 +50,5 @@ public class FillStyle
     /// </summary>
     [Range(0.0, 100.0, ErrorMessage = "HorizontalFill must be between 0 and 100.")]
     [DefaultValue(100.0)]
-    public double? Horizontal { get; init; } = 100.0;
+    public double Horizontal { get; init; } = 100.0;
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using YamlDotNet.Serialization;
 
 namespace StarGate.Core;
 
@@ -14,6 +15,7 @@ public abstract record GraphicBrush
     /// </summary>
     [Range(0.0, 100.0, ErrorMessage = "Transparency must be between 0 and 100.")]
     [DefaultValue(0.0)]
+    [YamlMember(Order = 10)]
     public double Transparency { get; init; }
 
     /// <summary>

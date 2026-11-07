@@ -12,5 +12,5 @@ public interface IAttributeExtension
     /// </summary>
     /// <param name="dataType">The data type to check for support.</param>
     /// <returns>True if the specified data type is supported; otherwise, false.</returns>
-    bool Supports(DataType dataType);
+    bool Supports(AttributeDataType dataType);
 }

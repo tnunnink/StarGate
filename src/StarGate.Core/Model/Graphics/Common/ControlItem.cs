@@ -18,8 +18,5 @@ public class ControlItem
     /// <summary>
     /// Implicitly converts a single string into a <see cref="ControlItem" /> where Value and Caption are identical.
     /// </summary>
-    public static implicit operator ControlItem(string text)
-    {
-        return new ControlItem { Value = text, Caption = text };
-    }
+    public static implicit operator ControlItem(string text) => new() { Value = text, Caption = text };
 }

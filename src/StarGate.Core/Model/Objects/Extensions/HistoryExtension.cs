@@ -63,8 +63,8 @@ public class HistoryExtension : IAttributeExtension
     public AttributeConfig? Rollover { get; init; }
 
     /// <inheritdoc />
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
-        return dataType is not DataType.InternationalizedString and not DataType.Time;
+        return dataType is not AttributeDataType.InternationalizedString and not AttributeDataType.Time;
     }
 }

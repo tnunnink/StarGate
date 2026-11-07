@@ -102,13 +102,13 @@ public class GalaxyObjectHandlerTests : GalaxyFixture
                 new GalaxyAttribute
                 {
                     Name = "First",
-                    DataType = DataType.Integer,
+                    DataType = AttributeDataType.Integer,
                     Value = new AttributeConfig { Value = 1 }
                 },
                 new GalaxyAttribute
                 {
                     Name = "Second",
-                    DataType = DataType.String,
+                    DataType = AttributeDataType.String,
                     Value = new AttributeConfig { Value = "two" }
                 }
             ]

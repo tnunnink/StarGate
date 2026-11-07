@@ -49,8 +49,8 @@ public class StateAlarmExtension : IAttributeExtension
     public AttributeConfig? Delay { get; init; }
 
     /// <inheritdoc />
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
-        return dataType == DataType.Boolean;
+        return dataType == AttributeDataType.Boolean;
     }
 }

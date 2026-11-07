@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace StarGate.Core;
 
-public class WizardDefinition
+public record WizardDefinition
 {
     public IEnumerable<WizardOption> Options { get; init; } = [];
 

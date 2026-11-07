@@ -48,12 +48,12 @@ public record CalendarElement : GraphicElement
     /// <summary>
     /// Gets the minimum selectable date, either as a literal date string or dynamic expression.
     /// </summary>
-    public GraphicReference? MinDate { get; init; }
+    public GraphicExpression? MinDate { get; init; }
 
     /// <summary>
     /// Gets the maximum selectable date, either as a literal date string or dynamic expression.
     /// </summary>
-    public GraphicReference? MaxDate { get; init; }
+    public GraphicExpression? MaxDate { get; init; }
 
     /// <summary>
     /// Gets the Galaxy tag reference pointing to an array of dates to render in bold font.

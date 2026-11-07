@@ -161,7 +161,7 @@ public static class ValueExtensions
                         mxValue.PutMxStatus(ref status);
                         break;
                     case MxDataType.MxDataTypeEnum:
-                        mxValue.PutMxDataType(((DataType)value).ToMxType());
+                        mxValue.PutMxDataType(((AttributeDataType)value).ToMxType());
                         break;
                     case MxDataType.MxSecurityClassificationEnum:
                         mxValue.PutMxSecurityClassification(((Security)value).ToMxType());

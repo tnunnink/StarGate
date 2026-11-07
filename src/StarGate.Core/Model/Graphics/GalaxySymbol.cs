@@ -18,7 +18,27 @@ public class GalaxySymbol
     public string? Folder { get; init; }
 
     /// <summary>
-    /// Gets or sets the collection of graphic elements contained within the symbol.
+    /// Gets or initializes the custom properties defined for the graphic symbol.
+    /// </summary>
+    public IEnumerable<GraphicProperty> Properties { get; init; } = [];
+
+    /// <summary>
+    /// Gets the wizard options that define configurable choices for the graphic symbol.
+    /// </summary>
+    public IEnumerable<WizardOption> Options { get; init; } = [];
+
+    /// <summary>
+    /// Gets the collection of wizard rules that define conditional layers for the symbol.
+    /// </summary>
+    public IEnumerable<WizardRule> Layers { get; init; } = [];
+
+    /// <summary>
+    /// Gets the visual and interactive elements that compose the graphic symbol.
     /// </summary>
     public IEnumerable<GraphicElement> Elements { get; init; } = [];
+
+    /// <summary>
+    /// Gets the scripts that define runtime behavior for the graphic element.
+    /// </summary>
+    public IEnumerable<GraphicScript> Scripts { get; init; } = [];
 }

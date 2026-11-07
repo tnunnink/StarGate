@@ -1,10 +1,22 @@
 ﻿namespace StarGate.Core;
 
-public class WizardSetting
+/// <summary>
+/// 
+/// </summary>
+public record WizardSetting
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public required string Name { get; init; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public required object Value { get; init; }
 
-    public bool? Visible { get; init; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool Visible { get; init; }
 }

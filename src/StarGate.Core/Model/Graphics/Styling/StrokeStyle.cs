@@ -13,7 +13,7 @@ public class StrokeStyle
     /// <summary>
     /// Gets the graphical brush used to render the stroke or outline of a visual element.
     /// </summary>
-    public GraphicBrush? Brush { get; init; }
+    public GraphicBrush Brush { get; init; } = GraphicColor.Black;
 
     /// <summary>
     /// Gets the width of the stroke in drawing units.
@@ -24,17 +24,20 @@ public class StrokeStyle
     /// <summary>
     /// Gets the pattern style of the stroke, such as solid or dashed.
     /// </summary>
+    [DefaultValue(StrokePattern.Solid)]
     public StrokePattern Pattern { get; init; } = StrokePattern.Solid;
 
     /// <summary>
     /// Gets the cap style applied to the starting point of the stroke.
     /// </summary>
-    public StrokeCap? StartCap { get; init; }
+    [DefaultValue(StrokeCap.Flat)]
+    public StrokeCap StartCap { get; init; } = StrokeCap.Flat;
 
     /// <summary>
     /// Gets the cap style applied to the ending point of the stroke.
     /// </summary>
-    public StrokeCap? EndCap { get; init; }
+    [DefaultValue(StrokeCap.Flat)]
+    public StrokeCap EndCap { get; init; } = StrokeCap.Flat;
 
     /// <summary>
     /// Implicitly converts a <see cref="GraphicColor"/> to a <see cref="StrokeStyle"/>

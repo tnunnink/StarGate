@@ -15,7 +15,7 @@ public class GalaxyAttribute
     /// <summary>
     /// Gets or sets the data type of the attribute.
     /// </summary>
-    public DataType? DataType { get; init; }
+    public AttributeDataType? DataType { get; init; }
 
     /// <summary>
     /// Gets or sets the length of the attribute array, where a value greater than 0 indicates an array.

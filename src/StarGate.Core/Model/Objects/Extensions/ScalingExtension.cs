@@ -58,7 +58,7 @@ public class ScalingExtension : IAttributeExtension
     [GalaxyAttribute("ClampEnabled", Security.Configure)]
     public AttributeConfig? ClampEnabled { get; init; }
 
-    public bool Supports(DataType dataType)
+    public bool Supports(AttributeDataType dataType)
     {
         return dataType.IsNumeric();
     }

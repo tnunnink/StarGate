@@ -1,10 +1,22 @@
 ﻿namespace StarGate.Core;
 
-public class WizardChoice
+/// <summary>
+/// 
+/// </summary>
+public record WizardChoice
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public required string Name { get; init; }
 
-    public string? Comment { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Comment { get; init; }
 
-    public string? When { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? When { get; init; }
 }
