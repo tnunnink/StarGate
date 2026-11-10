@@ -173,8 +173,8 @@ public static class ObjectExtensions
             return new AttributeConfig
             {
                 Value = value,
-                Locked = obj.IsTemplate ? locked : null,
-                Security = obj.IsTemplate ? config?.DefaultSecurity == security ? null : security : null
+                Locked = obj.IsTemplate && locked,
+                Security = obj.IsTemplate && config?.DefaultSecurity != security ? security : Security.Default
             };
         }
 

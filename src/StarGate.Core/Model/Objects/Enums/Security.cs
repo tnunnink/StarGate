@@ -6,42 +6,46 @@
 public enum Security
 {
     /// <summary>
-    /// Represents an undefined security classification, indicating that no specific security level has been assigned.
+    /// Default security classification, applying the standard authorization behavior when no specific access level is assigned.
     /// </summary>
-    Undefined = -1,
+    /// <remarks>
+    /// This does not represent a real ArchestrA security option. It exists to support mapping default security
+    /// options for attributes to a common value that we can omit in the YAML serialization model.
+    /// </remarks>
+    Default,
 
     /// <summary>
     /// Operational access level, permitting routine operator control actions.
     /// </summary>
-    Operate = 0,
+    Operate,
 
     /// <summary>
     /// Unrestricted access level, requiring no special security privileges for reading or writing.
     /// </summary>
-    FreeAccess = 1,
+    FreeAccess,
 
     /// <summary>
     /// Secured write access level, requiring standard user authentication before modifications are permitted.
     /// </summary>
-    SecuredWrite = 2,
+    SecuredWrite,
 
     /// <summary>
     /// Verified write access level, requiring confirmation or dual authentication before modifications are applied.
     /// </summary>
-    VerifiedWrite = 3,
+    VerifiedWrite,
 
     /// <summary>
     /// Tuning access level, permitting engineers and technicians to adjust tuning parameters.
     /// </summary>
-    Tune = 4,
+    Tune,
 
     /// <summary>
     /// Configuration access level, requiring administrative or engineering privileges to alter configuration settings.
     /// </summary>
-    Configure = 5,
+    Configure,
 
     /// <summary>
     /// Read-only access level, preventing any modifications to the attribute.
     /// </summary>
-    ViewOnly = 6
+    ViewOnly
 }

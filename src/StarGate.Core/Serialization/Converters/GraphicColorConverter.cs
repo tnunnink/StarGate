@@ -33,13 +33,6 @@ public class GraphicColorConverter : IYamlTypeConverter
     {
         if (value is not GraphicColor color) return;
 
-        emitter.Emit(new Scalar(
-            AnchorName.Empty,
-            TagName.Empty,
-            color.ToString(),
-            ScalarStyle.DoubleQuoted,
-            true,
-            false
-        ));
+        emitter.Emit(color.ToString(), ScalarStyle.DoubleQuoted);
     }
 }

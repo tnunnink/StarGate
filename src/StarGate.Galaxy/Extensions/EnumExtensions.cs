@@ -193,7 +193,7 @@ public static class EnumExtensions
     /// </summary>
     /// <param name="security">The <see cref="MxSecurityClassification" /> to be converted.</param>
     /// <returns>A corresponding <see cref="Security" /> value if the classification is valid; otherwise, null.</returns>
-    public static Security? ToSecurity(this MxSecurityClassification security)
+    public static Security ToSecurity(this MxSecurityClassification security)
     {
         return security switch
         {
@@ -204,7 +204,7 @@ public static class EnumExtensions
             MxSecurityClassification.MxSecurityTune => Security.Tune,
             MxSecurityClassification.MxSecurityConfigure => Security.Configure,
             MxSecurityClassification.MxSecurityViewOnly => Security.ViewOnly,
-            _ => null
+            _ => Security.Default
         };
     }
 }

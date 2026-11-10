@@ -22,46 +22,37 @@ public class GraphicExpressionConverter : IYamlTypeConverter
             return new StaticExpression(scalar.Value);
 
         // 2. Mapping: { ref: "Me.StartDate" }
-        if (parser.TryConsume<MappingStart>(out _))
+        string? reference = null;
+
+        parser.ConsumeMap(rootDeserializer, (key, reader) =>
         {
-            var key = parser.Consume<Scalar>();
-            var value = parser.Consume<Scalar>();
-            parser.Consume<MappingEnd>();
+            switch (key.Value.ToLowerInvariant())
+            {
+                case "ref": reference = reader.Read(); break;
+                default: reader.Skip(); break;
+            }
+        });
 
-            if (string.Equals(key.Value, "ref", StringComparison.OrdinalIgnoreCase))
-                return new ReferenceExpression(value.Value);
-
+        if (reference is null || string.IsNullOrWhiteSpace(reference))
             throw new YamlException(
-                key.Start,
-                key.End,
-                $"Invalid expression mapping key '{key.Value}'. Expected 'ref'."
-            );
-        }
+                "Expected a scalar string or mapping with 'ref' property for GraphicExpression.");
 
-        throw new YamlException(
-            parser.Current?.Start ?? Mark.Empty,
-            parser.Current?.End ?? Mark.Empty,
-            $"Expected a scalar string or mapping {{ ref: ... }} for {nameof(GraphicExpression)}."
-        );
+        return new ReferenceExpression(reference);
     }
 
     /// <inheritdoc />
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
-        if (value is not GraphicExpression expression)
-            return;
+        if (value is not GraphicExpression expression) return;
 
         // Flow mapping: { ref: "Me.StartDate" }
         if (value is ReferenceExpression reference)
         {
-            emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
-            emitter.Emit(new Scalar("ref"));
-            emitter.Emit(new Scalar(reference.Text));
-            emitter.Emit(new MappingEnd());
+            emitter.EmitMap(e => { e.Emit("ref", reference.Text); }, MappingStyle.Flow);
             return;
         }
 
         // Plain scalar string: "01/01/2025"
-        emitter.Emit(new Scalar(expression.Text));
+        emitter.Emit(expression.Text, ScalarStyle.DoubleQuoted);
     }
 }

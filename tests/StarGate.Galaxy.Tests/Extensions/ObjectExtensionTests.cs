@@ -187,8 +187,8 @@ public class ObjectExtensionTests : GalaxyFixture
 
         config.Should().NotBeNull();
         config.Value.Should().NotBeNull();
-        config.Locked.Should().BeNull();
-        config.Security.Should().BeNull();
+        config.Locked.Should().BeFalse();
+        config.Security.Should().Be(Security.Default);
     }
 
     [TestMethod]
@@ -199,7 +199,7 @@ public class ObjectExtensionTests : GalaxyFixture
         var config = obj.GetConfig<LoggingExtension>(x => x.LogEvent, "ParentInt");
 
         config.Should().NotBeNull();
-        config.Locked.Should().NotBeNull();
+        config.Locked.Should().BeFalse();
     }
 
     [TestMethod]
@@ -455,7 +455,8 @@ public class ObjectExtensionTests : GalaxyFixture
         obj.CheckOut();
         obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = AttributeDataType.Integer });
 
-        var result = obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = AttributeDataType.String });
+        var result =
+            obj.ReplaceAttribute(new GalaxyAttribute { Name = "Replaced", DataType = AttributeDataType.String });
 
         result.Success.Should().BeTrue();
         obj.Attributes["Replaced"].DataType.Should().Be(MxDataType.MxString);

@@ -1,4 +1,7 @@
-﻿using YamlDotNet.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace StarGate.Core;
@@ -42,6 +45,7 @@ public class GalaxySerializer : IGalaxySerializer
         _deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .IgnoreUnmatchedProperties()
+            .WithCoreDiscriminators()
             .WithCoreConverters()
             .Build();
     }
@@ -76,13 +80,34 @@ public static class YamlTypeConverterRegistration
         where TBuilder : BuilderSkeleton<TBuilder>
     {
         return builder
-            .WithTypeConverter(new AttributeConfigConverter())
-            .WithTypeConverter(new ValueBindingConverter())
-            .WithTypeConverter(new ItemBindingConverter())
-            .WithTypeConverter(new GraphicExpressionConverter())
-            .WithTypeConverter(new GraphicBoundsConverter())
-            .WithTypeConverter(new GraphicPointConverter())
-            .WithTypeConverter(new GraphicColorConverter())
+                .WithTypeConverter(new AttributeConfigConverter())
+                .WithTypeConverter(new ValueBindingConverter())
+                .WithTypeConverter(new ItemBindingConverter())
+                .WithTypeConverter(new GraphicExpressionConverter())
+                .WithTypeConverter(new GraphicBoundsConverter())
+                .WithTypeConverter(new GraphicPointConverter())
+                .WithTypeConverter(new GraphicColorConverter())
+                .WithTypeConverter(new SolidBrushConverter())
             ;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
+    public static DeserializerBuilder WithCoreDiscriminators(this DeserializerBuilder builder)
+    {
+        return builder.WithTypeDiscriminatingNodeDeserializer(options =>
+        {
+            options.AddKeyValueTypeDiscriminator<GraphicBrush>("kind",
+                new Dictionary<string, Type>(StringComparer.Ordinal)
+                {
+                    ["solid"] = typeof(SolidBrush),
+                    ["gradient"] = typeof(GradientBrush),
+                    ["pattern"] = typeof(PatternBrush),
+                    ["texture"] = typeof(TextureBrush),
+                });
+        });
     }
 }

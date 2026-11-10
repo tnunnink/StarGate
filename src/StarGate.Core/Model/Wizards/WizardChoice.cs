@@ -1,22 +1,25 @@
-﻿namespace StarGate.Core;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarGate.Core;
 
 /// <summary>
 /// 
 /// </summary>
-public record WizardChoice
+public class WizardChoice
 {
     /// <summary>
     /// 
     /// </summary>
-    public required string Name { get; init; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// 
     /// </summary>
-    public string? Comment { get; init; }
+    public string? Comment { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public string? When { get; init; }
+    public string? When { get; set; }
 }

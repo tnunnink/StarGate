@@ -1,33 +1,35 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StarGate.Core;
 
 /// <summary>
 /// </summary>
-public record WizardOption
+public class WizardOption
 {
     /// <summary>
     /// 
     /// </summary>
-    public required string Name { get; init; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// 
     /// </summary>
-    public string? Comment { get; init; }
+    public string? Comment { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public string? Default { get; init; }
+    public string? Default { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public string? When { get; init; }
+    public string? When { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public IEnumerable<WizardChoice> Choices { get; init; } = [];
+    public IEnumerable<WizardChoice> Choices { get; set; } = [];
 }

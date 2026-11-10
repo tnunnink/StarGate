@@ -1,1 +1,1 @@
-﻿color: "#FFFFFF"
+﻿"#35A6E2"

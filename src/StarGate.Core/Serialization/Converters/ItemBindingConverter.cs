@@ -13,17 +13,17 @@ namespace StarGate.Core;
 /// </summary>
 public class ItemBindingConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type)
-    {
-        return typeof(ItemBinding).IsAssignableFrom(type);
-    }
+    /// <inheritdoc />
+    public bool Accepts(Type type) => typeof(ItemBinding).IsAssignableFrom(type);
 
+    /// <inheritdoc />
     public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         // 1. Scalar keyword (e.g. "enum")
         if (parser.TryConsume<Scalar>(out var scalar))
         {
-            if (string.Equals(scalar.Value, "enum", StringComparison.OrdinalIgnoreCase)) return new EnumItemBinding();
+            if (string.Equals(scalar.Value, "enum", StringComparison.OrdinalIgnoreCase))
+                return new EnumItemBinding();
 
             // Fallback: single scalar treated as single item
             return new StaticItemBinding([new ControlItem { Value = scalar.Value, Caption = scalar.Value }]);
@@ -63,47 +63,44 @@ public class ItemBindingConverter : IYamlTypeConverter
         return null;
     }
 
+    /// <inheritdoc />
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
         switch (value)
         {
             case EnumItemBinding:
-                emitter.Emit(new Scalar("enum"));
+                emitter.Emit("enum");
                 break;
 
             case ArrayItemBinding arrayBinding:
-                emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
-                emitter.Emit(new Scalar("array"));
-                emitter.Emit(new Scalar(arrayBinding.Reference));
-                emitter.Emit(new MappingEnd());
+                emitter.EmitMap(e => e.Emit("array", arrayBinding.Reference), MappingStyle.Flow);
                 break;
 
             case StaticItemBinding staticBinding:
                 var items = staticBinding.Items.ToList();
 
-                // If all items have identical Value and Caption, format as flow sequence: [A, B, C]
+                // Compact flow sequence [A, B, C] if values match captions
                 if (items.All(i => i.Value == i.Caption))
                 {
-                    emitter.Emit(new SequenceStart(null, null, true, SequenceStyle.Flow));
-                    foreach (var item in items) emitter.Emit(new Scalar(item.Caption));
-
-                    emitter.Emit(new SequenceEnd());
+                    emitter.EmitSequence(e =>
+                    {
+                        foreach (var item in items)
+                            e.Emit(item.Caption);
+                    });
                 }
                 else
                 {
-                    // Full mapping sequence when value differs from caption:
-                    emitter.Emit(new SequenceStart(null, null, true, SequenceStyle.Block));
-                    foreach (var item in items)
+                    emitter.EmitSequence(e =>
                     {
-                        emitter.Emit(new MappingStart(null, null, true, MappingStyle.Flow));
-                        emitter.Emit(new Scalar("value"));
-                        emitter.Emit(new Scalar(item.Value));
-                        emitter.Emit(new Scalar("caption"));
-                        emitter.Emit(new Scalar(item.Caption));
-                        emitter.Emit(new MappingEnd());
-                    }
-
-                    emitter.Emit(new SequenceEnd());
+                        foreach (var item in items)
+                        {
+                            e.EmitMap(m =>
+                            {
+                                m.Emit("value", item.Value);
+                                m.Emit("caption", item.Caption);
+                            }, MappingStyle.Flow);
+                        }
+                    }, SequenceStyle.Block);
                 }
 
                 break;

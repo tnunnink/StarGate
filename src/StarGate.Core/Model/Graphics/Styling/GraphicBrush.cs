@@ -8,15 +8,20 @@ namespace StarGate.Core;
 /// Represents an abstract base class for defining a graphical brush used to render visual elements.
 /// A GraphicBrush typically includes properties such as transparency to define its behavior.
 /// </summary>
-public abstract record GraphicBrush
+public abstract class GraphicBrush
 {
+    /// <summary>
+    /// Gets the category of brush represented by this instance.
+    /// </summary>
+    public abstract BrushKind Kind { get; }
+    
     /// <summary>
     /// Transparency percent (0 = fully opaque, 100 = fully transparent).
     /// </summary>
     [Range(0.0, 100.0, ErrorMessage = "Transparency must be between 0 and 100.")]
     [DefaultValue(0.0)]
     [YamlMember(Order = 10)]
-    public double Transparency { get; init; }
+    public double Transparency { get; set; }
 
     /// <summary>
     /// Defines an implicit conversion operator from a <see cref="GraphicColor"/> to a <see cref="GraphicBrush"/>.

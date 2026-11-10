@@ -16,40 +16,24 @@ public class AttributeConfigConverter : IYamlTypeConverter
     public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         // Shorthand: scalar value directly
-        if (parser.TryConsume<Scalar>(out var scalar)) return new AttributeConfig { Value = scalar.Value };
+        if (parser.TryConsume<Scalar>(out var scalar))
+            return new AttributeConfig { Value = scalar.Value };
 
-        // Full mapping representation
-        parser.Consume<MappingStart>();
-        object? value = null;
-        bool? locked = null;
-        Security? security = null;
+        var config = new AttributeConfig();
 
-        while (!parser.TryConsume<MappingEnd>(out _))
+        // Full mapping representation using our helper
+        parser.ConsumeMap(rootDeserializer, (key, reader) =>
         {
-            var key = parser.Consume<Scalar>().Value;
-            switch (key.ToLowerInvariant())
+            switch (key.Value.ToLowerInvariant())
             {
-                case "value":
-                    value = rootDeserializer(typeof(object));
-                    break;
-                case "locked":
-                    locked = (bool?)rootDeserializer(typeof(bool?));
-                    break;
-                case "security":
-                    security = (Security?)rootDeserializer(typeof(Security?));
-                    break;
-                default:
-                    parser.SkipThisAndNestedEvents();
-                    break;
+                case "value": config.Value = reader.Read<object>(); break;
+                case "locked": config.Locked = reader.Read<bool>(); break;
+                case "security": config.Security = reader.Read<Security>(); break;
+                default: reader.Skip(); break;
             }
-        }
+        });
 
-        return new AttributeConfig
-        {
-            Value = value,
-            Locked = locked,
-            Security = security
-        };
+        return config;
     }
 
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
@@ -61,31 +45,21 @@ public class AttributeConfigConverter : IYamlTypeConverter
         }
 
         // Shorthand: emit only the underlying value if Locked and Security are default/null/omitted
-        if (config.Locked is null or false && config.Security is null)
+        if (config is { Locked: false, Security: Security.Default })
         {
             WriteValue(emitter, config.Value, serializer);
             return;
         }
 
         // Otherwise emit the full mapping (using flow style mapping: "{value: 123, locked: false ... }")
-        emitter.Emit(new MappingStart(null, null, false, MappingStyle.Flow));
-
-        emitter.Emit(new Scalar("Value"));
-        WriteValue(emitter, config.Value, serializer);
-
-        if (config.Locked is true)
+        emitter.EmitMap(e =>
         {
-            emitter.Emit(new Scalar("Locked"));
-            serializer(config.Locked, typeof(bool));
-        }
+            e.Emit("value");
+            WriteValue(e, config.Value, serializer);
 
-        if (config.Security.HasValue)
-        {
-            emitter.Emit(new Scalar("Security"));
-            serializer(config.Security, typeof(Security));
-        }
-
-        emitter.Emit(new MappingEnd());
+            e.EmitIf(config.Locked, "locked", config.Locked, serializer);
+            e.EmitIf(config.Security != Security.Default, "security", config.Security, serializer);
+        }, MappingStyle.Flow);
     }
 
     /// <summary>

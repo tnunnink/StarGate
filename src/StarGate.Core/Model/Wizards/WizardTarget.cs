@@ -1,29 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StarGate.Core;
 
 /// <summary>
 /// 
 /// </summary>
-public record WizardTarget
+public class WizardTarget
 {
     /// <summary>
     /// 
     /// </summary>
-    public required WizardAssociation Kind { get; init; }
+    public WizardAssociation Kind { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public required string Name { get; init; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// 
     /// </summary>
-    public bool? Trim { get; init; }
+    public bool Trim { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public IEnumerable<WizardSetting> Settings { get; init; } = [];
+    public IEnumerable<WizardSetting> Settings { get; set; } = [];
 }

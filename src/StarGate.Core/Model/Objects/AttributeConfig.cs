@@ -9,15 +9,15 @@ public class AttributeConfig
     /// <summary>
     /// Gets or sets the configured value of the attribute.
     /// </summary>
-    public object? Value { get; init; }
+    public object? Value { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the attribute is locked against modification.
     /// </summary>
-    public bool? Locked { get; init; }
+    public bool Locked { get; set; }
 
     /// <summary>
     /// Gets or sets the security access level required for the attribute.
     /// </summary>
-    public Security? Security { get; init; }
+    public Security Security { get; set; }
 }

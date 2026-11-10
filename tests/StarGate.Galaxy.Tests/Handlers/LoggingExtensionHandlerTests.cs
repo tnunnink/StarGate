@@ -51,7 +51,7 @@ public class LoggingExtensionHandlerTests : GalaxyFixture
         var config = new LoggingExtensionHandler().Extract(template, "ParentInt");
 
         config.Should().NotBeNull();
-        config.LogEvent?.Locked.Should().NotBeNull();
+        config.LogEvent?.Locked.Should().BeFalse();
     }
 
     [TestMethod]

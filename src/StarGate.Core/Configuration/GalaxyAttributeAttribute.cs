@@ -13,7 +13,7 @@ namespace StarGate.Core;
 /// behaviors and security strategies for annotated properties.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Property)]
-public class GalaxyAttributeAttribute(string name, Security defaultSecurity = Security.Undefined) : Attribute
+public class GalaxyAttributeAttribute(string name, Security defaultSecurity = Security.Operate) : Attribute
 {
     /// <summary>
     /// Gets the name of the galaxy attribute. This name uniquely identifies the attribute

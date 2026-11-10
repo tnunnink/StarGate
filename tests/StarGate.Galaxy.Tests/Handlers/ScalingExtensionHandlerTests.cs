@@ -54,8 +54,8 @@ public class ScalingExtensionHandlerTests : GalaxyFixture
         var config = handler.Extract(instance, "TestFloat");
 
         config.Should().NotBeNull();
-        config!.RawMax!.Locked.Should().BeNull();
-        config.RawMax.Security.Should().BeNull();
+        config.RawMax?.Locked.Should().BeFalse();
+        config.RawMax?.Security.Should().Be(Security.Default);
     }
 
     [TestMethod]

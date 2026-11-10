@@ -174,7 +174,6 @@ public class EnumExtensionTests
     [DataRow(Security.Tune, MxSecurityClassification.MxSecurityTune)]
     [DataRow(Security.Configure, MxSecurityClassification.MxSecurityConfigure)]
     [DataRow(Security.ViewOnly, MxSecurityClassification.MxSecurityViewOnly)]
-    [DataRow(Security.Undefined, MxSecurityClassification.MxSecurityUndefined)]
     public void ToMxType_Security_ShouldReturnExpectedClassification(Security security,
         MxSecurityClassification expected)
     {
@@ -189,15 +188,10 @@ public class EnumExtensionTests
     [DataRow(MxSecurityClassification.MxSecurityTune, Security.Tune)]
     [DataRow(MxSecurityClassification.MxSecurityConfigure, Security.Configure)]
     [DataRow(MxSecurityClassification.MxSecurityViewOnly, Security.ViewOnly)]
+    [DataRow(MxSecurityClassification.MxSecurityUndefined, Security.Default)]
     public void ToSecurity_Classification_ShouldReturnExpectedSecurity(MxSecurityClassification classification,
         Security expected)
     {
         classification.ToSecurity().Should().Be(expected);
-    }
-
-    [TestMethod]
-    public void ToSecurity_UndefinedClassification_ShouldReturnNull()
-    {
-        MxSecurityClassification.MxSecurityUndefined.ToSecurity().Should().BeNull();
     }
 }
