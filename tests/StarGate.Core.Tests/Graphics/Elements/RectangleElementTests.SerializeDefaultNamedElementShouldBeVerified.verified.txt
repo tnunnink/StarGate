@@ -1,2 +1,0 @@
-﻿kind: Rectangle
-name: SerializedRect

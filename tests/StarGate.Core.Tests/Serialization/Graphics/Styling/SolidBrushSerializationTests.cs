@@ -3,7 +3,7 @@
 namespace StarGate.Core;
 
 [TestClass]
-public class SolidBrushTests : VerifyBase
+public class SolidBrushSerializationTests : VerifyBase
 {
     [TestMethod]
     public void DefaultShouldHaveExpectedValues()

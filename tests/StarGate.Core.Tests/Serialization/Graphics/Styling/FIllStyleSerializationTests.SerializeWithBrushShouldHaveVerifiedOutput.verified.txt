@@ -1,0 +1,3 @@
+﻿brush: "#7BDFE7"
+unfilled: "#000000"
+direction: UpRight

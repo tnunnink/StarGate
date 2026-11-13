@@ -1,7 +1,7 @@
 ﻿namespace StarGate.Core;
 
 [TestClass]
-public class FIllStyleTests : VerifyBase
+public class FIllStyleSerializationTests : VerifyBase
 {
     [TestMethod]
     public Task SerializeDefaultShouldHaveVerifiedOutput()

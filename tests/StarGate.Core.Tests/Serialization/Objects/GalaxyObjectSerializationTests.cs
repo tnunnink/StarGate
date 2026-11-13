@@ -2,7 +2,7 @@
 
 [TestClass]
 [UsesVerify]
-public partial class GalaxySerializerTests
+public partial class GalaxyObjectSerializationTests
 {
     [TestMethod]
     public Task Serialize_BasicConfig_ShouldBeVerified()
