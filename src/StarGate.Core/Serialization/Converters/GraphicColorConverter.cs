@@ -31,8 +31,9 @@ public class GraphicColorConverter : IYamlTypeConverter
     /// <inheritdoc />
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
-        if (value is not GraphicColor color) return;
+        if (value is not GraphicColor color)
+            return;
 
-        emitter.Emit(color.ToString(), ScalarStyle.DoubleQuoted);
+        emitter.EmitValue(color.ToString(), ScalarStyle.DoubleQuoted);
     }
 }

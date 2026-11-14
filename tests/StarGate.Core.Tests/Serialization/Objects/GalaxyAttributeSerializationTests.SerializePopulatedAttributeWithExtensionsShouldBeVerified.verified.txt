@@ -1,0 +1,11 @@
+﻿name: Temperature
+dataType: Float
+value: 72.5
+description: Ambient Temperature
+units: DegF
+io:
+  binding: ReadOnly
+  inputSource: PLC.TempSensor1
+history:
+  storagePeriod: 60000
+  deadband: 0.5

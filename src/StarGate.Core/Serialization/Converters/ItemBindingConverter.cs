@@ -69,11 +69,11 @@ public class ItemBindingConverter : IYamlTypeConverter
         switch (value)
         {
             case EnumItemBinding:
-                emitter.Emit("enum");
+                emitter.EmitValue("enum");
                 break;
 
             case ArrayItemBinding arrayBinding:
-                emitter.EmitMap(e => e.Emit("array", arrayBinding.Reference), MappingStyle.Flow);
+                emitter.EmitMap(e => e.EmitProperty("array", arrayBinding.Reference), MappingStyle.Flow);
                 break;
 
             case StaticItemBinding staticBinding:
@@ -82,25 +82,11 @@ public class ItemBindingConverter : IYamlTypeConverter
                 // Compact flow sequence [A, B, C] if values match captions
                 if (items.All(i => i.Value == i.Caption))
                 {
-                    emitter.EmitSequence(e =>
-                    {
-                        foreach (var item in items)
-                            e.Emit(item.Caption);
-                    });
+                    emitter.EmitSequence(items.Select(x => x.Caption), serializer);
                 }
                 else
                 {
-                    emitter.EmitSequence(e =>
-                    {
-                        foreach (var item in items)
-                        {
-                            e.EmitMap(m =>
-                            {
-                                m.Emit("value", item.Value);
-                                m.Emit("caption", item.Caption);
-                            }, MappingStyle.Flow);
-                        }
-                    }, SequenceStyle.Block);
+                    emitter.EmitSequence(items, serializer);
                 }
 
                 break;

@@ -1,0 +1,8 @@
+brush: "#0000FF"
+family: Segoe UI
+size: 14
+bold: true
+italic: true
+underline: true
+strikeout: true
+alignment: Centers

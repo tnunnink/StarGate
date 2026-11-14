@@ -1,0 +1,2 @@
+﻿kind: Text
+name: SerializedText

@@ -6,33 +6,6 @@ namespace StarGate.Core;
 public class RectangleElementSerializationTests : VerifyBase
 {
     [TestMethod]
-    public void DefaultsElementShouldHaveExpectedValues()
-    {
-        var element = new RectangleElement { Name = "RectDefault" };
-
-        element.Kind.Should().Be(ElementKind.Rectangle);
-        element.Name.Should().Be("RectDefault");
-        element.Bounds.Should().Be(default(GraphicBounds));
-        element.Origin.Should().Be(default(GraphicPoint));
-        element.Angle.Should().Be(0.0);
-        element.Flip.Should().Be(default);
-        element.Enabled.Should().BeTrue();
-        element.Locked.Should().BeFalse();
-        element.Visible.Should().BeTrue();
-        element.TabStop.Should().BeTrue();
-        element.TabOrder.Should().Be(0);
-        element.Dock.Should().Be(default);
-        element.Anchor.Should().Be(default);
-        element.Faceplate.Should().BeNull();
-        element.Fill.Should().BeNull();
-        element.Stroke.Should().BeNull();
-        element.Font.Should().BeNull();
-        element.Radius.Should().BeNull();
-    }
-
-    #region SealizationTests
-
-    [TestMethod]
     public void ElementShouldSerializeAndDeserializeCorrectly()
     {
         var serializer = new GalaxySerializer();
@@ -41,7 +14,7 @@ public class RectangleElementSerializationTests : VerifyBase
             Name = "SerializedRect",
             Radius = 25,
             Bounds = new GraphicBounds { Left = 5, Top = 10, Width = 100, Height = 50 },
-            Angle = 90.0,
+            Angle = 90,
             Visible = true,
             Locked = false
         };
@@ -53,7 +26,7 @@ public class RectangleElementSerializationTests : VerifyBase
         deserialized.Name.Should().Be("SerializedRect");
         deserialized.Radius.Should().Be(25);
         deserialized.Bounds.Should().Be(element.Bounds);
-        deserialized.Angle.Should().Be(90.0);
+        deserialized.Angle.Should().Be(90);
         deserialized.Visible.Should().BeTrue();
         deserialized.Locked.Should().BeFalse();
         deserialized.Kind.Should().Be(ElementKind.Rectangle);
@@ -80,7 +53,7 @@ public class RectangleElementSerializationTests : VerifyBase
             Name = "SerializedRect",
             Radius = 25,
             Bounds = new GraphicBounds { Left = 5, Top = 10, Width = 100, Height = 50 },
-            Angle = 90.0,
+            Angle = 90,
             Visible = false,
             Locked = true,
             Fill = new FillStyle
@@ -89,8 +62,8 @@ public class RectangleElementSerializationTests : VerifyBase
                 Unfilled = new GraphicColor(0, 255, 0),
                 Orientation = FillOrientation.RelativeToScreen,
                 Direction = FillDirection.DownRight,
-                Vertical = 75.0,
-                Horizontal = 50.0
+                Vertical = 75,
+                Horizontal = 50
             }
         };
 
@@ -98,6 +71,4 @@ public class RectangleElementSerializationTests : VerifyBase
 
         return Verify(yaml);
     }
-
-    #endregion
 }

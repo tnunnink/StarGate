@@ -1,0 +1,8 @@
+kind: Gradient
+type: Radial
+stops:
+  - "#FFFFFF"
+  - "#000000"
+center: 0.25
+falloff: 0.75
+focusScale: 0.5

@@ -1,0 +1,8 @@
+﻿kind: Arc
+name: SerializedArc
+bounds: [10, 20, 150, 100]
+stroke:
+  brush: "#FF8000"
+  width: 2
+startAngle: 30
+sweepAngle: 270

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StarGate.Core;
@@ -35,20 +34,22 @@ public class GradientBrush : GraphicBrush
     /// </summary>
     [MinLength(1, ErrorMessage = "Gradient stops must contain at least 1 color.")]
     [MaxLength(3, ErrorMessage = "Gradient stops cannot contain more than 3 colors.")]
-    public IEnumerable<GraphicColor> Stops { get; set; } = [];
+    public GraphicColor[] Stops { get; set; } = [];
 
     /// <summary>
     /// Specifies the angle, in degrees, for applying a gradient to a graphical element.
     /// Must be within the range of 0.0 to 360.0.
     /// </summary>
     [Range(0.0, 360.0, ErrorMessage = "Angle must be between 0.0 and 360.0.")]
-    public double? Angle { get; set; } = 90.0;
+    [DefaultValue(90.0)]
+    public double Angle { get; set; } = 90.0;
 
     /// <summary>
     /// Relative position of the focal peak (0.0 to 1.0).
     /// Corresponds to the 'Center' slider (e.g., 0.50).
     /// </summary>
     [Range(0.0, 1.0, ErrorMessage = "Center must be between 0.0 and 1.0.")]
+    [DefaultValue(0.5f)]
     public float Center { get; set; } = 0.5f;
 
     /// <summary>
@@ -56,6 +57,7 @@ public class GradientBrush : GraphicBrush
     /// Corresponds to the 'Falloff' slider (e.g., 1.00).
     /// </summary>
     [Range(0.0, 1.0, ErrorMessage = "Falloff must be between 0.0 and 1.0.")]
+    [DefaultValue(1.0f)]
     public float Falloff { get; set; } = 1.0f;
 
     /// <summary>
@@ -63,5 +65,30 @@ public class GradientBrush : GraphicBrush
     /// Corresponds to 'Focus Scale' slider.
     /// </summary>
     [Range(0.0, 1.0, ErrorMessage = "FocusScale must be between 0.0 and 1.0.")]
-    public float? FocusScale { get; set; }
+    [DefaultValue(0.0f)]
+    public float FocusScale { get; set; }
+
+    /// <summary>
+    /// Determines whether the angle value should be serialized for this gradient brush.
+    /// </summary>
+    /// <return>
+    /// <c>true</c> when the gradient type is custom; otherwise, <c>false</c>.
+    /// </return>
+    internal bool ShouldSerializeAngle() => Type == GradientType.Custom;
+
+    /// <summary>
+    /// Determines whether the focus scale value should be serialized for this gradient brush.
+    /// </summary>
+    /// <return>
+    /// <c>true</c> when the gradient type is radial; otherwise, <c>false</c>.
+    /// </return>
+    internal bool ShouldSerializeFocusScale() => Type == GradientType.Radial;
+
+    /// <summary>
+    /// Determines whether the falloff value should be serialized for this gradient brush.
+    /// </summary>
+    /// <return>
+    /// <c>true</c> when the gradient has fewer than three color stops; otherwise, <c>false</c>.
+    /// </return>
+    internal bool ShouldSerializeFalloff() => Stops.Length < 3;
 }

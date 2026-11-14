@@ -1,0 +1,14 @@
+﻿kind: Rectangle
+name: SerializedRect
+bounds: [5, 10, 100, 50]
+angle: 90
+locked: true
+visible: false
+fill:
+  brush: "#FF0000"
+  unfilled: "#00FF00"
+  orientation: RelativeToScreen
+  direction: DownRight
+  vertical: 75
+  horizontal: 50
+radius: 25

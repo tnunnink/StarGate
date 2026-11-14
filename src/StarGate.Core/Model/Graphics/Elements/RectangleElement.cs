@@ -6,7 +6,7 @@ namespace StarGate.Core;
 /// <summary>
 /// Represents a rectangle graphic element, with an optional corner radius for rounded rectangles.
 /// </summary>
-public record RectangleElement : GraphicElement
+public class RectangleElement : GraphicElement
 {
     /// <inheritdoc />
     public override ElementKind Kind => ElementKind.Rectangle;
@@ -17,5 +17,5 @@ public record RectangleElement : GraphicElement
     /// </summary>
     [Range(0, 70, ErrorMessage = "Corner radius must be between 0 and 70.")]
     [DefaultValue(0)]
-    public int? Radius { get; init; }
+    public int? Radius { get; set; }
 }

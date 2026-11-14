@@ -1,0 +1,4 @@
+﻿brush:
+  kind: Solid
+  color: "#FFFFFF"
+  transparency: 25

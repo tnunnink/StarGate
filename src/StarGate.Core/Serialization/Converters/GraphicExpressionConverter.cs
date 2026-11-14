@@ -48,11 +48,11 @@ public class GraphicExpressionConverter : IYamlTypeConverter
         // Flow mapping: { ref: "Me.StartDate" }
         if (value is ReferenceExpression reference)
         {
-            emitter.EmitMap(e => { e.Emit("ref", reference.Text); }, MappingStyle.Flow);
+            emitter.EmitMap(e => { e.EmitProperty("ref", reference.Text); }, MappingStyle.Flow);
             return;
         }
 
         // Plain scalar string: "01/01/2025"
-        emitter.Emit(expression.Text, ScalarStyle.DoubleQuoted);
+        emitter.EmitValue(expression.Text, ScalarStyle.DoubleQuoted);
     }
 }

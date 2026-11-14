@@ -26,4 +26,76 @@
       <ProjectReference Include="..\..\src\StarGate.Core\StarGate.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Serialization\Objects\GalaxyAttributeSerializationTests.SerializePopulatedAttributeWithExtensionsShouldBeVerified.verified.txt">
+        <DependentUpon>GalaxyAttributeSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Objects\GalaxyAttributeSerializationTests.SerializeBasicAttributeShouldBeVerified.verified.txt">
+        <DependentUpon>GalaxyAttributeSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeDefaultShouldBeVerified.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithDifferentColorFormatsShouldBeVerified_colorInput=#35A6E2.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithDifferentColorFormatsShouldBeVerified_colorInput=35A6E2.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithDifferentColorFormatsShouldBeVerified_colorInput=123 223 231.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithNonDefaultUnfilledBrushShouldBeVerified.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithPartialFillPercentagesShouldBeVerified.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\FIllStyleSerializationTests.SerializeWithTransparentDefaultColorBrushShouldBeVerified.verified.txt">
+        <DependentUpon>FIllStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\GradientBrushSerializationTests.SerializeDefaultGradientShouldBeVerified.verified.txt">
+        <DependentUpon>GradientBrushSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\GradientBrushSerializationTests.SerializeCustomGradientShouldBeVerified.verified.txt">
+        <DependentUpon>GradientBrushSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\StrokeStyleSerializationTests.SerializeWithBrushShouldHaveVerifiedOutput.verified.txt">
+        <DependentUpon>StrokeStyleSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\ArcElementSerializationTests.SerializeDefaultNamedElementShouldBeVerified.verified.txt">
+        <DependentUpon>ArcElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\ArcElementSerializationTests.SerializePopulatedArcShouldBeVerified.verified.txt">
+        <DependentUpon>ArcElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\RectangleElementSerializationTests.SerializeDefaultNamedElementShouldBeVerified.verified.txt">
+        <DependentUpon>RectangleElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\RectangleElementSerializationTests.SerializeOverriddenShouldBeVerified.verified.txt">
+        <DependentUpon>RectangleElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\TextElementSerializationTests.SerializeDefaultNamedElementShouldBeVerified.verified.txt">
+        <DependentUpon>TextElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\TextElementSerializationTests.SerializePopulatedTextShouldBeVerified.verified.txt">
+        <DependentUpon>TextElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\PieElementSerializationTests.SerializeDefaultNamedElementShouldBeVerified.verified.txt">
+        <DependentUpon>PieElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Elements\PieElementSerializationTests.SerializePopulatedPieShouldBeVerified.verified.txt">
+        <DependentUpon>PieElementSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\PatternBrushSerializationTests.SerializePatternWithTransparencyShouldBeVerified.verified.txt">
+        <DependentUpon>PatternBrushSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\PatternBrushSerializationTests.SerializeDefaultPatternShouldBeVerified.verified.txt">
+        <DependentUpon>PatternBrushSerializationTests.cs</DependentUpon>
+      </None>
+      <None Update="Serialization\Graphics\Styling\PatternBrushSerializationTests.SerializeCustomPatternShouldBeVerified.verified.txt">
+        <DependentUpon>PatternBrushSerializationTests.cs</DependentUpon>
+      </None>
+    </ItemGroup>
+
 </Project>

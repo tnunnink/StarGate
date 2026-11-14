@@ -39,15 +39,9 @@ public class GraphicBoundsConverter : IYamlTypeConverter
     /// <inheritdoc />
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
-        if (value is not GraphicBounds b) return;
+        if (value is not GraphicBounds b)
+            return;
 
-        // outputs: [left, top, width, height]
-        emitter.EmitSequence(e =>
-        {
-            e.Emit(b.Left, serializer);
-            e.Emit(b.Top, serializer);
-            e.Emit(b.Width, serializer);
-            e.Emit(b.Height, serializer);
-        });
+        emitter.EmitSequence([b.Left, b.Top, b.Width, b.Height], serializer);
     }
 }

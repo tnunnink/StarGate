@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Reflection;
 using StarGate.Core.Helpers;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -41,6 +45,27 @@ public static class SerializationExtensions
                 handler(key, reader);
             }
         }
+
+        /// <summary>
+        /// Consumes the current YAML sequence from the parser and deserializes each item as the specified type.
+        /// </summary>
+        /// <param name="type">The type to deserialize each sequence item as.</param>
+        /// <param name="deserializer">The object deserializer used to deserialize sequence items.</param>
+        /// <returns>The non-null deserialized sequence items.</returns>
+        public IEnumerable<object> ConsumeSequence(Type type, ObjectDeserializer deserializer)
+        {
+            var items = new List<object>();
+            parser.Consume<SequenceStart>();
+
+            while (!parser.TryConsume<SequenceEnd>(out _))
+            {
+                var item = deserializer(type);
+                if (item is null) continue;
+                items.Add(item);
+            }
+
+            return items;
+        }
     }
 
     /// <param name="emitter">The YAML emitter that writes the mapping events.</param>
@@ -60,24 +85,20 @@ public static class SerializationExtensions
         }
 
         /// <summary>
-        /// Emits a YAML sequence by writing the sequence start event, invoking the specified action
-        /// to emit the sequence items, and then writing the sequence end event.
+        /// Emits a YAML flow sequence by writing the sequence start event, serializing each item in the sequence,
+        /// and then writing the sequence end event.
         /// </summary>
-        /// <param name="sequence">The action that emits the contents of the sequence.</param>
-        /// <param name="style">The sequence style (flow [a, b] or block).</param>
-        public void EmitSequence(Action<IEmitter> sequence, SequenceStyle style = SequenceStyle.Flow)
+        /// <param name="sequence">The items to emit as elements of the YAML sequence.</param>
+        /// <param name="serializer">The serializer used to emit each sequence item.</param>
+        /// <typeparam name="T">The type of the sequence items.</typeparam>
+        public void EmitSequence<T>(IEnumerable<T> sequence, ObjectSerializer serializer)
         {
-            emitter.Emit(new SequenceStart(AnchorName.Empty, TagName.Empty, false, style));
-            sequence(emitter);
-            emitter.Emit(new SequenceEnd());
-        }
+            emitter.Emit(new SequenceStart(AnchorName.Empty, TagName.Empty, false, SequenceStyle.Flow));
 
-        /// <summary>
-        /// Emits a key and delegates serialization of the value to the YamlDotNet serializer.
-        /// </summary>
-        public void Emit<T>(T value, ObjectSerializer serializer)
-        {
-            serializer(value, typeof(T));
+            foreach (var item in sequence)
+                serializer(item, typeof(T));
+
+            emitter.Emit(new SequenceEnd());
         }
 
         /// <summary>
@@ -85,15 +106,19 @@ public static class SerializationExtensions
         /// </summary>
         /// <param name="value">The scalar value to emit.</param>
         /// <param name="style">The scalar style to apply to the emitted value.</param>
-        public void Emit(string value, ScalarStyle style = ScalarStyle.Plain)
+        public void EmitValue(string value, ScalarStyle style = ScalarStyle.Plain)
         {
             emitter.Emit(new Scalar(AnchorName.Empty, TagName.Empty, value, style, true, false));
         }
 
         /// <summary>
-        /// Emits a key and delegates serialization of the value to the YamlDotNet serializer.
+        /// Emits a YAML property by writing the specified key as a scalar and serializing the associated value.
         /// </summary>
-        public void Emit<T>(string key, T value, ObjectSerializer serializer)
+        /// <param name="key">The property key to emit.</param>
+        /// <param name="value">The property value to serialize.</param>
+        /// <param name="serializer">The object serializer used to emit the property value.</param>
+        /// <typeparam name="T">The type of the property value.</typeparam>
+        public void EmitProperty<T>(string key, T value, ObjectSerializer serializer)
         {
             emitter.Emit(new Scalar(key));
             serializer(value, typeof(T));
@@ -106,10 +131,42 @@ public static class SerializationExtensions
         /// <param name="value">The scalar value to emit.</param>
         /// <param name="style">The scalar style to apply to the emitted value.</param>
         /// <returns>The same emitter after the key and value have been emitted.</returns>
-        public void Emit(string key, string value, ScalarStyle style = ScalarStyle.Plain)
+        public void EmitProperty(string key, string value, ScalarStyle style = ScalarStyle.Plain)
         {
             emitter.Emit(new Scalar(key));
             emitter.Emit(new Scalar(AnchorName.Empty, TagName.Empty, value, style, true, false));
+        }
+
+        /// <summary>
+        /// Emits a YAML mapping entry for the property selected from the specified container, when the property value should be serialized.
+        /// </summary>
+        /// <param name="container">The object that contains the property value to emit.</param>
+        /// <param name="selector">An expression that selects the property to emit.</param>
+        /// <param name="serializer">The serializer used to write the selected property value.</param>
+        /// <typeparam name="TContainer">The type of the object that contains the selected property.</typeparam>
+        /// <typeparam name="TValue">The type of the selected property value.</typeparam>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="selector" /> does not refer to a property.</exception>
+        public void EmitProperty<TContainer, TValue>(
+            TContainer container,
+            Expression<Func<TContainer, TValue>> selector,
+            ObjectSerializer serializer)
+        {
+            var expression = selector.Body switch
+            {
+                MemberExpression m => m,
+                UnaryExpression { Operand: MemberExpression m } => m,
+                _ => throw new ArgumentException("Selector must refer to a property.")
+            };
+
+            if (expression.Member is not PropertyInfo propertyInfo)
+                throw new ArgumentException("Member must be a property.");
+
+            if (!ShouldSerialize(propertyInfo, container, out var value))
+                return;
+
+            var key = char.ToLowerInvariant(propertyInfo.Name[0]) + propertyInfo.Name[1..];
+            emitter.Emit(new Scalar(key));
+            serializer(value, value.GetType());
         }
 
         /// <summary>
@@ -122,26 +179,43 @@ public static class SerializationExtensions
         /// <param name="serializer">The serializer used to emit the value.</param>
         public void EmitIf<T>(bool condition, string key, T value, ObjectSerializer serializer)
         {
-            if (condition)
-            {
-                emitter.Emit(new Scalar(key));
-                serializer(value, typeof(T));
-            }
+            if (!condition) return;
+
+            emitter.Emit(new Scalar(key));
+            serializer(value, typeof(T));
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="property"></param>
+    /// <param name="instance"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private static bool ShouldSerialize(PropertyInfo property, object? instance, out object value)
+    {
+        value = property.GetValue(instance);
+        var attribute = property.GetCustomAttribute<DefaultValueAttribute>();
+
+        if (attribute is not null)
+        {
+            return !Equals(attribute.Value, value);
         }
 
-        /// <summary>
-        /// Emits a YAML key-value scalar pair when the specified value is not null or empty.
-        /// </summary>
-        /// <param name="key">The YAML mapping key to emit.</param>
-        /// <param name="value">The scalar value to emit when it is not null or empty.</param>
-        /// <param name="style">The scalar style to apply to the emitted value.</param>
-        public void EmitIfNotEmpty(string key, string? value, ScalarStyle style = ScalarStyle.Plain)
+        var method = property.DeclaringType?.GetMethod(
+            $"ShouldSerialize{property.Name}",
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase,
+            null,
+            Type.EmptyTypes,
+            null
+        );
+
+        if (instance is not null && method is not null && method.ReturnType == typeof(bool))
         {
-            if (value is not null && !string.IsNullOrEmpty(value))
-            {
-                emitter.Emit(new Scalar(key));
-                emitter.Emit(new Scalar(AnchorName.Empty, TagName.Empty, value, style, true, false));
-            }
+            return (bool)method.Invoke(instance, null)!;
         }
+
+        return true;
     }
 }

@@ -7,7 +7,7 @@ namespace StarGate.Core;
 /// <summary>
 /// Represents a closed polygon graphic element defined by a collection of vertices.
 /// </summary>
-public record PolygonElement : GraphicElement
+public class PolygonElement : GraphicElement
 {
     /// <inheritdoc />
     
@@ -17,5 +17,5 @@ public record PolygonElement : GraphicElement
     /// Gets the collection of vertices defining the closed polygon.
     /// </summary>
     [MinLength(2, ErrorMessage = "Polygon requires at least 2 points.")]
-    public IEnumerable<GraphicPoint> Points { get; init; } = [];
+    public IEnumerable<GraphicPoint> Points { get; set; } = [];
 }

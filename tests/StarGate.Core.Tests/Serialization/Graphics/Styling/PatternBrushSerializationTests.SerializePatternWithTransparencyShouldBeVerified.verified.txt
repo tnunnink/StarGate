@@ -1,0 +1,3 @@
+﻿kind: Pattern
+transparency: 25
+hatch: DiagonalCross

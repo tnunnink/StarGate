@@ -7,7 +7,7 @@ namespace StarGate.Core;
 /// A line element is defined by its start and end points.
 /// Inherits from the <see cref="GraphicElement" /> base class to provide common graphical properties.
 /// </summary>
-public record LineElement : GraphicElement
+public class LineElement : GraphicElement
 {
     /// <inheritdoc />
     public override ElementKind Kind => ElementKind.Line;
@@ -18,14 +18,14 @@ public record LineElement : GraphicElement
     /// defined by its X and Y coordinates.
     /// </summary>
     [Required]
-    public GraphicPoint Start { get; init; }
+    public GraphicPoint Start { get; set; }
 
     /// <summary>
     /// Gets the ending point of the line element in a 2D coordinate system.
     /// This property, along with <see cref="Start" />, defines the geometric bounds of the line.
     /// </summary>
     [Required]
-    public GraphicPoint End { get; init; }
+    public GraphicPoint End { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the line element should snap to a grid or specific alignment points
@@ -35,5 +35,5 @@ public record LineElement : GraphicElement
     /// a different element type from the IDE editor. We need to preserve this so that reimporting
     /// doesn't create HV lines as normal lines.
     /// </remarks>
-    public bool? Snap { get; init; }
+    public bool? Snap { get; set; }
 }

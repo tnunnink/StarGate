@@ -21,12 +21,12 @@ public class FillTranslator : GraphicTranslator<FillStyle>
 
         return new FillStyle
         {
-            Brush = BrushTranslator.Read(target.GetChild("FillStyle")),
-            Unfilled = BrushTranslator.Read(target.GetChild("UnfilledStyle")),
+            Brush = BrushTranslator.Read(target.GetChild("FillStyle")) ?? GraphicColor.White,
+            Unfilled = BrushTranslator.Read(target.GetChild("UnfilledStyle")) ?? GraphicColor.Black,
             Orientation = target.GetEnum<FillOrientation>("FillOrientation"),
             Direction = target.GetFillDirection(),
-            Vertical = target.GetStruct("@VerticalPercentFill", double.Parse),
-            Horizontal = target.GetStruct("@HorizontalPercentFill", double.Parse)
+            Vertical = target.GetStruct("@VerticalPercentFill", int.Parse),
+            Horizontal = target.GetStruct("@HorizontalPercentFill", int.Parse)
         };
     }
 

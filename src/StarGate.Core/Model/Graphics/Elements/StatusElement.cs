@@ -7,7 +7,7 @@ namespace StarGate.Core;
 /// Represents a quality and data status indicator element that reflects the communication or alarm health of
 /// expressions or elements.
 /// </summary>
-public record StatusElement : GraphicElement
+public class StatusElement : GraphicElement
 {
     /// <inheritdoc />
     
@@ -16,10 +16,10 @@ public record StatusElement : GraphicElement
     /// <summary>
     /// Gets the collection of attribute references or script expressions whose status is monitored.
     /// </summary>
-    public IEnumerable<string> Expressions { get; init; } = [];
+    public IEnumerable<string> Expressions { get; set; } = [];
 
     /// <summary>
     /// Gets the collection of target element names whose status is monitored.
     /// </summary>
-    public IEnumerable<string> Elements { get; init; } = [];
+    public IEnumerable<string> Elements { get; set; } = [];
 }

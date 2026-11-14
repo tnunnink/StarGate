@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -47,15 +46,15 @@ public class SolidBrushConverter : IYamlTypeConverter
 
         if (brush.Transparency <= 0)
         {
-            emitter.Emit(brush.Color.ToString(), ScalarStyle.DoubleQuoted);
+            emitter.EmitValue(brush.Color.ToString(), ScalarStyle.DoubleQuoted);
             return;
         }
 
         emitter.EmitMap(e =>
         {
-            e.Emit("kind", brush.Kind, serializer);
-            e.Emit("color", brush.Color.ToString(), ScalarStyle.DoubleQuoted);
-            e.Emit("transparency", brush.Transparency, serializer);
+            e.EmitProperty("kind", brush.Kind, serializer);
+            e.EmitProperty("color", brush.Color, serializer);
+            e.EmitProperty("transparency", brush.Transparency, serializer);
         });
     }
 }

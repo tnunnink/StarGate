@@ -1,0 +1,10 @@
+﻿kind: Text
+name: SerializedText
+font:
+  family: Tahoma
+  size: 11
+  bold: true
+text: 'Status: OK'
+format: '{0}'
+wordWrap: true
+autoScale: true

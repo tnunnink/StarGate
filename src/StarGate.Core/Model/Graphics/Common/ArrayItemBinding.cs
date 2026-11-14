@@ -5,5 +5,5 @@
 /// </summary>
 public class ArrayItemBinding(string arrayReference) : ItemBinding
 {
-    public string Reference { get; init; } = arrayReference;
+    public string Reference { get; set; } = arrayReference;
 }

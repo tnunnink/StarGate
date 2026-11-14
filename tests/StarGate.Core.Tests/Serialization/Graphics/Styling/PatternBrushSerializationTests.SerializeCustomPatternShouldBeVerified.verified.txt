@@ -1,0 +1,2 @@
+﻿kind: Pattern
+hatch: Cross

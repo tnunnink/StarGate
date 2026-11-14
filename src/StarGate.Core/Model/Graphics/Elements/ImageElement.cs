@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an image graphic element supporting raster and vector images.
 /// </summary>
-public record ImageElement : GraphicElement
+public class ImageElement : GraphicElement
 {
     /// <inheritdoc />
     public override ElementKind Kind => ElementKind.Image;
@@ -11,15 +11,15 @@ public record ImageElement : GraphicElement
     /// <summary>
     /// Gets the path or asset reference to the image file.
     /// </summary>
-    public string? Source { get; init; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// Gets how the image fills the element bounds.
     /// </summary>
-    public ImageStyle FillStyle { get; init; } = ImageStyle.Normal;
+    public ImageStyle FillStyle { get; set; } = ImageStyle.Normal;
 
     /// <summary>
     /// Gets the alignment of the image within its bounds.
     /// </summary>
-    public GraphicAlignment Alignment { get; init; } = GraphicAlignment.Centers;
+    public GraphicAlignment Alignment { get; set; } = GraphicAlignment.Centers;
 }

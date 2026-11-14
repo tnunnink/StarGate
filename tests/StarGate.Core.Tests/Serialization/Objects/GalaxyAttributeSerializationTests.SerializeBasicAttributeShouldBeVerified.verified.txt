@@ -1,0 +1,5 @@
+﻿name: Pressure
+dataType: Float
+value: 101.3
+description: Line pressure in PSI
+units: PSI

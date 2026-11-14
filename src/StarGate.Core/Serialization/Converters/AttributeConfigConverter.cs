@@ -54,7 +54,7 @@ public class AttributeConfigConverter : IYamlTypeConverter
         // Otherwise emit the full mapping (using flow style mapping: "{value: 123, locked: false ... }")
         emitter.EmitMap(e =>
         {
-            e.Emit("value");
+            e.EmitValue("value");
             WriteValue(e, config.Value, serializer);
 
             e.EmitIf(config.Locked, "locked", config.Locked, serializer);

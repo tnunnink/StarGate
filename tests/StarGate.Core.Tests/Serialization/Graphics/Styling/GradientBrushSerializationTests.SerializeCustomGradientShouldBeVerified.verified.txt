@@ -1,0 +1,6 @@
+﻿kind: Gradient
+type: Custom
+stops:
+  - "#FF0000"
+  - "#0000FF"
+angle: 45

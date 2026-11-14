@@ -11,7 +11,7 @@ namespace StarGate.Core;
 /// The <see cref="PolylineElement" /> requires a minimum of two points to define the polyline. This element
 /// inherits from <see cref="GraphicElement" /> and provides specific functionality for handling polyline graphics.
 /// </remarks>
-public record PolylineElement : GraphicElement
+public class PolylineElement : GraphicElement
 {
     /// <inheritdoc />
     public override ElementKind Kind => ElementKind.Polyline;
@@ -25,5 +25,5 @@ public record PolylineElement : GraphicElement
     /// immutable and must be initialized with the required points during the creation of a <see cref="PolylineElement" />.
     /// </remarks>
     [MinLength(2, ErrorMessage = "Polyline requires at least 2 points.")]
-    public IEnumerable<GraphicPoint> Points { get; init; } = [];
+    public IEnumerable<GraphicPoint> Points { get; set; } = [];
 }

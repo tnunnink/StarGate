@@ -6,7 +6,7 @@ namespace StarGate.Core;
 /// <summary>
 /// Represents a compound vector path combining multiple shapes with a unified fill and stroke.
 /// </summary>
-public record PathElement : GraphicElement
+public class PathElement : GraphicElement
 {
     /// <inheritdoc />
     
@@ -15,5 +15,5 @@ public record PathElement : GraphicElement
     /// <summary>
     /// Gets the collection of sub-elements that define the geometry of this compound path.
     /// </summary>
-    public IEnumerable<GraphicElement> Elements { get; init; } = [];
+    public IEnumerable<GraphicElement> Elements { get; set; } = [];
 }

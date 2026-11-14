@@ -1,0 +1,5 @@
+brush: "#FF8000"
+width: 3
+pattern: DashDot
+startCap: Round
+endCap: ArrowAnchor

@@ -13,6 +13,7 @@ public abstract class GraphicBrush
     /// <summary>
     /// Gets the category of brush represented by this instance.
     /// </summary>
+    [YamlMember(Order = 1)]
     public abstract BrushKind Kind { get; }
     
     /// <summary>

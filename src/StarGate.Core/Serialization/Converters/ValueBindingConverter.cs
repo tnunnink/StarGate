@@ -46,15 +46,15 @@ public class ValueBindingConverter : IYamlTypeConverter
         // If no trigger is specified, emit the clean scalar shorthand: "Pump1.AutoMode"
         if (binding.Trigger is null || string.IsNullOrEmpty(binding.Trigger))
         {
-            emitter.Emit(binding.Reference);
+            emitter.EmitValue(binding.Reference);
             return;
         }
 
         // When a trigger is present, emit flow mapping: { ref: "...", trigger: "..." }
         emitter.EmitMap(e =>
         {
-            e.Emit("ref", binding.Reference);
-            e.Emit("trigger", binding.Trigger);
+            e.EmitProperty("ref", binding.Reference);
+            e.EmitProperty("trigger", binding.Trigger);
         });
     }
 }

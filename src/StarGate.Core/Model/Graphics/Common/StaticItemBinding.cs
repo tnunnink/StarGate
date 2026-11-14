@@ -7,5 +7,5 @@ namespace StarGate.Core;
 /// </summary>
 public class StaticItemBinding(IEnumerable<ControlItem> items) : ItemBinding
 {
-    public IEnumerable<ControlItem> Items { get; init; } = items;
+    public IEnumerable<ControlItem> Items { get; set; } = items;
 }

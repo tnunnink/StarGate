@@ -8,12 +8,12 @@ public class ControlItem
     /// <summary>
     /// Gets the underlying data value represented by this item.
     /// </summary>
-    public string Value { get; init; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the visual label text displayed to the user for this item.
     /// </summary>
-    public string Caption { get; init; } = string.Empty;
+    public string Caption { get; set; } = string.Empty;
 
     /// <summary>
     /// Implicitly converts a single string into a <see cref="ControlItem" /> where Value and Caption are identical.

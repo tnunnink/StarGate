@@ -18,7 +18,7 @@ public class RectangleTranslator : GraphicTranslator<RectangleElement>
             Name = target.GetRequiredText("@Name"),
             Bounds = target.GetBounds(),
             Origin = target.GetOrigin(),
-            Angle = target.GetStruct("@Angle", double.Parse),
+            Angle = target.GetStruct("@Angle", int.Parse),
             Radius = target.GetStruct("@Radius", int.Parse),
             Flip = target.GetFlip(),
             Enabled = target.GetStruct("@Enabled", bool.Parse),

@@ -29,13 +29,9 @@ public class GraphicPointConverter : IYamlTypeConverter
     /// <inheritdoc />
     public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
-        if (value is not GraphicPoint p) return;
-
-        // outputs: [x, y]
-        emitter.EmitSequence(e =>
-        {
-            e.Emit(p.X, serializer);
-            e.Emit(p.Y, serializer);
-        });
+        if (value is not GraphicPoint p) 
+            return;
+        
+        emitter.EmitSequence([p.X, p.Y], serializer);
     }
 }

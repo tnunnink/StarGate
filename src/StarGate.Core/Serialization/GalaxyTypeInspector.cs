@@ -7,27 +7,29 @@ using YamlDotNet.Serialization;
 namespace StarGate.Core;
 
 /// <summary>
-/// A type inspector implementation that modifies the behavior of property and type inspection,
-/// specifically designed to enhance YAML serialization and deserialization. This class works
-/// as an adapter or decorator around an existing <see cref="ITypeInspector"/> instance.
+/// Decorates a YamlDotNet type inspector to customize type metadata used during Galaxy serialization.
 /// </summary>
 /// <remarks>
-/// The primary purpose of this class is to reorder properties based on their inheritance depth in
-/// the class hierarchy, ensuring that inherited properties are prioritized over properties declared
-/// in the current type. Other inspection behaviors remain consistent with the wrapped type inspector.
+/// Filters discovered properties according to Galaxy serialization rules and applies deterministic property ordering.
+/// Delegates property lookup, enum conversion, parse-method detection, and parsing behavior to the wrapped inspector.
 /// </remarks>
-public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspector
+/// <param name="inner">The underlying type inspector that provides the base type metadata.</param>
+/// <exception cref="ArgumentNullException"><paramref name="inner"/> is null.</exception>
+public sealed class GalaxyTypeInspector(ITypeInspector inner) : ITypeInspector
 {
     private readonly ITypeInspector _inner = inner ?? throw new ArgumentNullException(nameof(inner));
 
+    /// <inheritdoc />
     public IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container)
     {
         return _inner
             .GetProperties(type, container)
+            .Where(p => ShouldSerialize(type, container, p))
             .OrderBy(p => GetExplicitOrder(type, p))
             .ThenBy(p => GetPropertyDepth(type, p));
     }
 
+    /// <inheritdoc />
     public IPropertyDescriptor GetProperty(
         Type type,
         object? container,
@@ -36,14 +38,24 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
         bool caseInsensitivePropertyMatching) =>
         _inner.GetProperty(type, container, name, ignoreUnmatched, caseInsensitivePropertyMatching);
 
+    /// <inheritdoc />
     public string GetEnumName(Type enumType, string name) => _inner.GetEnumName(enumType, name);
 
+    /// <inheritdoc />
     public string GetEnumValue(object enumValue) => _inner.GetEnumValue(enumValue);
 
+    /// <inheritdoc />
     public bool HasParseMethod(Type type) => _inner.HasParseMethod(type);
 
+    /// <inheritdoc />
     public object? Parse(string value, Type expectedType) => _inner.Parse(value, expectedType);
 
+    /// <summary>
+    /// Gets the explicitly configured serialization order for the specified property.
+    /// </summary>
+    /// <param name="targetType">The type to inspect for the property metadata.</param>
+    /// <param name="property">The property descriptor whose order is evaluated.</param>
+    /// <returns>The configured nonzero order value, or <see cref="int.MaxValue" /> when no explicit order is defined.</returns>
     private static int GetExplicitOrder(Type targetType, IPropertyDescriptor property)
     {
         var propertyInfo = targetType.GetProperty(
@@ -91,5 +103,30 @@ public sealed class InheritanceTypeInspector(ITypeInspector inner) : ITypeInspec
         }
 
         return depth;
+    }
+
+    /// <summary>
+    /// Determines whether the specified property should be serialized for the given target instance.
+    /// </summary>
+    /// <param name="targetType">The type used to locate a matching ShouldSerialize method for the property.</param>
+    /// <param name="container">The object instance on which the ShouldSerialize method is invoked.</param>
+    /// <param name="property">The property descriptor whose name is used to locate the corresponding ShouldSerialize method.</param>
+    /// <returns>true if the property should be serialized; otherwise, false.</returns>
+    private static bool ShouldSerialize(Type targetType, object? container, IPropertyDescriptor property)
+    {
+        var method = targetType.GetMethod(
+            $"ShouldSerialize{property.Name}",
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase,
+            null,
+            Type.EmptyTypes,
+            null
+        );
+
+        if (container is not null && method is not null && method.ReturnType == typeof(bool))
+        {
+            return (bool)method.Invoke(container, null)!;
+        }
+
+        return true;
     }
 }

@@ -1,0 +1,4 @@
+kind: Gradient
+stops:
+  - "#FF0000"
+  - "#0000FF"

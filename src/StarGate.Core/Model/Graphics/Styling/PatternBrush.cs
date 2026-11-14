@@ -11,7 +11,7 @@ public class PatternBrush : GraphicBrush
 {
     /// <inheritdoc />
     public override BrushKind Kind => BrushKind.Pattern;
-    
+
     /// <summary>
     /// Specifies the foreground color used in the rendering of a pattern.
     /// This color defines the primary visual element of the pattern, contrasting with the background color.
@@ -30,4 +30,20 @@ public class PatternBrush : GraphicBrush
     /// </summary>
     [DefaultValue(HatchStyle.Horizontal)]
     public HatchStyle Hatch { get; set; } = HatchStyle.Horizontal;
+
+    /// <summary>
+    /// Determines whether the foreground color should be serialized.
+    /// </summary>
+    /// <return>
+    /// <c>true</c> when the foreground color is black; otherwise, <c>false</c>.
+    /// </return>
+    internal bool ShouldSerializeForeColor() => ForeColor == GraphicColor.Black;
+    
+    /// <summary>
+    /// Determines whether the foreground color should be serialized.
+    /// </summary>
+    /// <return>
+    /// <c>true</c> when the foreground color is black; otherwise, <c>false</c>.
+    /// </return>
+    internal bool ShouldSerializeBackColor() => ForeColor == GraphicColor.White;
 }
